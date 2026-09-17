@@ -8,6 +8,8 @@ A static research observatory presenting **The HNB Attention Gap**, based on the
 
 The page includes three qualified findings, an interactive view of the selected monthly aggregates, model comparisons, methods, authors, a two-page English brief and the unchanged 32-page Croatian paper. The manuscript remains labelled **research draft; author review pending**. Hosting it does not establish peer review, HNB endorsement or resolution of the legacy replication discrepancy.
 
+The two **Read** links open on-site readers with rendered document pages and selectable page text. They work without a browser PDF viewer or JavaScript. Separate **Download PDF** links retain the original PDFs. The paper reader also supports direct page links, such as `read/paper.html#page-28`.
+
 ## Local preview
 
 Run these commands from this repository:
@@ -56,6 +58,9 @@ Wait for the deployment workflow to succeed before expecting the online page to 
 | `scripts/build.py` | Static build and publication package |
 | `scripts/make_brief.py` | Editable two-page brief source |
 | `scripts/make_figures.py` | Static figure source |
+| `scripts/make_readers.py` | Regenerates browser-readable pages from the PDFs using Poppler |
+| `src/reader.html`, `src/reader.css` | On-site document reader layout |
+| `public/read/` | Committed page images and PDF hash/text manifests |
 | `scripts/verify.py` | Publication, PDF and data-contract checks |
 
 `dist/`, `qa/`, `.runtime/`, private notes, raw research stores and generated ZIPs are ignored by Git. No private engagement note or raw media records are included in this repository. The source research project remains separate and unchanged.
@@ -68,11 +73,14 @@ Ordinary website builds deploy the committed PDFs and figures unchanged. For del
 python -m pip install -r requirements-authoring.txt
 python scripts/make_figures.py
 python scripts/make_brief.py
+python scripts/make_readers.py --pdftoppm "PATH_TO_PDFTOPPM"
 python scripts/build.py
 python scripts/verify.py
 ```
 
 On Windows the brief uses installed Arial and Georgia. `OBS_FONT_DIR` can select another folder containing those fonts; Linux can use DejaVu Sans/Serif. Fonts can change pagination, so **render and inspect both PDF pages after regenerating the brief**, and commit the revised PDF with its source. Automatic deployment checks page count, selectable text, companion links and file integrity; it does not substitute for visual review of new PDFs.
+
+Install Poppler for reader authoring, or pass its `pdftoppm` executable using the option above. If it is on `PATH`, the option can be omitted. Regenerate and commit `public/read/` whenever either PDF changes. The build rejects readers whose saved PDF hashes no longer match. Ordinary builds and GitHub deployments use the committed pages and do not require Poppler or image libraries.
 
 The paper PDF is checked against its selected edition's SHA-256. Replacing it requires reviewing its provenance and deliberately updating the edition metadata and the checks in `prepare_inputs.py` and `verify.py`.
 
@@ -94,6 +102,7 @@ With Playwright installed (`npm install --no-save --package-lock=false playwrigh
 
 ```powershell
 node scripts/browser_qa.cjs
+node scripts/reader_qa.cjs
 ```
 
 `BASE_URL` selects a different preview or the deployed site, including its repository prefix. `BROWSER_EXECUTABLE` optionally selects an installed browser; `PLAYWRIGHT_MODULE` optionally selects an existing Playwright installation. These are local environment settings, not credentials. Screenshots and reports go to ignored `qa/`.

@@ -4,6 +4,7 @@ from datetime import date
 from html import escape
 import json, shutil, hashlib, zipfile
 from charts import chart, model_svg
+from readers import build_readers
 
 SITE=Path(__file__).resolve().parents[1]
 STUDY=json.loads((SITE/'content/study.json').read_text(encoding='utf-8'))
@@ -51,7 +52,7 @@ for k,v in values.items():html=html.replace('@@'+k+'@@',v)
 assert '@@' not in html, 'Unexpanded template token'
 (DIST/'index.html').write_text(html,encoding='utf-8')
 for file in ['styles.css','app.js']:shutil.copyfile(SITE/'src'/file,DIST/file)
-allowlist=['index.html','styles.css','app.js']+paperfiles
+allowlist=['index.html','styles.css','app.js']+paperfiles+build_readers(SITE,DIST)
 actual=[str(p.relative_to(DIST)).replace('\\','/') for p in DIST.rglob('*') if p.is_file()]
 assert sorted(actual)==sorted(allowlist), f'Unexpected public files: {set(actual)-set(allowlist)}'
 manifest={p:hashlib.sha256((DIST/p).read_bytes()).hexdigest() for p in allowlist}

@@ -24,14 +24,27 @@ class Page(HTMLParser):
         for attr in ['href','src']:
             if attr in a:self.refs.append(a[attr])
 
-html=(DIST/'index.html').read_text(encoding='utf-8');p=Page();p.feed(html)
-check('all_template_fields_expanded','@@' not in html)
-check('unique_html_ids',len(p.ids)==len(set(p.ids)))
-for ref in p.refs:
-    u=urlsplit(ref)
-    if u.scheme or u.netloc:continue
-    if u.path:check('asset_'+u.path,(DIST/unquote(u.path)).is_file())
-    elif u.fragment:check('anchor_'+u.fragment,u.fragment in p.ids)
+for document in DIST.rglob('*.html'):
+    html=document.read_text(encoding='utf-8');p=Page();p.feed(html)
+    label=document.relative_to(DIST).as_posix()
+    check(label+'_all_template_fields_expanded','@@' not in html)
+    check(label+'_unique_html_ids',len(p.ids)==len(set(p.ids)))
+    for ref in p.refs:
+        u=urlsplit(ref)
+        if u.scheme or u.netloc:continue
+        if u.path:
+            target=(document.parent/unquote(u.path)).resolve()
+            check(label+'_asset_'+u.path,target.is_relative_to(DIST) and target.is_file())
+            if u.fragment and target.suffix=='.html':
+                linked=Page();linked.feed(target.read_text(encoding='utf-8'))
+                check(label+'_linked_anchor_'+u.fragment,u.fragment in linked.ids)
+        elif u.fragment:check(label+'_anchor_'+u.fragment,u.fragment in p.ids)
+
+for name,count in [('brief',2),('paper',32)]:
+    html=(DIST/f'read/{name}.html').read_text(encoding='utf-8')
+    check(name+'_reader_page_count',html.count('class="page-image"')==count)
+    check(name+'_reader_has_selectable_text',html.count('class="transcription"')==count)
+    check(name+'_reader_no_pdf_plugin',not any(tag in html for tag in ['<iframe','<embed','<object']))
 
 e=json.loads((DIST/'data/evidence.json').read_text(encoding='utf-8'))
 check('observation_fields_allowlisted',all(set(r)=={'period','gap','inflation','source','status'} for r in e['observations']))

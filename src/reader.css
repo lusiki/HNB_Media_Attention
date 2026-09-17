@@ -1,0 +1,16 @@
+:root{color-scheme:light;font-family:Arial,sans-serif;color:#112838;background:#eaf0f4;line-height:1.5}
+*{box-sizing:border-box}body{margin:0}a{color:#165ce0;text-underline-offset:3px}a:hover{text-decoration-thickness:2px}
+a:focus-visible,summary:focus-visible{outline:3px solid #165ce0;outline-offset:4px}
+.skip{position:absolute;left:16px;top:-80px;padding:12px;background:white;z-index:5}.skip:focus{top:8px}
+header{background:#112838;color:#fff;padding:28px 20px}.heading{max-width:1000px;margin:auto}header a{color:#b9d5ff}
+h1{font:normal clamp(26px,5vw,38px)/1.2 Georgia,serif;margin:18px 0 12px}header p{color:#d2e0e9;margin:0}
+.toolbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #cbd6de;z-index:2;padding:14px 20px}
+.controls{max-width:1000px;margin:auto;display:flex;gap:16px 28px;align-items:center;flex-wrap:wrap}.controls>a{font-weight:bold}
+.page-menu{position:relative}.page-menu summary{cursor:pointer}.page-links{position:absolute;top:38px;left:0;width:min(320px,85vw);max-height:50vh;overflow:auto;background:white;box-shadow:0 5px 20px #11283830;padding:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.page-links a{padding:8px;text-align:center}
+main{max-width:1040px;margin:24px auto;padding:0 20px}.document-page{scroll-margin-top:125px;margin-bottom:36px}
+.page-heading{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:10px}.page-heading h2{font-size:15px;margin:0}.page-heading a{font-size:14px}
+.page-image{display:block;width:100%;height:auto;background:white;box-shadow:0 2px 12px #11283820}
+.page-text{background:white;padding:14px 18px;border-top:1px solid #dce3e9}.page-text summary{cursor:pointer;color:#165ce0}.transcription{white-space:pre-wrap;overflow-wrap:anywhere;font-size:17px;line-height:1.6;margin-top:16px}
+footer{padding:12px 20px 40px;text-align:center}
+@media(max-width:500px){header{padding:22px 16px}.toolbar{padding:12px 16px}.controls{gap:12px 20px;font-size:14px}main{padding:0 8px}.page-heading{padding:0 8px}.document-page{scroll-margin-top:150px}.page-text{padding:12px}}
+@media print{header,.toolbar,.page-heading,.page-text,footer{display:none}main{max-width:none;padding:0;margin:0}.document-page{margin:0;break-after:page}.page-image{box-shadow:none}}
