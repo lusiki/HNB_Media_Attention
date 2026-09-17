@@ -1,0 +1,4 @@
+# Optional authoring and QA only; the static build uses the standard library.
+matplotlib>=3.10,<4
+reportlab>=4,<5
+pypdf>=5,<7

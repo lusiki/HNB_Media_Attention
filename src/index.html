@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Research on HNB visibility in Croatia’s inflation debate. Findings, evidence, methods and the extended research draft by Petra Palić and Luka Sikić.">
+  <meta name="theme-color" content="#112838">
+  <title>The HNB Attention Gap · Research edition</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to research</a>
+<header class="masthead wrap">
+  <a class="wordmark" href="#main"><span class="mark" aria-hidden="true">H<span> / </span>AG</span><span>MONETARY COMMUNICATION<br><strong>Research edition 01</strong></span></a>
+  <nav aria-label="Main navigation"><a href="#findings">Findings</a><a href="#paper">Paper &amp; brief</a><a href="#researchers">Researchers</a><a href="#evidence">Evidence</a><a href="#methods">Methods</a></nav>
+</header>
+<main id="main">
+  <section class="opening wrap" aria-labelledby="title">
+    <div class="eyebrow"><span>Extended manuscript edition</span><span>17 September 2026</span></div>
+    <div class="hero-grid">
+      <div><h1 id="title">The HNB<br>Attention <em>Gap.</em></h1><p class="subtitle">Central bank visibility in Croatia’s inflation debate</p></div>
+      <div class="hero-copy"><p class="question">@@QUESTION@@</p><p>@@ANSWER@@</p><p class="status">Research draft · author review pending</p>
+        <div class="actions"><a class="button" href="downloads/hnb-attention-gap-brief.pdf">Read the two-page brief <span aria-hidden="true">↗</span></a><a class="text-link" href="downloads/hnb-attention-gap-paper.pdf">Full paper · PDF <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </div>
+    <div class="edition-line"><span><b>By</b> Petra Palić &amp; Luka Sikić</span><span><b>Primary sample</b> Jan 2021–May 2026, with exclusions</span><span><b>Reading guide</b> Findings → evidence → methods</span></div>
+  </section>
+
+  <section class="signature" id="overview" aria-labelledby="overview-title">
+    <div class="wrap">
+      <div class="section-heading"><div><p class="eyebrow">01 / The pattern</p><h2 id="overview-title">A gap that lower inflation<br>does not automatically close.</h2></div><div class="chart-guide"><span class="line-key"></span>HNB attention gap<br><span class="line-key orange"></span>HICP inflation<br><small>Separate scales, aligned months</small></div></div>
+      <p class="chart-intro">A positive gap means HNB’s weighted share of inflation coverage is below its own early-2021 baseline. It measures relative visibility in the monitored corpus, not the public’s attention or trust.</p>
+      <div class="chart-toolbar"><label for="window">View period <select id="window"><option value="all">Full primary sample</option><option value="new">Within newer source · Apr 2024–May 2026</option></select></label><a href="figures/attention-gap.png" download>Download figure ↓</a></div>
+      <figure class="timeline">
+        <div class="chart-panel"><div class="chart-title"><h3>HNB attention gap</h3><span>Percentage points relative to baseline</span></div><div id="gap-chart" class="chart" role="img" aria-label="Monthly HNB attention gap. A higher value means a lower weighted share relative to the January–June 2021 baseline. January–March 2024 is excluded and the source changes in April 2024.">@@GAP_SVG@@</div></div>
+        <div class="chart-panel"><div class="chart-title"><h3>Inflation in Croatia</h3><span>HICP · year-on-year, %</span></div><div id="inflation-chart" class="chart" role="img" aria-label="HICP inflation on its own scale, aligned to the same months. Inflation rises and falls while the later-source attention gap continues to increase.">@@INFLATION_SVG@@</div></div>
+        <figcaption>Adapted from Figure 1 of the extended draft using its saved monthly series. January–March 2024 is excluded for media-text coverage; HICP is also hidden there to align the samples. April 2024 changes the vendor query and selection. Levels across that boundary are not harmonised. These descriptive lines do not estimate a causal relationship.</figcaption>
+      </figure>
+      <div class="period-inspector"><label for="period">Inspect an included month <select id="period">@@PERIOD_OPTIONS@@</select></label><output id="period-values" aria-live="polite">@@INITIAL_PERIOD@@</output><a href="data/monthly-series.csv" download>Aggregate data · CSV ↓</a></div>
+      <details class="data-details"><summary>Read the monthly values as a table</summary><div class="table-scroll"><table><caption>Gap in percentage points; inflation in percent. “Excluded” is not zero.</caption><thead><tr><th scope="col">Month</th><th scope="col">Gap (pp)</th><th scope="col">HICP (%)</th><th scope="col">Coverage</th></tr></thead><tbody>@@MONTHLY_ROWS@@</tbody></table></div></details>
+    </div>
+  </section>
+
+  <section class="wrap section" id="findings" aria-labelledby="findings-title">
+    <div class="section-heading"><div><p class="eyebrow">02 / Essential findings</p><h2 id="findings-title">What the evidence supports.</h2></div><p class="aside-note">Three findings from the extended draft.<br>Values matched to saved analytical outputs.</p></div>
+    <div class="finding-grid">@@FINDINGS@@</div>
+    <p class="interpretation">Why this matters for HNB: a count of institutional messages and an institution’s share of coverage answer different questions. This research offers a way to discuss relative visibility alongside the quality of message transmission.</p>
+  </section>
+
+  <section class="evidence-section" id="evidence" aria-labelledby="evidence-title"><div class="wrap section">
+    <p class="eyebrow">03 / Inspect the evidence</p><h2 id="evidence-title">From a headline to its estimate.</h2>
+    <div class="evidence-grid">
+      <div><h3>The inflation association</h3><p>Compare the two primary specifications. The coefficient describes the change in the gap associated with a one percentage point higher HICP inflation rate, conditional on the selected controls.</p>
+        <div class="controls"><label for="frequency">Estimation frequency<select id="frequency"><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></label><label for="specification">Volume control<select id="specification"><option value="9b">Included · equation 9b</option><option value="9a">Excluded · equation 9a</option></select></label></div>
+        <div class="model-result" aria-live="polite"><p class="result-label">Associated increase in the gap</p><p id="model-estimate" class="result-number">@@MODEL_ESTIMATE@@<span> percentage points</span></p><p id="model-ci">@@MODEL_CI@@</p><div id="model-plot" role="img" aria-label="Coefficient and 95 percent confidence interval">@@MODEL_SVG@@</div><p id="model-note">@@MODEL_NOTE@@</p></div>
+        <p class="caveat">Including volume increases the estimated slope. The change between specifications is not an estimate of mediation. Weekly inflation repeats monthly information; it is not 268 independent inflation readings.</p>
+      </div>
+      <div class="evidence-notes"><h3>How far does the interpretation go?</h3><details open><summary>Time controls matter</summary><p>The primary weekly coefficient is positive, with a 95% interval above zero. With year effects its p-value is @@WEEKLY_YEAR_P@@; with segment trends the monthly model’s p-value is @@MONTHLY_TREND_P@@. The result is sensitive to specification.</p><a href="downloads/hnb-attention-gap-paper.pdf#page=28">See Appendix A23 in the paper ↗</a></details>
+        <details><summary>The later-source trend</summary><p>The monthly gap increases by <b>@@TREND@@ percentage points per month</b> after controls (95% CI @@TREND_CI@@; 25 fitted months). The common-source estimate is @@COMMON_TREND@@ pp per month (p = @@COMMON_P@@).</p><p>This comparison stays within April 2024–May 2026. It cannot establish a recovery or deterioration across the source switch.</p></details>
+        <details><summary>What changes for consumer expectations?</summary><p>For the article-share margin in the primary sample, the baseline forward projections give:</p><ul class="lp-list">@@LP_LIST@@</ul><p>Each family corrects for 13 horizons, including the contemporaneous one. Other control sets change significance. This is not a validated forecasting tool.</p></details>
+        <details><summary>Network position is a different measure</summary><p>A share of coverage describes relative representation. Network centrality describes an institution’s position among sources and actors. The common-source network check does not establish lasting structural erosion; the two measures should not be substituted for one another.</p></details>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="wrap section" id="paper" aria-labelledby="paper-title">
+    <p class="eyebrow">04 / Read the research</p><h2 id="paper-title">The argument, in two lengths.</h2>
+    <div class="publication-grid"><article class="publication brief"><span class="publication-tag">02 pages / English</span><h3>A research briefing<br>for HNB readers.</h3><p>The question, three findings, a central figure and the limits that matter for interpretation.</p><a class="button" href="downloads/hnb-attention-gap-brief.pdf">Download the brief <span aria-hidden="true">↓</span></a></article>
+      <article class="publication paper"><span class="publication-tag">32 pages / Croatian / Research draft</span><h3 lang="hr">@@PAPER_TITLE@@</h3><p lang="hr">@@PAPER_SUBTITLE@@</p><p>Petra Palić · Luka Sikić<br>Extended manuscript, 17 September 2026<br>Author review pending</p><a class="text-link" href="downloads/hnb-attention-gap-paper.pdf">Download the full paper <span aria-hidden="true">↓</span></a></article></div>
+    <details class="citation"><summary>Citation and edition information</summary><p id="citation-text">@@CITATION@@</p><a href="downloads/citation.txt" download>Download citation ↓</a><p>This page presents the extended draft, not an exact reproduction of the earlier paper. The draft discloses unresolved differences from earlier reported coefficients. No publication venue or DOI is claimed.</p></details>
+  </section>
+
+  <section class="researcher-section" id="researchers" aria-labelledby="researchers-title"><div class="wrap section researcher-grid"><div><p class="eyebrow">05 / Researchers</p><h2 id="researchers-title">The people behind<br>the study.</h2></div><div><div class="authors"><div><h3>Petra Palić</h3><p>Hrvatsko katoličko sveučilište</p></div><div><h3>Luka Sikić</h3><p>Hrvatsko katoličko sveučilište</p></div></div><p>Both researchers are named as authors in the manuscript. Individual contribution roles are not specified. Contact details have not been supplied for this edition.</p><p class="small">Independent research presentation. HNB is the institution studied; no HNB partnership, sponsorship or endorsement is claimed.</p></div></div></section>
+
+  <section class="wrap section methods" id="methods" aria-labelledby="methods-title"><div class="section-heading"><div><p class="eyebrow">06 / Methods &amp; limits</p><h2 id="methods-title">A measure of relative visibility.</h2></div><a href="#overview" class="text-link">Return to the figure ↑</a></div>
+    <div class="methods-grid"><div><h3>Reading the sign</h3><div class="equation">Attention gap =<br><strong>baseline share − current share</strong></div><p>A positive gap means lower visibility than the baseline. A negative gap means higher visibility. Zero marks that reference, not an ideal level of communication.</p><p>The displayed monthly baseline is @@BASELINE@@%: the mean weighted share in January–June 2021 after excluding baseline observations more than two standard deviations from the initial mean. Monthly and weekly baselines are calculated separately.</p></div>
+      <div><h3>What enters the measure?</h3><p>The numerator adds potential reach weighted by institutional salience for inflation-relevant items in the HNB corpus. The denominator adds reach across the inflation corpus, plus one. Salience combines title presence, first-mention position, mention frequency and institutional agency cues.</p><p>Formal names, acronyms and generic central-bank terms identify the institutional corpus. Generic terms can include other central banks, including ECB or Eurosystem coverage after euro adoption. The measure does not cleanly isolate every HNB message.</p></div></div>
+    <div class="method-details"><details><summary>Sample, platforms and coverage</summary><p>The primary sample has 62 eligible months and 270 eligible weeks through May 2026; the main regressions use 60 months and 268 weeks after within-segment changes. January–March 2024 is excluded monthly; the complete week beginning 1 January 2024 remains eligible weekly.</p><p>The analysis preserves the earlier platform universe. Newly added TV, radio, print, Bluesky and Threads are excluded. The April 2024 export uses a broader query and a standalone “i” filter. This is a selected vendor corpus, not a complete census of Croatian media or a validated Croatian audience sample.</p><p>Collection interruptions, platform entry and changes in selection can alter composition. Source labels alone do not establish stable coverage. Recorded dates are used as the time basis; their interpretation as publication timestamps is not established here.</p><p>Later observed records run to 10 September 2026 according to the dataset documentation. June onward has a vendor sentiment change; August–September has incomplete coverage. None extends the headline sample beyond May 2026.</p></details>
+      <details><summary>Model and uncertainty</summary><p>The baseline models control for the change in inflation, euro adoption, concentration of source reach, vendor negative-sentiment share and the source change. Equation 9b also includes log HNB-corpus volume. Constant controls are omitted within a single regime.</p><p>Reported 95% intervals use the saved segment-aware Newey–West estimates with Bartlett weights, bandwidth floor(N<sup>1/3</sup>) and no prewhitening. Changes, lags and residual products do not cross the text-coverage gap. Weekly macroeconomic values are assigned from the month of the week’s start.</p><p>All public estimates were matched to saved outputs. This website build did not re-estimate the research models.</p></details>
+      <details><summary>What the study cannot establish</summary><p>Potential reach is not observed reading, exposure, trust or understanding. Some reach values are imputed. Vendor sentiment is not independently validated on this corpus. The gap is neither a count of HNB statements nor a score of communication quality.</p><p>HANFA comparisons and instrument diagnostics do not establish an HNB-specific causal mechanism. Forward expectation results depend on interpolation and controls. Media evidence alone cannot establish anchoring of expectations or changes in individual beliefs.</p><p>The older paper’s abstract, table and recalculated initial-sample coefficients do not all agree. The extended draft reports this unresolved discrepancy; it does not claim exact legacy replication.</p></details>
+      <details><summary>Dates, scope and reuse</summary><p>Manuscript edition: 17 September 2026. Primary analytical sample: January 2021–May 2026 with exclusions. Latest included month: May 2026. Website built: @@BUILD_DATE@@.</p><p>This is a static publication of one study, not a continuously updated monitoring service. The public dataset contains only the selected aggregate series and model results. Later exploratory periods and future research are outside this edition.</p></details></div>
+  </section>
+</main>
+<footer><div class="wrap"><a href="#main" class="footer-title">The HNB Attention Gap</a><p>Petra Palić &amp; Luka Sikić · Extended research draft · September 2026</p><a href="#paper">Paper, brief &amp; citation ↑</a></div></footer>
+<script type="application/json" id="research-data">@@EVIDENCE_JSON@@</script>
+</body>
+</html>

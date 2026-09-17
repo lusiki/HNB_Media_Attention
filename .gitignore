@@ -1,0 +1,27 @@
+# Built from committed publication inputs by GitHub Actions.
+/dist/
+/qa/
+/private/
+/.runtime/
+/.venv/
+/node_modules/
+/.openai/
+__pycache__/
+*.py[cod]
+*.zip
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+# The observatory publishes aggregates, never raw research stores.
+*.duckdb
+*.duckdb.wal
+*.sqlite
+*.db
+*.rds
+*.parquet
+/raw/
+/data-raw/
+/results/

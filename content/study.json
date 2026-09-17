@@ -1,0 +1,52 @@
+{
+  "id": "hnb-attention-gap-extended-2026-09-17",
+  "title": "The HNB Attention Gap",
+  "subtitle": "Central bank visibility in Croatia’s inflation debate",
+  "paper_title": "Pasivno zamijenjena: cijena inflacije koju ne mjeri indeks potrošačkih cijena",
+  "paper_subtitle": "Od inflacijskog vala do dezinflacije: institucionalni jaz u pažnji HNB-a 2021.–2026.",
+  "authors": ["Petra Palić", "Luka Sikić"],
+  "affiliation": "Hrvatsko katoličko sveučilište",
+  "status": "Research draft · author review pending",
+  "manuscript_date": "2026-09-17",
+  "edition": "Extended manuscript edition",
+  "sample": "January 2021–May 2026, with a break in usable text coverage",
+  "latest_included_month": "2026-05",
+  "dataset_last_observed_day": "2026-09-10",
+  "dataset_last_observed_day_status": "Documented in the dataset README; later periods are not the headline analytical sample.",
+  "language": "English summary; Croatian manuscript",
+  "citation": "Palić, P., & Sikić, L. (2026). Pasivno zamijenjena: cijena inflacije koju ne mjeri indeks potrošačkih cijena. Extended research draft, 17 September 2026. Hrvatsko katoličko sveučilište.",
+  "contact": null,
+  "doi": null,
+  "contributions": "Both researchers are named as authors in the manuscript. Individual contribution roles are not specified.",
+  "question": "Does lower inflation bring the central bank back into the conversation?",
+  "answer": "The extended study finds an association between higher inflation and lower relative HNB visibility. Within the later data source, visibility continues to decline even after accounting for inflation.",
+  "findings": [
+    {
+      "id": "F1",
+      "headline": "Higher inflation, less relative visibility",
+      "text": "In the primary weekly model, a one percentage point increase in HICP inflation is associated with a wider attention gap, after accounting for the model’s controls.",
+      "caveat": "This is an association. Statistical significance does not survive every time-control specification.",
+      "locator": "Section 4.2 · Table 6 · equations 8 and 9b",
+      "paper_anchor": "tbl-primary",
+      "verification": "matched_to_output"
+    },
+    {
+      "id": "F2",
+      "headline": "Disinflation brings no automatic recovery",
+      "text": "From April 2024 to May 2026, the gap rises within the newer data source after controlling for inflation and other regressors. A positive trend also appears when the analysis keeps only common sources.",
+      "caveat": "Changing coverage within sources remains possible. This does not establish hysteresis or a causal effect of disinflation.",
+      "locator": "Section 4.6 · within-source trend · page 13",
+      "paper_anchor": "uvođenje-eura-novi-režim-i-dezinflacija",
+      "verification": "matched_to_output"
+    },
+    {
+      "id": "F3",
+      "headline": "Visibility is not a measure of public beliefs",
+      "text": "Forward projections of consumer expectations depend on how monthly survey information is assigned to weeks and which controls are used. They do not robustly establish a persistent predictive channel.",
+      "caveat": "Some horizons are significant under other specifications. The survey balance does not measure long-term anchoring or trust.",
+      "locator": "Section 4.5 · Table 8 · Figure 5",
+      "paper_anchor": "tbl-lp",
+      "verification": "matched_to_output"
+    }
+  ]
+}
