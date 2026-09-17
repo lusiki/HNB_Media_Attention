@@ -18,9 +18,9 @@ fs.mkdirSync(path.join(site,'qa'),{recursive:true});
    page.on('pageerror',error=>errors.push(error.message));
    for(const width of [1440,360]){
     await page.setViewportSize({width,height:1000});
-    for(const [name,count] of [['brief',2],['paper',32]]){
+    for(const [name,count] of [['brief',2],['brief-hr',2],['paper',32]]){
      await page.goto(base);
-     await page.locator(`.actions a[href="read/${name}.html"]`).click();
+     await page.locator(`a[href="read/${name}.html"]`).first().click();
      await page.waitForURL(`**/read/${name}.html`);
      if(await page.locator('.page-image').count()!==count)throw new Error('Missing document pages');
      const first=page.locator('.page-image').first();
@@ -31,11 +31,11 @@ fs.mkdirSync(path.join(site,'qa'),{recursive:true});
      if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw new Error('Reader overflows viewport');
      if(javaScriptEnabled)await page.screenshot({path:path.join(site,'qa',`reader-${name}-${width}.png`)});
      await page.getByText('Go to page',{exact:true}).click();
-     await page.locator(`.page-links a[href="#page-${count}"]`).click();
+     await page.locator(`.page-links a[href="#page-${count}"]`).first().click();
      const last=page.locator(`#page-${count} .page-image`);
      await last.evaluate(image=>image.decode());
      if(!await last.evaluate(image=>image.naturalWidth>1000))throw new Error('Last page not rendered');
-     await page.locator(`#page-${count} .page-text summary`).click();
+     await page.locator(`#page-${count} .page-text summary`).first().click();
      const transcript=page.locator(`#page-${count} .transcription`);
      if(!await transcript.isVisible()||(await transcript.innerText()).length<100)throw new Error('Page text unavailable');
      // Decode every lazy image, not just the first and last pages.

@@ -13,6 +13,7 @@ def build_readers(site, dist):
     files.append('read/reader.css')
     for name, title, language, lang, other, other_title in [
         ('brief', 'Two-page research brief', 'English', 'en', 'paper', 'Read the full paper'),
+        ('brief-hr', 'Sažetak istraživanja na dvije stranice', 'Croatian', 'hr', 'paper', 'Read the full paper'),
         ('paper', 'Full research paper', 'Croatian', 'hr', 'brief', 'Read the two-page brief'),
     ]:
         source = site / 'public/read' / name

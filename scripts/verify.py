@@ -40,7 +40,7 @@ for document in DIST.rglob('*.html'):
                 check(label+'_linked_anchor_'+u.fragment,u.fragment in linked.ids)
         elif u.fragment:check(label+'_anchor_'+u.fragment,u.fragment in p.ids)
 
-for name,count in [('brief',2),('paper',32)]:
+for name,count in [('brief',2),('brief-hr',2),('paper',32)]:
     html=(DIST/f'read/{name}.html').read_text(encoding='utf-8')
     check(name+'_reader_page_count',html.count('class="page-image"')==count)
     check(name+'_reader_has_selectable_text',html.count('class="transcription"')==count)
@@ -52,10 +52,9 @@ check('three_missing_months_are_null',[r['period'] for r in e['observations'] if
 check('primary_cutoff',e['observations'][-1]['period']=='2026-05')
 for metric in ['gap','inflation']:
     svg=chart(e['observations'],metric)
-    points=re.search(r'<polyline[^>]* points="([^"]+)"',svg).group(1).split()
-    check(metric+'_one_connected_line',svg.count('<polyline')==1)
-    check(metric+'_only_observed_points',len(points)==sum(r[metric] is not None for r in e['observations']))
-    check(metric+'_no_missing_period_shading','<rect' not in svg)
+    segments=re.findall(r'<polyline[^>]* points="([^"]+)"',svg)
+    check(metric+'_source_and_missing_breaks',len(segments)==2)
+    check(metric+'_only_observed_points',sum(len(segment.split()) for segment in segments)==62)
 with (DIST/'data/monthly-series.csv').open(encoding='utf-8-sig',newline='') as f:
     exported=list(csv.DictReader(f))
 check('csv_and_json_observation_count',len(exported)==len(e['observations']))
@@ -71,6 +70,11 @@ if research_root is not None:
 check('signature_gap_axis_contains_every_point',all(r['gap'] is None or -12.5<=100*r['gap']<=5 for r in e['observations']))
 check('signature_inflation_axis_contains_every_point',all(r['inflation'] is None or -.7<=r['inflation']<=14.5 for r in e['observations']))
 
+check('full_share_axis_contains_every_point',all(r['gap'] is None or 0<=100*(e['baseline']['monthly']-r['gap'])<=18 for r in e['observations']))
+check('later_share_axis_contains_every_point',all(0<=100*(e['baseline']['monthly']-r['gap'])<=6 for r in e['observations'] if r['period']>='2024-04'))
+check('later_gap_axis_contains_every_point',all(-2<=100*r['gap']<=5 for r in e['observations'] if r['period']>='2024-04'))
+check('sensitivity_axis_contains_every_interval',all(-.1<=r['lo']*100<=r['hi']*100<=.5 for r in e['time_sensitivity']))
+
 manifest=json.loads((SITE/'qa/build-manifest.json').read_text(encoding='utf-8'))['files']
 check('public_files_exactly_allowlisted',set(manifest)=={str(p.relative_to(DIST)).replace('\\','/') for p in DIST.rglob('*') if p.is_file()})
 with zipfile.ZipFile(SITE/'hnb-attention-gap-publication.zip') as z:
@@ -82,7 +86,7 @@ for path in DIST.rglob('*'):
         check('no_private_tokens_'+path.name,not private_pattern.search(path.read_text(encoding='utf-8')))
 
 pdf_results={}
-for name,count in [('hnb-attention-gap-paper.pdf',32),('hnb-attention-gap-brief.pdf',2)]:
+for name,count in [('hnb-attention-gap-paper.pdf',32),('hnb-attention-gap-brief.pdf',2),('hnb-attention-gap-brief-hr.pdf',2)]:
     path=DIST/'downloads'/name;reader=PdfReader(path)
     check(name+'_page_count',len(reader.pages)==count)
     pages=[p.extract_text() or '' for p in reader.pages]
@@ -91,13 +95,17 @@ for name,count in [('hnb-attention-gap-paper.pdf',32),('hnb-attention-gap-brief.
     check(name+'_no_unresolved_tokens',not any(t in '\n'.join(pages) for t in ['Error!','Reference source not found','`r ','@@']))
     pdf_results[name]={'pages':len(pages),'selectable_text':True,'links':[str(a.get_object().get('/A',{}).get('/URI','')) for p in reader.pages for a in p.get('/Annots',[]) if a.get_object().get('/A',{}).get('/URI')]}
 check('paper_unchanged',hashlib.sha256((DIST/'downloads/hnb-attention-gap-paper.pdf').read_bytes()).hexdigest()=='00aa9a875226ee39d39049d975621a367aa7aa9adeea994e01d12c11469477d1')
-check('brief_has_companion_links',set(pdf_results['hnb-attention-gap-brief.pdf']['links'])=={'https://lusiki.github.io/HNB_Media_Attention/downloads/hnb-attention-gap-paper.pdf','https://lusiki.github.io/HNB_Media_Attention/'})
+for lang in ['en','hr']:
+    name='hnb-attention-gap-brief'+('-hr' if lang=='hr' else '')+'.pdf'
+    check(lang+'_brief_has_companion_links',set(pdf_results[name]['links'])=={'https://lusiki.github.io/HNB_Media_Attention/read/paper.html','https://lusiki.github.io/HNB_Media_Attention/'+('hr.html' if lang=='hr' else 'index.html'),'https://lusiki.github.io/HNB_Media_Attention/downloads/pilot-outline.txt'})
+    body='\n'.join(p.extract_text() for p in PdfReader(DIST/'downloads'/name).pages)
+    check(lang+'_trend_has_monthly_unit',('pb mjesečno' if lang=='hr' else 'pp per month') in body)
 skipped=[]
 if research_root is not None:
-    provenance=json.loads((SITE/'private/input-provenance.json').read_text(encoding='utf-8'))
+    provenance=json.loads((SITE/'content/research-input-hashes.json').read_text(encoding='utf-8'))
     check('research_input_hashes_unchanged',all(hashlib.sha256((research_root/'results'/name).read_bytes()).hexdigest()==sha for name,sha in provenance['inputs'].items()))
 else:
-    skipped=['Upstream saved-output comparison and source hashes require --research-root and local refresh provenance; not needed for a standalone publication build.']
+    skipped=['Upstream saved-output comparison and source hashes require --research-root; not needed for a standalone publication build.']
 (SITE/'qa/publication-checks.json').write_text(json.dumps({'checks':checks,'pdfs':pdf_results,'passed':sum(checks.values()),'skipped':skipped},ensure_ascii=False,indent=2),encoding='utf-8')
-print(f'{sum(checks.values())} publication checks passed. Paper: 32 pages, unchanged; brief: 2 pages, selectable text and companion links.')
+print(f'{sum(checks.values())} publication checks passed. Paper: 32 pages, unchanged; bilingual briefs: 2 pages each, selectable text and companion links.')
 for note in skipped:print('Not run: '+note)

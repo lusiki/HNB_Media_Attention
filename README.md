@@ -1,14 +1,14 @@
 # HNB Media Attention
 
-A static research observatory presenting **The HNB Attention Gap**, based on the extended Croatian research draft by Petra Palić and Luka Sikić, dated 17 September 2026.
+A static research observatory presenting **HNB in Croatia’s inflation debate**, based on the extended Croatian research draft by Petra Palić and Luka Sikić, dated 17 September 2026.
 
 - **Observatory:** https://lusiki.github.io/HNB_Media_Attention/
 - **Repository:** https://github.com/lusiki/HNB_Media_Attention
 - **Deployment:** [Build and deploy observatory](https://github.com/lusiki/HNB_Media_Attention/actions/workflows/pages.yml)
 
-The page includes three qualified findings, an interactive view of the selected monthly aggregates, model comparisons, methods, authors, a two-page English brief and the unchanged 32-page Croatian paper. The manuscript remains labelled **research draft; author review pending**. Hosting it does not establish peer review, HNB endorsement or resolution of the legacy replication discrepancy.
+The page includes three qualified findings, an interactive view of the selected monthly aggregates, model comparisons, methods, authors, two-page English and Croatian briefs, a Croatian executive page, an intuitive measure example and a proposed applied research pilot and the unchanged 32-page Croatian paper. The manuscript remains labelled **research draft; author review pending**. Hosting it does not establish peer review, HNB endorsement or resolution of the legacy replication discrepancy.
 
-The two **Read** links open on-site readers with rendered document pages and selectable page text. They work without a browser PDF viewer or JavaScript. Separate **Download PDF** links retain the original PDFs. The paper reader also supports direct page links, such as `read/paper.html#page-28`.
+The **Read** links open on-site readers with rendered document pages and selectable page text. They work without a browser PDF viewer or JavaScript. Separate **Download PDF** links retain the original PDFs. The paper reader also supports direct page links, such as `read/paper.html#page-28`.
 
 ## Local preview
 
@@ -48,7 +48,7 @@ Wait for the deployment workflow to succeed before expecting the online page to 
 | Location | Purpose |
 | --- | --- |
 | `content/study.json` | Study metadata, authors, publication status, findings and source locators |
-| `src/index.html` | Page structure, explanations and methods |
+| `src/index.html`, `src/hr.html` | English evidence page and Croatian executive page |
 | `src/styles.css` | Responsive design |
 | `src/app.js` | Chart and model controls |
 | `public/data/evidence.json` | Canonical selected aggregate observations and model results |
@@ -78,9 +78,9 @@ python scripts/build.py
 python scripts/verify.py
 ```
 
-On Windows the brief uses installed Arial and Georgia. `OBS_FONT_DIR` can select another folder containing those fonts; Linux can use DejaVu Sans/Serif. Fonts can change pagination, so **render and inspect both PDF pages after regenerating the brief**, and commit the revised PDF with its source. Automatic deployment checks page count, selectable text, companion links and file integrity; it does not substitute for visual review of new PDFs.
+On Windows the brief uses installed Arial and Georgia. `OBS_FONT_DIR` can select another folder containing those fonts; Linux can use DejaVu Sans/Serif. Fonts can change pagination, so **render and inspect both pages of each brief after regenerating the brief**, and commit the revised PDF with its source. Automatic deployment checks page count, selectable text, companion links and file integrity; it does not substitute for visual review of new PDFs.
 
-Install Poppler for reader authoring, or pass its `pdftoppm` executable using the option above. If it is on `PATH`, the option can be omitted. Regenerate and commit `public/read/` whenever either PDF changes. The build rejects readers whose saved PDF hashes no longer match. Ordinary builds and GitHub deployments use the committed pages and do not require Poppler or image libraries.
+Install Poppler for reader authoring, or pass its `pdftoppm` executable using the option above. If it is on `PATH`, the option can be omitted. Regenerate and commit `public/read/` whenever any PDF changes. The build rejects readers whose saved PDF hashes no longer match. Ordinary builds and GitHub deployments use the committed pages and do not require Poppler or image libraries.
 
 The paper PDF is checked against its selected edition's SHA-256. Replacing it requires reviewing its provenance and deliberately updating the edition metadata and the checks in `prepare_inputs.py` and `verify.py`.
 
@@ -109,6 +109,8 @@ node scripts/reader_qa.cjs
 
 ## Research scope
 
-The primary sample covers January 2021–May 2026, excluding unusable periods. The monthly display connects available observations and marks the April 2024 source change. Later-source levels are not claimed to be harmonised with the earlier source. The gap is displayed as 100 times its stored share-unit value; inflation has its own axis. Connecting lines do not add observations to the data or analysis.
+The primary sample covers January 2021–May 2026, excluding unusable periods. The monthly display defaults to the weighted institutional share in April 2024–May 2026. The full-history option breaks lines at excluded months and the April 2024 source change. Later-source levels are not claimed to be harmonised with the earlier source. The gap is displayed as 100 times its stored share-unit value; inflation has its own axis. Selected-month markers align the two panels. The six time-control comparisons display saved coefficient intervals; they do not represent new estimation.
 
 Public findings were matched to saved outputs, not independently re-estimated for this website. Potential reach is not observed exposure or trust. The manuscript's causal limits, specification sensitivity, missing contact/contribution details and unresolved legacy discrepancy remain visible. This is a publication of one study, not an automated monitoring service.
+
+The proposed pilot and example message-fidelity output are prospective, with no pilot findings claimed. Set `contact` in `content/study.json` only to an approved public address; null omits the contact button. The unchanged manuscript remains the archived edition.

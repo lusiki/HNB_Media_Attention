@@ -12,11 +12,12 @@ from pypdf import PdfReader
 SITE = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--pdftoppm', default=shutil.which('pdftoppm'), help='Path to the Poppler pdftoppm executable')
+parser.add_argument('--documents', nargs='+', choices=['brief','brief-hr','paper'], default=['brief','brief-hr','paper'])
 args = parser.parse_args()
 if not args.pdftoppm:
     parser.error('Install Poppler or supply --pdftoppm PATH')
 
-for name in ['brief', 'paper']:
+for name in args.documents:
     pdf = SITE / 'public/downloads' / f'hnb-attention-gap-{name}.pdf'
     output = SITE / 'public/read' / name
     output.mkdir(parents=True, exist_ok=True)

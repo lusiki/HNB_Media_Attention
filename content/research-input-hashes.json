@@ -1,0 +1,12 @@
+{
+  "inputs": {
+    "primary_coefficients.csv": "e2847b6874a6a51f180a542d17453277e956a186461e4b53053c3f43dece00e3",
+    "primary_magnitude.csv": "f143bb52faeede55a9f40e081b61a583cd326ed211babb5367f51b39d72d78c1",
+    "samples_coverage.csv": "d5870219400f928b3b1c59f691898fc8e6e068164d92ec1ba080023549eb60c8",
+    "regimes_trend.csv": "85e2860beef660da3db694a33a30fc86ef3a5d4e7dc3e0a12f07546fb786febd",
+    "regimes_common_network.csv": "fe2c2ae8bdc134c5f5227245e2d0fd6fdf8833479c7d4b81df6ad1e88e6f5f6a",
+    "regimes_common_slope_sensitivity.csv": "17731808137e889a3424c3fd44d0a60adf00f25d4445bf10ce968931bad37b7b",
+    "expectations_irf.csv": "a51d828d45026e730929f7f5433f9d525533b3beb08a7af81b7fd359b572b423",
+    "data_quality_series.csv": "771ad383b8eb5f9940e5615a655a91472e4d44b1f3ed43537bda585d4296af1c"
+  }
+}

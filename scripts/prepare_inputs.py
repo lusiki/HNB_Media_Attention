@@ -66,7 +66,7 @@ evidence = {
     'series_metadata':[
         {'id':'gap','label':'HNB attention gap','definition':'Fixed Jan–Jun 2021 mean weighted share (after baseline outlier exclusion) minus current weighted share',
          'canonical_units':'share units','display_units':'percentage points','display_multiplier':100,'time_basis':'calendar month of record date; publication timestamp not established',
-         'scope':'extended manuscript primary sample; original platform universe','missing_rule':'null for excluded months; display lines connect available observations without adding data values'},
+         'scope':'extended manuscript primary sample; original platform universe','missing_rule':'null for excluded months; no interpolation or bridging source boundary'},
         {'id':'inflation','label':'HICP inflation','definition':'Croatian all-items HICP, year-on-year rate','canonical_units':'percent','display_units':'percent','display_multiplier':1,
          'time_basis':'reference month','scope':'primary-sample months','missing_rule':'suppressed with excluded media months for aligned comparison; not a claim of missing HICP'}],
     'observations':observations, 'models':models, 'trend':trend, 'common_source_trend':common, 'expectations':lp,
@@ -79,6 +79,7 @@ save(SITE/'public/data/evidence.json', evidence)
 with (SITE/'public/data/monthly-series.csv').open('w', encoding='utf-8', newline='') as f:
     writer=csv.DictWriter(f, fieldnames=['period','gap','inflation','source','status']); writer.writeheader(); writer.writerows(observations)
 inputs={name:hashlib.sha256((ROOT/'results'/name).read_bytes()).hexdigest() for name in INPUTS}
+save(SITE/'content/research-input-hashes.json', {'inputs':inputs})
 paper=ROOT/'results/qa/PAPER_EXT.pdf'
 assert hashlib.sha256(paper.read_bytes()).hexdigest() == '00aa9a875226ee39d39049d975621a367aa7aa9adeea994e01d12c11469477d1'
 (SITE/'public/downloads').mkdir(parents=True,exist_ok=True)
@@ -103,8 +104,15 @@ save(SITE/'private/figure-register.json', [{
     'type':'faithful selected-series adaptation','source':str(ROOT/'results/data_quality_series.csv'),
     'producer':'analysis/10_data_quality.R; analysis/12_exhibits.R',
     'series':['IAG_primary','pi_t'],'transforms':{'IAG_primary':'multiply by 100 to express percentage points','pi_t':'unchanged'},
-    'sample':'2021-01 to 2026-05; S1 monthly','missing':'Jan–Mar 2024 null; display lines connect available observations without adding data values',
+    'sample':'2021-01 to 2026-05; S1 monthly','missing':'Jan–Mar 2024 null; paths break at missing months and April 2024 source boundary',
     'edition':'extended-2026-09-17','uncertainty':'descriptive observed series, no interval invented',
     'baseline':baseline['monthly'],'time_basis':'calendar record month; HICP reference month',
-    'caption':'Selected series from Figure 1; primary sample only. Values before and after April 2024 are not harmonised.'}])
+    'caption':'Selected series from Figure 1; primary sample only. Values before and after April 2024 are not harmonised.'}, {
+    'id':'FIG2','type':'exact weighted-share transformation; later collection only',
+    'source':str(ROOT/'results/data_quality_series.csv'),
+    'transforms':{'share':'100 * (monthly baseline - IAG_primary)','pi_t':'unchanged'},
+    'sample':'2024-04 to 2026-05; 26 observed months',
+    'edition':'extended-2026-09-17','uncertainty':'observed series, not fitted trend; coverage composition may vary',
+    'baseline':baseline['monthly'],'exports':['visibility-later.png','visibility-later-hr.png']
+}])
 print('Prepared 65 monthly periods (62 included), 4 model estimates, 3 expectation comparisons, and unchanged 32-page paper.')

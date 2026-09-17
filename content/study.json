@@ -1,10 +1,13 @@
 {
   "id": "hnb-attention-gap-extended-2026-09-17",
-  "title": "The HNB Attention Gap",
-  "subtitle": "Central bank visibility in Croatia’s inflation debate",
+  "title": "HNB in Croatia’s inflation debate",
+  "subtitle": "Media evidence for monetary communication",
   "paper_title": "Pasivno zamijenjena: cijena inflacije koju ne mjeri indeks potrošačkih cijena",
   "paper_subtitle": "Od inflacijskog vala do dezinflacije: institucionalni jaz u pažnji HNB-a 2021.–2026.",
-  "authors": ["Petra Palić", "Luka Sikić"],
+  "authors": [
+    "Petra Palić",
+    "Luka Sikić"
+  ],
   "affiliation": "Hrvatsko katoličko sveučilište",
   "status": "Research draft · author review pending",
   "manuscript_date": "2026-09-17",
@@ -18,35 +21,38 @@
   "contact": null,
   "doi": null,
   "contributions": "Both researchers are named as authors in the manuscript. Individual contribution roles are not specified.",
-  "question": "Does lower inflation bring the central bank back into the conversation?",
-  "answer": "The extended study finds an association between higher inflation and lower relative HNB visibility. Within the later data source, visibility continues to decline even after accounting for inflation.",
+  "question": "How visible is the central bank when inflation dominates the news?",
+  "answer": "Higher inflation accompanies lower relative institutional visibility in the primary models. Within April 2024–May 2026, visibility also declines after accounting for inflation. These findings identify questions for closer communication analysis; they do not measure public understanding or the effect of HNB policy.",
   "findings": [
     {
       "id": "F1",
-      "headline": "Higher inflation, less relative visibility",
+      "headline": "Higher inflation accompanies lower visibility",
       "text": "In the primary weekly model, a one percentage point increase in HICP inflation is associated with a wider attention gap, after accounting for the model’s controls.",
       "caveat": "This is an association. Statistical significance does not survive every time-control specification.",
       "locator": "Section 4.2 · Table 6 · equations 8 and 9b",
       "paper_anchor": "tbl-primary",
-      "verification": "matched_to_output"
+      "verification": "matched_to_output",
+      "implication": "A question for HNB: does institutional coverage keep pace with the wider inflation debate?"
     },
     {
       "id": "F2",
-      "headline": "Disinflation brings no automatic recovery",
+      "headline": "Visibility declines within the later period",
       "text": "From April 2024 to May 2026, the gap rises within the newer data source after controlling for inflation and other regressors. A positive trend also appears when the analysis keeps only common sources.",
       "caveat": "Changing coverage within sources remains possible. This does not establish hysteresis or a causal effect of disinflation.",
       "locator": "Section 4.6 · within-source trend · page 13",
       "paper_anchor": "uvođenje-eura-novi-režim-i-dezinflacija",
-      "verification": "matched_to_output"
+      "verification": "matched_to_output",
+      "implication": "A next step: investigate changing coverage, institutional attribution and the uptake of specific explanations."
     },
     {
       "id": "F3",
-      "headline": "Visibility is not a measure of public beliefs",
+      "headline": "A stable link to expectations is not established",
       "text": "Forward projections of consumer expectations depend on how monthly survey information is assigned to weeks and which controls are used. They do not robustly establish a persistent predictive channel.",
       "caveat": "Some horizons are significant under other specifications. The survey balance does not measure long-term anchoring or trust.",
       "locator": "Section 4.5 · Table 8 · Figure 5",
       "paper_anchor": "tbl-lp",
-      "verification": "matched_to_output"
+      "verification": "matched_to_output",
+      "implication": "A research priority: measure audience exposure and understanding separately from media representation."
     }
   ]
 }
