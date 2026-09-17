@@ -1,12 +1,20 @@
 """Pure SVG figures with explicit discontinuities and their own scales."""
 from html import escape
 
-def chart(rows, metric, width=1120, height=210, baseline=0):
+# Shared by the interactive chart, no-JavaScript SVG and printed figures.
+# Every observed value is retained. The later inflation axis intentionally omits zero.
+CHART_SCALES = {
+    'all': {'share': [0,16,[0,4,8,12,16]], 'gap': [-12,4,[-12,-8,-4,0,4]],
+            'inflation': [0,14,[0,2,4,6,8,10,12,14]]},
+    'new': {'share': [0,5,[0,1,2,3,4,5]], 'gap': [-1,4,[-1,0,1,2,3,4]],
+            'inflation': [2.5,5.5,[2.5,3,3.5,4,4.5,5,5.5]]},
+}
+
+def chart(rows, metric, width=1120, height=350, baseline=0):
     left, right, top, bottom = 42, 15, 36, 33
     plotw, ploth = width-left-right, height-top-bottom
     gap=metric=='gap'; share=metric=='share'; later=len(rows)<35
-    ticks=([0,2,4,6] if later else [0,6,12,18]) if share else ([-12,-8,-4,0,4] if gap else [0,4,8,12])
-    lo,hi=((0,6) if later else (0,18)) if share else ((-12.5,5) if gap else (-.7,14.5))
+    lo,hi,ticks=CHART_SCALES['new' if later else 'all'][metric]
     color='#9bc4ff' if gap or share else '#ffb17f'
     value=lambda r:100*(baseline-r['gap']) if share else r[metric]*(100 if gap else 1)
     x=lambda i:left+plotw*i/max(1,len(rows)-1)
@@ -34,11 +42,12 @@ def chart(rows, metric, width=1120, height=210, baseline=0):
         if r['period']=='2024-04' and not later:
             xx=x(i)
             s.append(f'<line x1="{xx:.2f}" x2="{xx:.2f}" y1="{top-4}" y2="{height-bottom}" stroke="#d5dfe6" stroke-dasharray="4 4" opacity=".7"/><text x="{min(xx+8,width-145):.2f}" y="21" fill="#d5dfe6" font-size="12" font-family="Segoe UI,Arial">Apr 2024 · source change</text>')
-    indices=[i for i,r in enumerate(rows) if r['period'].endswith('-01')]
-    if len(rows)<35:indices=[0]+[i for i in indices if i>3]+[len(rows)-1]
+    indices=[0]+[i for i,r in enumerate(rows) if r['period'].endswith('-01') and 3<i<len(rows)-5]+[len(rows)-1]
+    if width<500:indices=[0,len(rows)//2 if later else 24,len(rows)-1]
     for i in indices:
-        label=rows[i]['period'][:4] if len(rows)>35 else rows[i]['period']
-        s.append(f'<text x="{x(i):.2f}" y="{height-9}" fill="#cedbe5" text-anchor="middle" font-size="12" font-family="Segoe UI,Arial">{escape(label)}</text>')
+        label=rows[i]['period'] if later or i in [0,len(rows)-1] else rows[i]['period'][:4]
+        anchor='start' if i==0 else 'end' if i==len(rows)-1 else 'middle'
+        s.append(f'<text x="{x(i):.2f}" y="{height-9}" fill="#cedbe5" text-anchor="{anchor}" font-size="12" font-family="Segoe UI,Arial">{escape(label)}</text>')
     s.append('</svg>');return ''.join(s)
 
 def model_svg(row):

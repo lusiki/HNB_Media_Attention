@@ -109,7 +109,7 @@ node scripts/reader_qa.cjs
 
 ## Research scope
 
-The primary sample covers January 2021–May 2026, excluding unusable periods. The monthly display defaults to the weighted institutional share in April 2024–May 2026. The full-history option breaks lines at excluded months and the April 2024 source change. Later-source levels are not claimed to be harmonised with the earlier source. The gap is displayed as 100 times its stored share-unit value; inflation has its own axis. Selected-month markers align the two panels. The six time-control comparisons display saved coefficient intervals; they do not represent new estimation.
+The primary sample covers January 2021–May 2026, excluding unusable periods. The monthly display defaults to the full January 2021–May 2026 weighted institutional share. Taller panels and period-specific vertical scales show variation without excluding extreme values; the optional April 2024–May 2026 inflation view uses a clearly labelled 2.5–5.5% axis. The full-history view breaks lines at excluded months and the April 2024 source change. Later-source levels are not claimed to be harmonised with the earlier source. The gap is displayed as 100 times its stored share-unit value; inflation has its own axis. Selected-month markers align the two panels. The six time-control comparisons display saved coefficient intervals; they do not represent new estimation.
 
 Public findings were matched to saved outputs, not independently re-estimated for this website. Potential reach is not observed exposure or trust. The manuscript's causal limits, specification sensitivity, missing contact/contribution details and unresolved legacy discrepancy remain visible. This is a publication of one study, not an automated monitoring service.
 

@@ -10,7 +10,7 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 
 let qaContext;
 (async()=>{
- const context=await chromium.launchPersistentContext(path.join(runtime,'browser-profile'),{
+ const context=await chromium.launchPersistentContext(fs.mkdtempSync(path.join(runtime,'browser-qa-')),{
    ...(process.env.BROWSER_EXECUTABLE?{executablePath:process.env.BROWSER_EXECUTABLE}:{}),headless:true,
    viewport:{width:1440,height:1000},acceptDownloads:true,
    args:['--disable-background-networking','--disable-component-update','--no-first-run']
@@ -32,8 +32,25 @@ let qaContext;
    if(overflow.document>width)throw new Error('Horizontal overflow '+JSON.stringify(overflow));
    await page.locator('#overview').scrollIntoViewIfNeeded();
    await page.screenshot({path:path.join(site,'qa',`site-${width}-chart.png`)});
-   if(await page.locator('#window').inputValue()!=='new'||await page.locator('#metric').inputValue()!=='share')throw new Error('Executive chart defaults');
+   if(await page.locator('#window').inputValue()!=='all'||await page.locator('#metric').inputValue()!=='share')throw new Error('Full-history chart defaults');
+   if(await page.locator('#period option').count()!==62)throw new Error('Default must include full sample');
+   if(await page.locator('#period option').first().getAttribute('value')!=='2021-01')throw new Error('Missing original period');
+   for(const scope of ['all','new']){
+     await page.selectOption('#window',scope);
+     for(const metric of ['share','gap']){
+       await page.selectOption('#metric',metric);
+       const charts=await page.locator('.timeline .chart svg').evaluateAll(svgs=>svgs.map(svg=>{
+         const height=svg.viewBox.baseVal.height,points=[...svg.querySelectorAll('polyline')].flatMap(p=>p.getAttribute('points').trim().split(/\s+/).map(p=>p.split(',').map(Number)));
+         const ys=points.map(p=>p[1]);
+         return {height,min:svg.dataset.min,max:svg.dataset.max,count:points.length,segments:svg.querySelectorAll('polyline').length,inside:points.every(p=>p[0]>=38&&p[0]<=svg.viewBox.baseVal.width-20&&p[1]>=38&&p[1]<=height-34),span:(Math.max(...ys)-Math.min(...ys))/(height-72)};
+       }));
+       if(charts.some(c=>!c.inside||c.height<300||c.span<.7||c.count!==(scope==='all'?62:26)||c.segments!==(scope==='all'?2:1)))throw new Error('Clipped, flattened or incomplete chart '+JSON.stringify(charts));
+       if(scope==='new'&&(charts[1].min!=='2.5'||charts[1].max!=='5.5'||!(await page.locator('#chart-scope').innerText()).includes('does not start at zero')))throw new Error('Later inflation scale disclosure');
+     }
+   }
+   await page.selectOption('#metric','share');
    await page.selectOption('#window','new');
+   await page.locator('.timeline').screenshot({path:path.join(site,'qa',`timeline-${width}-later.png`)});
    if(await page.locator('#period option').count()!==26)throw new Error('New-source period count');
    await page.selectOption('#period','2024-04');
    const april=await page.locator('#period-values').innerText();
@@ -46,7 +63,8 @@ let qaContext;
    if(!(await page.locator('#chart-scope').innerText()).includes('not harmonised'))throw new Error('Source boundary context');
    await page.selectOption('#period','2023-03');
    if(await page.locator('.selected-month[data-period="2023-03"]').count()!==2)throw new Error('Full-history marker failed');
-   await page.selectOption('#metric','share');await page.selectOption('#window','new');
+   await page.selectOption('#metric','share');
+   await page.locator('.timeline').screenshot({path:path.join(site,'qa',`timeline-${width}-full.png`)});
    await page.locator('#evidence').scrollIntoViewIfNeeded();
    await page.selectOption('#frequency','monthly');await page.selectOption('#specification','9a');
    const estimate=await page.locator('#model-estimate').innerText();

@@ -4,14 +4,14 @@ from datetime import date
 from html import escape
 from urllib.parse import quote
 import json, shutil, hashlib, zipfile
-from charts import chart, model_svg, sensitivity_svg
+from charts import chart, model_svg, sensitivity_svg, CHART_SCALES
 from readers import build_readers
 
 SITE=Path(__file__).resolve().parents[1]
 STUDY=json.loads((SITE/'content/study.json').read_text(encoding='utf-8'))
 E=json.loads((SITE/'public/data/evidence.json').read_text(encoding='utf-8'))
 DIST=SITE/'dist'; DIST.mkdir(exist_ok=True)
-assets=['downloads/hnb-attention-gap-paper.pdf','downloads/hnb-attention-gap-brief.pdf','downloads/hnb-attention-gap-brief-hr.pdf','downloads/pilot-outline.txt','downloads/citation.txt','figures/attention-gap.png','figures/visibility-later.png','figures/visibility-later-hr.png','data/evidence.json','data/monthly-series.csv']
+assets=['downloads/hnb-attention-gap-paper.pdf','downloads/hnb-attention-gap-brief.pdf','downloads/hnb-attention-gap-brief-hr.pdf','downloads/pilot-outline.txt','downloads/citation.txt','figures/attention-gap.png','figures/visibility-full.png','figures/visibility-full-hr.png','figures/visibility-later.png','figures/visibility-later-hr.png','data/evidence.json','data/monthly-series.csv']
 for name in assets:
     src=SITE/'public'/name
     if not src.is_file():raise FileNotFoundError(f'Required asset missing: {name}')
@@ -40,6 +40,10 @@ for r in E['expectations']:
     sig=', '.join(map(str,r['significant_horizons']))
     explanation=f'horizons {sig} {unit} ahead pass correction' if sig else f'none of the 1–12 {unit}-ahead horizons pass correction'
     lp.append(f'<li><b>{escape(r["label"])}</b>: {explanation}.</li>')
+def responsive_chart(metric,lang='en'):
+    svg=''.join('<div class="timeline-'+size+'">'+chart(E['observations'],metric,width=width,height=height,baseline=E['baseline']['monthly'])+'</div>' for size,width,height in [('wide',1120,350),('narrow',360,300)])
+    return svg.replace('Apr 2024 · source change','04/2024 · novi izvor') if lang=='hr' else svg
+
 values={
  'QUESTION':escape(STUDY['question']),'ANSWER':escape(STUDY['answer']),
  'PAPER_TITLE':escape(STUDY['paper_title']),'PAPER_SUBTITLE':escape(STUDY['paper_subtitle']),
@@ -47,7 +51,9 @@ values={
  'CONTACT_EN':contact('en'),'CONTACT_HR':contact('hr'),
  'PRIMARY_HR':hr(primary['estimate']),'PRIMARY_CI_HR':hr(primary['lo'])+'–'+hr(primary['hi']),
  'TREND_HR':hr(E['trend']['estimate'],3),'TREND_CI_HR':hr(E['trend']['lo'],3)+'–'+hr(E['trend']['hi'],3),
- 'SHARE_SVG':chart(later,'share',baseline=E['baseline']['monthly']),'INFLATION_SVG':chart(later,'inflation'),
+ 'CHART_SCALES':json.dumps(CHART_SCALES),
+ 'SHARE_SVG':responsive_chart('share'),'INFLATION_SVG':responsive_chart('inflation'),
+ 'SHARE_HR_SVG':responsive_chart('share','hr'),'INFLATION_HR_SVG':responsive_chart('inflation','hr'),
  'MODEL_SVG':model_svg(primary),'MODEL_ESTIMATE':pp(primary['estimate']),
  'MODEL_CI':f'95% confidence interval: {pp(primary["lo"])} to {pp(primary["hi"])} percentage points',
  'MODEL_NOTE':f'{int(primary["N"])} fitted weeks · January 2021–May 2026, with exclusions',
@@ -55,7 +61,7 @@ values={
  'SENSITIVITY_SVG':'<div class="sensitivity-wide">'+sensitivity_svg(E['time_sensitivity'])+'</div><div class="sensitivity-narrow">'+sensitivity_svg(E['time_sensitivity'],narrow=True)+'</div>',
  'SENSITIVITY_ROWS':''.join(f'<tr><th scope="row">{r["frequency"].title()}</th><td>{time_names[r["adjustment"]]}</td><td>{pp(r["estimate"],3)}</td><td>{pp(r["lo"],3)} to {pp(r["hi"],3)}</td></tr>' for r in E['time_sensitivity']),
  'FINDINGS':''.join(findings),
- 'PERIOD_OPTIONS':''.join(f'<option value="{r["period"]}" {"selected" if r==last else ""}>{r["period"]}</option>' for r in later if r['gap'] is not None),
+ 'PERIOD_OPTIONS':''.join(f'<option value="{r["period"]}" {"selected" if r==last else ""}>{r["period"]}</option>' for r in E['observations'] if r['gap'] is not None),
  'INITIAL_PERIOD':f'{last["period"]} · share {share(last)}% · gap {pp(last["gap"])} pp · inflation {fmt(last["inflation"],1)}%',
  'MONTHLY_ROWS':''.join(f'<tr><th scope="row">{r["period"]}</th><td>{share(r) if r["gap"] is not None else "Excluded"}</td><td>{pp(r["gap"]) if r["gap"] is not None else "Excluded"}</td><td>{fmt(r["inflation"],1) if r["inflation"] is not None else "Excluded"}</td><td>{"Later collection" if r["source"]=="new" else "Original collection"}{" · text coverage excluded" if r["status"]!="included" else ""}</td></tr>' for r in E['observations']),
  'TREND':pp(E['trend']['estimate'],3),'TREND_CI':pp(E['trend']['lo'],3)+' to '+pp(E['trend']['hi'],3),

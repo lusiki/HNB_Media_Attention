@@ -1,5 +1,12 @@
 # Publication revisions
 
+## 17 September 2026 — full timeline and chart readability
+
+- Restored January 2021–May 2026 as the opening chart in English, Croatian and both briefs.
+- Increased chart height and aligned the interactive, static and print scales; the later inflation view now spans 2.5–5.5%, explicitly labelled as not starting at zero.
+- Retained every eligible value, source boundaries, missing months and unchanged model estimates.
+
+
 ## 17 September 2026 — senior HNB audience
 
 - Reframed the public title and opening around the institutional question and potential use of media analysis.

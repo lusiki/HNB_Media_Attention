@@ -4,7 +4,7 @@ from html.parser import HTMLParser
 import argparse, csv, json, hashlib, re, zipfile
 from urllib.parse import urlsplit,unquote
 from pypdf import PdfReader
-from charts import chart
+from charts import chart, CHART_SCALES
 
 SITE=Path(__file__).resolve().parents[1]; DIST=SITE/'dist'
 parser=argparse.ArgumentParser(description=__doc__)
@@ -67,12 +67,11 @@ if research_root is not None:
     with (research_root/'results/data_quality_series.csv').open(encoding='utf-8-sig',newline='') as f:
         source={r['date'][:7]:r for r in csv.DictReader(f) if r['frequency']=='monthly'}
     check('all_included_monthly_values_match_saved_outputs',all(r['gap'] is None or (r['gap']==float(source[r['period']]['IAG_primary']) and r['inflation']==float(source[r['period']]['pi_t'])) for r in e['observations']))
-check('signature_gap_axis_contains_every_point',all(r['gap'] is None or -12.5<=100*r['gap']<=5 for r in e['observations']))
-check('signature_inflation_axis_contains_every_point',all(r['inflation'] is None or -.7<=r['inflation']<=14.5 for r in e['observations']))
-
-check('full_share_axis_contains_every_point',all(r['gap'] is None or 0<=100*(e['baseline']['monthly']-r['gap'])<=18 for r in e['observations']))
-check('later_share_axis_contains_every_point',all(0<=100*(e['baseline']['monthly']-r['gap'])<=6 for r in e['observations'] if r['period']>='2024-04'))
-check('later_gap_axis_contains_every_point',all(-2<=100*r['gap']<=5 for r in e['observations'] if r['period']>='2024-04'))
+for scope,metrics in CHART_SCALES.items():
+    for metric,(lo,hi,ticks) in metrics.items():
+        values=[100*(e['baseline']['monthly']-r['gap']) if metric=='share' else r[metric]*(100 if metric=='gap' else 1) for r in e['observations'] if r['gap'] is not None and (scope=='all' or r['source']=='new')]
+        check(scope+'_'+metric+'_axis_contains_every_point',all(lo<=v<=hi for v in values))
+        check(scope+'_'+metric+'_variation_uses_plot_height',(max(values)-min(values))/(hi-lo)>.7)
 check('sensitivity_axis_contains_every_interval',all(-.1<=r['lo']*100<=r['hi']*100<=.5 for r in e['time_sensitivity']))
 
 manifest=json.loads((SITE/'qa/build-manifest.json').read_text(encoding='utf-8'))['files']

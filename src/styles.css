@@ -9,3 +9,5 @@ h1{font-size:clamp(2.7rem,4.5vw,4.7rem);line-height:1.07;letter-spacing:-2px}.he
 h1,h2,h3,.stat{overflow-wrap:anywhere}.hero-grid>div,.evidence-grid>div,.finding,.publication{min-width:0}.chart-toolbar label,.period-inspector label{flex-wrap:wrap}.controls{flex-wrap:wrap}.controls label{min-width:145px}.wordmark{flex-wrap:wrap}.wordmark>span:last-child{overflow-wrap:anywhere}nav{flex-wrap:wrap}
 @media(max-width:760px){.controls{display:block}.controls label{margin-bottom:14px;font-size:.875rem}.controls select{font-size:.875rem;padding:10px 34px 10px 12px}}
 .sensitivity-narrow{display:none}@media(max-width:760px){.sensitivity-wide{display:none}.sensitivity-narrow{display:block}.sensitivity-chart svg{min-width:0}.sensitivity-chart{overflow:visible}}
+
+.timeline-narrow{display:none}@media(max-width:760px){.timeline-wide{display:none}.timeline-narrow{display:block}}
