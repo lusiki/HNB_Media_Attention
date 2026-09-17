@@ -4,6 +4,7 @@ from html.parser import HTMLParser
 import argparse, csv, json, hashlib, re, zipfile
 from urllib.parse import urlsplit,unquote
 from pypdf import PdfReader
+from charts import chart
 
 SITE=Path(__file__).resolve().parents[1]; DIST=SITE/'dist'
 parser=argparse.ArgumentParser(description=__doc__)
@@ -36,6 +37,12 @@ e=json.loads((DIST/'data/evidence.json').read_text(encoding='utf-8'))
 check('observation_fields_allowlisted',all(set(r)=={'period','gap','inflation','source','status'} for r in e['observations']))
 check('three_missing_months_are_null',[r['period'] for r in e['observations'] if r['gap'] is None]==['2024-01','2024-02','2024-03'])
 check('primary_cutoff',e['observations'][-1]['period']=='2026-05')
+for metric in ['gap','inflation']:
+    svg=chart(e['observations'],metric)
+    points=re.search(r'<polyline[^>]* points="([^"]+)"',svg).group(1).split()
+    check(metric+'_one_connected_line',svg.count('<polyline')==1)
+    check(metric+'_only_observed_points',len(points)==sum(r[metric] is not None for r in e['observations']))
+    check(metric+'_no_missing_period_shading','<rect' not in svg)
 with (DIST/'data/monthly-series.csv').open(encoding='utf-8-sig',newline='') as f:
     exported=list(csv.DictReader(f))
 check('csv_and_json_observation_count',len(exported)==len(e['observations']))
@@ -71,7 +78,7 @@ for name,count in [('hnb-attention-gap-paper.pdf',32),('hnb-attention-gap-brief.
     check(name+'_no_unresolved_tokens',not any(t in '\n'.join(pages) for t in ['Error!','Reference source not found','`r ','@@']))
     pdf_results[name]={'pages':len(pages),'selectable_text':True,'links':[str(a.get_object().get('/A',{}).get('/URI','')) for p in reader.pages for a in p.get('/Annots',[]) if a.get_object().get('/A',{}).get('/URI')]}
 check('paper_unchanged',hashlib.sha256((DIST/'downloads/hnb-attention-gap-paper.pdf').read_bytes()).hexdigest()=='00aa9a875226ee39d39049d975621a367aa7aa9adeea994e01d12c11469477d1')
-check('brief_has_companion_links',set(pdf_results['hnb-attention-gap-brief.pdf']['links'])=={'hnb-attention-gap-paper.pdf','../index.html'})
+check('brief_has_companion_links',set(pdf_results['hnb-attention-gap-brief.pdf']['links'])=={'https://lusiki.github.io/HNB_Media_Attention/downloads/hnb-attention-gap-paper.pdf','https://lusiki.github.io/HNB_Media_Attention/'})
 skipped=[]
 if research_root is not None:
     provenance=json.loads((SITE/'private/input-provenance.json').read_text(encoding='utf-8'))

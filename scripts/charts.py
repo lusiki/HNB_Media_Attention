@@ -1,4 +1,4 @@
-"""Pure SVG figures with explicit discontinuities and their own scales."""
+"""Pure SVG figures connecting available observations on their own scales."""
 from html import escape
 
 def chart(rows, metric, width=1120, height=210):
@@ -11,24 +11,15 @@ def chart(rows, metric, width=1120, height=210):
     x=lambda i:left+plotw*i/max(1,len(rows)-1)
     y=lambda v:top+(hi-v)/(hi-lo)*ploth
     s=[f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" aria-hidden="true">']
-    missing=[i for i,r in enumerate(rows) if r[metric] is None]
-    if missing:
-        a=max(left,x(min(missing)) - plotw/(len(rows)-1)/2); b=x(max(missing)) + plotw/(len(rows)-1)/2
-        s.append(f'<rect x="{a:.2f}" y="{top}" width="{b-a:.2f}" height="{ploth}" fill="#ffffff" opacity=".07"/>')
     for tick in ticks:
         yy=y(tick)
         s.append(f'<line x1="{left}" x2="{width-right}" y1="{yy:.2f}" y2="{yy:.2f}" stroke="#6c8393" opacity="{.8 if tick==0 else .3}" stroke-dasharray="{4 if tick==0 else 0}"/><text x="{left-12}" y="{yy+4:.2f}" fill="#cedbe5" text-anchor="end" font-size="12" font-family="Segoe UI,Arial">{tick}</text>')
-    paths=[]; points=[]; last=None
+    points=[]
     for i,r in enumerate(rows):
         if r[metric] is None:
-            if points: paths.append(points)
-            points=[];last=None;continue
-        if last and r['source']!=last:
-            if points: paths.append(points)
-            points=[]
-        points.append(f'{x(i):.2f},{y(r[metric]*factor):.2f}');last=r['source']
-    if points:paths.append(points)
-    for points in paths:s.append(f'<polyline fill="none" stroke="{color}" stroke-width="2.4" stroke-linejoin="round" points="{" ".join(points)}"/>')
+            continue
+        points.append(f'{x(i):.2f},{y(r[metric]*factor):.2f}')
+    s.append(f'<polyline fill="none" stroke="{color}" stroke-width="2.4" stroke-linejoin="round" points="{" ".join(points)}"/>')
     for i,r in enumerate(rows):
         if r['period']=='2024-04':
             xx=x(i)

@@ -16,10 +16,8 @@ plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.spines.top
 fig,axes=plt.subplots(2,1,figsize=(10.5,4.9),sharex=True,gridspec_kw={'hspace':.7})
 for ax,metric,color,title,unit in zip(axes,['gap','inflation'],['#165ce0','#b95a22'],['HNB attention gap','Inflation in Croatia'],['Percentage points relative to baseline','HICP · year-on-year, %']):
     values=np.array([np.nan if r[metric] is None else r[metric]*(100 if metric=='gap' else 1) for r in rows])
-    for source in ['original','new']:
-        selected=[i for i,r in enumerate(rows) if r['source']==source]
-        ax.plot([dates[i] for i in selected],values[selected],color=color,lw=1.7)
-    ax.axvspan(datetime(2024,1,1),datetime(2024,4,1),color='#e6ebef',zorder=-1)
+    selected=[i for i,r in enumerate(rows) if r[metric] is not None]
+    ax.plot([dates[i] for i in selected],values[selected],color=color,lw=1.7)
     ax.axvline(datetime(2024,4,1),color='#708797',ls='--',lw=.8)
     ax.axhline(0,color='#627789',ls='--',lw=.6)
     ax.grid(axis='y',color='#dce3e9',lw=.5);ax.tick_params(length=0,labelsize=9)

@@ -53,7 +53,7 @@ text(S['subtitle'],M,727,12,color=MUTED)
 text(escape(S['question']),M,694,18,font='Display',leading=24)
 text('The extended study separates relative institutional visibility from inflation itself. Its findings support monitoring media representation, while limiting claims about communication effects and public beliefs.',M,633,10.7)
 c.drawImage(str(SITE/'public/figures/brief-chart.png'),M,321,width=W,height=238,mask='auto')
-text('Figure: selected series from the draft’s Figure 1, January 2021-May 2026. Gap shown in percentage points; inflation on a separate scale. Missing media-text months in early 2024 are left blank. April 2024 changes the data source; levels across it are not harmonised.',M,314,8.7,color=MUTED,leading=11.5)
+text('Figure: selected series from the draft’s Figure 1, January 2021-May 2026. Gap shown in percentage points; inflation on a separate scale. Lines connect available observations. April 2024 changes the data source; levels across it are not harmonised.',M,314,8.7,color=MUTED,leading=11.5)
 y=251
 r=E['models'][0]
 y=text('<b>1. Higher inflation accompanies lower relative visibility.</b> A one percentage point higher HICP inflation rate is associated with a '+pp(r['estimate'])+' pp wider gap in the primary weekly model (95% CI '+pp(r['lo'])+' to '+pp(r['hi'])+'; N = '+str(int(r['N']))+'). This is conditional association; significance is sensitive to time controls.',M,y,10.2,leading=13.7)-11
@@ -77,7 +77,7 @@ text('AUTHORS & SOURCE',M,y,9,font='Body-Bold',color=BLUE);y-=22
 y=text('<b>Petra Palić and Luka Sikić</b> · Hrvatsko katoličko sveučilište.<br/>Both are named manuscript authors; individual roles and contact details are not supplied.',M,y,9.5)-8
 y=text(escape(S['citation']),M,y,9,leading=12)-7
 y=text('Sources: section 4.2 / Table 6; section 4.6; section 4.5 / Table 8 / Figure 5; Appendix A23. The Croatian manuscript is a provisional extended draft, not an HNB publication.',M,y,8.5,color=MUTED,leading=11)-8
-y=text('<link href="hnb-attention-gap-paper.pdf" color="'+BLUE+'">Read the full paper (companion PDF)</link>  ·  <link href="../index.html" color="'+BLUE+'">Research page (companion website)</link>',M,y,9,leading=12)
+y=text('<link href="https://lusiki.github.io/HNB_Media_Attention/downloads/hnb-attention-gap-paper.pdf" color="'+BLUE+'">Read the full paper (online PDF)</link>  ·  <link href="https://lusiki.github.io/HNB_Media_Attention/" color="'+BLUE+'">Research observatory (online)</link>',M,y,9,leading=12)
 c.save()
 (SITE/'public/downloads/citation.txt').write_text(S['citation']+'\n',encoding='utf-8')
 print(f'Created {OUT.name}; second-page content ends at {y:.1f} pt.')

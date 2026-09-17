@@ -100,6 +100,6 @@ node scripts/browser_qa.cjs
 
 ## Research scope
 
-The primary sample covers January 2021–May 2026, excluding unusable periods. The monthly display leaves January–March 2024 blank and marks the April 2024 source change. Later-source levels are not claimed to be harmonised with the earlier source. The gap is displayed as 100 times its stored share-unit value; inflation has its own axis. No smoothing or interpolated media observations are added.
+The primary sample covers January 2021–May 2026, excluding unusable periods. The monthly display connects available observations and marks the April 2024 source change. Later-source levels are not claimed to be harmonised with the earlier source. The gap is displayed as 100 times its stored share-unit value; inflation has its own axis. Connecting lines do not add observations to the data or analysis.
 
 Public findings were matched to saved outputs, not independently re-estimated for this website. Potential reach is not observed exposure or trust. The manuscript's causal limits, specification sensitivity, missing contact/contribution details and unresolved legacy discrepancy remain visible. This is a publication of one study, not an automated monitoring service.

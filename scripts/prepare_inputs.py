@@ -66,7 +66,7 @@ evidence = {
     'series_metadata':[
         {'id':'gap','label':'HNB attention gap','definition':'Fixed Jan–Jun 2021 mean weighted share (after baseline outlier exclusion) minus current weighted share',
          'canonical_units':'share units','display_units':'percentage points','display_multiplier':100,'time_basis':'calendar month of record date; publication timestamp not established',
-         'scope':'extended manuscript primary sample; original platform universe','missing_rule':'null for excluded months; no interpolation or bridging source boundary'},
+         'scope':'extended manuscript primary sample; original platform universe','missing_rule':'null for excluded months; display lines connect available observations without adding data values'},
         {'id':'inflation','label':'HICP inflation','definition':'Croatian all-items HICP, year-on-year rate','canonical_units':'percent','display_units':'percent','display_multiplier':1,
          'time_basis':'reference month','scope':'primary-sample months','missing_rule':'suppressed with excluded media months for aligned comparison; not a claim of missing HICP'}],
     'observations':observations, 'models':models, 'trend':trend, 'common_source_trend':common, 'expectations':lp,
@@ -103,7 +103,7 @@ save(SITE/'private/figure-register.json', [{
     'type':'faithful selected-series adaptation','source':str(ROOT/'results/data_quality_series.csv'),
     'producer':'analysis/10_data_quality.R; analysis/12_exhibits.R',
     'series':['IAG_primary','pi_t'],'transforms':{'IAG_primary':'multiply by 100 to express percentage points','pi_t':'unchanged'},
-    'sample':'2021-01 to 2026-05; S1 monthly','missing':'Jan–Mar 2024 null; paths break at missing months and April 2024 source boundary',
+    'sample':'2021-01 to 2026-05; S1 monthly','missing':'Jan–Mar 2024 null; display lines connect available observations without adding data values',
     'edition':'extended-2026-09-17','uncertainty':'descriptive observed series, no interval invented',
     'baseline':baseline['monthly'],'time_basis':'calendar record month; HICP reference month',
     'caption':'Selected series from Figure 1; primary sample only. Values before and after April 2024 are not harmonised.'}])

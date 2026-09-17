@@ -17,7 +17,7 @@
       "display_multiplier": 100,
       "time_basis": "calendar month of record date; publication timestamp not established",
       "scope": "extended manuscript primary sample; original platform universe",
-      "missing_rule": "null for excluded months; no interpolation or bridging source boundary"
+      "missing_rule": "null for excluded months; display lines connect available observations without adding data values"
     },
     {
       "id": "inflation",

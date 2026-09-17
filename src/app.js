@@ -10,13 +10,10 @@ function chart(rows,metric,width){
   const [lo,hi]=isGap?[-12.5,5]:[-.7,14.5],ticks=isGap?[-12,-8,-4,0,4]:[0,4,8,12];
   const color=isGap?'#9bc4ff':'#ffb17f',x=i=>left+pw*i/Math.max(1,rows.length-1),y=v=>top+(hi-v)/(hi-lo)*ph;
   let svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" aria-hidden="true">`;
-  const missing=rows.map((r,i)=>r[metric]===null?i:null).filter(i=>i!==null);
-  if(missing.length){const a=x(missing[0])-pw/(rows.length-1)/2,b=x(missing.at(-1))+pw/(rows.length-1)/2;svg+=`<rect x="${a}" y="${top}" width="${b-a}" height="${ph}" fill="white" opacity=".07"/>`;}
   ticks.forEach(t=>{svg+=`<line x1="${left}" x2="${width-right}" y1="${y(t)}" y2="${y(t)}" stroke="#6c8393" opacity="${t===0?.8:.3}" stroke-dasharray="${t===0?'4 4':'0'}"/><text x="${left-10}" y="${y(t)+4}" fill="#cedbe5" text-anchor="end" font-size="12" font-family="Segoe UI,Arial">${t}</text>`;});
-  let paths=[],points=[],lastSource=null;
-  rows.forEach((r,i)=>{if(r[metric]===null){if(points.length)paths.push(points);points=[];lastSource=null;return;}if(lastSource&&r.source!==lastSource){if(points.length)paths.push(points);points=[];}points.push(`${x(i)},${y(r[metric]*(isGap?100:1))}`);lastSource=r.source;});
-  if(points.length)paths.push(points);
-  paths.forEach(points=>svg+=`<polyline fill="none" stroke="${color}" stroke-width="2.4" stroke-linejoin="round" points="${points.join(' ')}"/>`);
+  const points=[];
+  rows.forEach((r,i)=>{if(r[metric]!==null)points.push(`${x(i)},${y(r[metric]*(isGap?100:1))}`);});
+  svg+=`<polyline fill="none" stroke="${color}" stroke-width="2.4" stroke-linejoin="round" points="${points.join(' ')}"/>`;
   const boundary=rows.findIndex(r=>r.period==='2024-04');
   if(boundary>=0){const xx=x(boundary),label=width<500?'Apr 2024 · new source':'Apr 2024 · source change';svg+=`<line x1="${xx}" x2="${xx}" y1="${top-4}" y2="${height-bottom}" stroke="#d5dfe6" stroke-dasharray="4 4" opacity=".7"/><text x="${Math.min(xx+8,width-150)}" y="21" fill="#d5dfe6" font-size="12" font-family="Segoe UI,Arial">${label}</text>`;}
   let indices=rows.map((r,i)=>r.period.endsWith('-01')?i:null).filter(i=>i!==null);

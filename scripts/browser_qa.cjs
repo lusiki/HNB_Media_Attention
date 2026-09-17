@@ -24,6 +24,11 @@ fs.mkdirSync(path.join(site,'qa'),{recursive:true});
  for(const width of [1440,768,360]){
    await page.setViewportSize({width,height:1000});
    await page.goto(baseUrl,{waitUntil:'networkidle'});
+   for(const metric of ['gap','inflation']){
+     const plotted=await page.locator(`#${metric}-chart polyline`).evaluateAll(lines=>lines.map(line=>line.points.numberOfItems));
+     if(plotted.length!==1||plotted[0]!==62)throw new Error(metric+' must connect the 62 observed months');
+     if(await page.locator(`#${metric}-chart rect`).count())throw new Error(metric+' contains missing-period shading');
+   }
    await page.screenshot({path:path.join(site,'qa',`site-${width}-top.png`)});
    await page.screenshot({path:path.join(site,'qa',`site-${width}-full.png`),fullPage:true});
    const overflow=await page.evaluate(()=>({document:document.documentElement.scrollWidth,viewport:window.innerWidth,
@@ -60,7 +65,26 @@ fs.mkdirSync(path.join(site,'qa'),{recursive:true});
  await page.keyboard.press('Enter');
  if(new URL(page.url()).hash!=='#main')throw new Error('Skip link failed');
  const links=await page.locator('a[href]').evaluateAll(els=>[...new Set(els.map(e=>e.getAttribute('href')))]);
- for(const href of links){if(href.startsWith('#'))continue;const response=await page.request.get(new URL(href,baseUrl).href.split('#')[0]);if(response.status()!==200)throw new Error('Broken link '+href);}
+ for(const href of links){
+   if(href.startsWith('#'))continue;
+   const response=await page.request.get(new URL(href,baseUrl).href.split('#')[0]);
+   if(response.status()!==200)throw new Error('Broken link '+href);
+   if(href.includes('.pdf')){
+     if(!response.headers()['content-type'].includes('application/pdf'))throw new Error('Wrong PDF content type '+href);
+     if((await response.body()).subarray(0,5).toString()!=='%PDF-')throw new Error('Invalid PDF response '+href);
+   }
+ }
+ const downloads=[];
+ for(const name of ['brief','paper']){
+   const filename=`hnb-attention-gap-${name}.pdf`;
+   const [download]=await Promise.all([page.waitForEvent('download'),page.locator(`a[download="${filename}"]`).click()]);
+   if(download.suggestedFilename()!==filename)throw new Error('Unexpected download filename');
+   const saved=path.join(site,'qa',filename);
+   await download.saveAs(saved);
+   if(await download.failure())throw new Error('PDF download failed');
+   if(!fs.readFileSync(saved).equals(fs.readFileSync(path.join(site,'public','downloads',filename))))throw new Error('Downloaded PDF differs from publication');
+   downloads.push(filename);
+ }
  const zoom=[];
  for(const width of [1440,360]){
    await page.setViewportSize({width,height:1000});
@@ -70,7 +94,7 @@ fs.mkdirSync(path.join(site,'qa'),{recursive:true});
    zoom.push(enlarged);
    await page.screenshot({path:path.join(site,'qa',`site-${width}-text-200.png`)});
  }
- const report={base_url:baseUrl,results,firstFocus,link_count:links.length,console_errors:errors,external_requests:requests.filter(u=>!u.startsWith(baseUrl)),font_enlargement:zoom};
+ const report={base_url:baseUrl,results,firstFocus,link_count:links.length,pdf_downloads:downloads,console_errors:errors,external_requests:requests.filter(u=>!u.startsWith(baseUrl)),font_enlargement:zoom};
  fs.writeFileSync(path.join(site,'qa/browser-checks.json'),JSON.stringify(report,null,2));
  if(errors.length)throw new Error(errors.join('\n'));
  console.log(JSON.stringify(report,null,2));
