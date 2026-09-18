@@ -1,5 +1,16 @@
 # Publication revisions
 
+## 18 September 2026 — governor-focused evidence revision
+
+- Replaced the pilot proposal and example story with findings and implications drawn from the archived paper; removed the pilot download and H/AG mark.
+- Rebuilt both two-page briefs with a conditional inflation comparison, time-control sensitivity, later-period trend, network centrality and expectations results.
+- Explained relevance, prominence, relative share and the gap in ordinary language.
+- Added a responsive chart of the 2% to 10% inflation comparison, with 95% intervals and bilingual downloadable figures.
+- Connected full-history lines through early 2024 and removed the visual source marker. Excluded months remain null; captions explain the connector and comparability limits.
+- Retained original monthly values, model estimates and the archived paper. Expanded verification of saved estimates and responsive behaviour.
+- The previous entry below records the superseded September 17 presentation. Its pilot and contact workflow is no longer active.
+
+
 ## 17 September 2026 — full timeline and chart readability
 
 - Restored January 2021–May 2026 as the opening chart in English, Croatian and both briefs.

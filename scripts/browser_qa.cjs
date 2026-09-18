@@ -44,11 +44,12 @@ let qaContext;
          const ys=points.map(p=>p[1]);
          return {height,min:svg.dataset.min,max:svg.dataset.max,count:points.length,segments:svg.querySelectorAll('polyline').length,inside:points.every(p=>p[0]>=38&&p[0]<=svg.viewBox.baseVal.width-20&&p[1]>=38&&p[1]<=height-34),span:(Math.max(...ys)-Math.min(...ys))/(height-72)};
        }));
-       if(charts.some(c=>!c.inside||c.height<300||c.span<.7||c.count!==(scope==='all'?62:26)||c.segments!==(scope==='all'?2:1)))throw new Error('Clipped, flattened or incomplete chart '+JSON.stringify(charts));
+       if(charts.some(c=>!c.inside||c.height<300||c.span<.7||c.count!==(scope==='all'?62:26)||c.segments!==1))throw new Error('Clipped, flattened or incomplete chart '+JSON.stringify(charts));
        if(scope==='new'&&(charts[1].min!=='2.5'||charts[1].max!=='5.5'||!(await page.locator('#chart-scope').innerText()).includes('does not start at zero')))throw new Error('Later inflation scale disclosure');
      }
    }
    await page.selectOption('#metric','share');
+   if(await page.locator('#pilot,.mark').count())throw new Error('Removed content remains');
    await page.selectOption('#window','new');
    await page.locator('.timeline').screenshot({path:path.join(site,'qa',`timeline-${width}-later.png`)});
    if(await page.locator('#period option').count()!==26)throw new Error('New-source period count');
@@ -60,7 +61,9 @@ let qaContext;
    if(!(await page.locator('#visibility-unit').innerText()).includes('less visible'))throw new Error('Gap direction label');
    await page.selectOption('#window','all');
    if(await page.locator('#period option').count()!==62)throw new Error('Full-sample period count');
-   if(!(await page.locator('#chart-scope').innerText()).includes('not harmonised'))throw new Error('Source boundary context');
+   if(!(await page.locator('.timeline figcaption').innerText()).includes('connector supplies no missing monthly estimates'))throw new Error('Connector disclosure');
+   if((await page.locator('#gap-chart').innerText()).includes('source break'))throw new Error('Source marker remains');
+   await page.screenshot({path:path.join(site,'qa',`site-${width}-connected.png`)});
    await page.selectOption('#period','2023-03');
    if(await page.locator('.selected-month[data-period="2023-03"]').count()!==2)throw new Error('Full-history marker failed');
    await page.selectOption('#metric','share');
@@ -80,6 +83,10 @@ let qaContext;
    if(new URL(page.url()).hash!=='#paper')throw new Error('Navigation failed');
    await page.locator('#paper').scrollIntoViewIfNeeded();
    await page.screenshot({path:path.join(site,'qa',`site-${width}-paper.png`)});
+   await page.locator('#implications').scrollIntoViewIfNeeded();
+   await page.screenshot({path:path.join(site,'qa',`site-${width}-implications.png`)});
+   await page.locator('.scenario-figure').scrollIntoViewIfNeeded();
+   await page.screenshot({path:path.join(site,'qa',`site-${width}-scenario.png`)});
    results.push({width,overflow,period_count:62,new_source_period_count:26,model_switch:estimate,details:true,anchor_navigation:true});
  }
  await page.setViewportSize({width:1440,height:1000});await page.goto(baseUrl);
@@ -106,6 +113,8 @@ let qaContext;
    if(await page.locator('html').getAttribute('lang')!=='hr')throw new Error('Croatian language');
    if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw new Error('Croatian overflow');
    await page.screenshot({path:path.join(site,'qa',`hr-${width}-full.png`),fullPage:true});
+   await page.locator('#znacenje .scenario-figure').scrollIntoViewIfNeeded();
+   await page.screenshot({path:path.join(site,'qa',`hr-${width}-scenario.png`)});
    await page.locator('a[href="index.html#expectations-evidence"]').click();
    if(!await page.locator('.lp-list').isVisible())throw new Error('Cross-language deep link');
  }
@@ -119,6 +128,10 @@ let qaContext;
    await page.screenshot({path:path.join(site,'qa',`site-${width}-text-200.png`)});
  }
  const report={base_url:baseUrl,pdf_downloads:downloads,results,firstFocus,link_count:links.length,console_errors:errors,external_requests:requests.filter(u=>!u.startsWith(baseUrl)),font_enlargement:zoom};
+ const fallbackContext=await context.browser().newContext({javaScriptEnabled:false,viewport:{width:1440,height:1000}});
+ const fallback=await fallbackContext.newPage();await fallback.goto(baseUrl);
+ if(await fallback.locator('#gap-chart .timeline-wide polyline').count()!==1||await fallback.locator('.scenario-chart svg').count()!==1)throw new Error('Static figures missing without JavaScript');
+ await fallbackContext.close();report.static_fallback=true;
  fs.writeFileSync(path.join(site,'qa/browser-checks.json'),JSON.stringify(report,null,2));
  if(errors.length)throw new Error(errors.join('\n'));
  console.log(JSON.stringify(report,null,2));

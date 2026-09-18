@@ -4,14 +4,14 @@ from datetime import date
 from html import escape
 from urllib.parse import quote
 import json, shutil, hashlib, zipfile
-from charts import chart, model_svg, sensitivity_svg, CHART_SCALES
+from charts import chart, model_svg, sensitivity_svg, CHART_SCALES, scenario_svg
 from readers import build_readers
 
 SITE=Path(__file__).resolve().parents[1]
 STUDY=json.loads((SITE/'content/study.json').read_text(encoding='utf-8'))
 E=json.loads((SITE/'public/data/evidence.json').read_text(encoding='utf-8'))
 DIST=SITE/'dist'; DIST.mkdir(exist_ok=True)
-assets=['downloads/hnb-attention-gap-paper.pdf','downloads/hnb-attention-gap-brief.pdf','downloads/hnb-attention-gap-brief-hr.pdf','downloads/pilot-outline.txt','downloads/citation.txt','figures/attention-gap.png','figures/visibility-full.png','figures/visibility-full-hr.png','figures/visibility-later.png','figures/visibility-later-hr.png','data/evidence.json','data/monthly-series.csv']
+assets=['downloads/hnb-attention-gap-paper.pdf','downloads/hnb-attention-gap-brief.pdf','downloads/hnb-attention-gap-brief-hr.pdf','downloads/citation.txt','figures/attention-gap.png','figures/inflation-scenario.png','figures/inflation-scenario-hr.png','figures/visibility-full.png','figures/visibility-full-hr.png','figures/visibility-later.png','figures/visibility-later-hr.png','data/evidence.json','data/monthly-series.csv']
 for name in assets:
     src=SITE/'public'/name
     if not src.is_file():raise FileNotFoundError(f'Required asset missing: {name}')
@@ -21,12 +21,6 @@ def pp(v,k=2):return fmt(v*100,k)
 def hr(v,k=2):return pp(v,k).replace('.',',')
 def share(r):return pp(E['baseline']['monthly']-r['gap'])
 def pvalue(v):return '< 0.001' if v<.001 else '= '+fmt(v,3)
-def contact(language):
-    c=STUDY.get('contact')
-    if not c:return ''
-    label='Discuss an applied research pilot' if language=='en' else 'Razgovarajmo o primijenjenom istraživanju'
-    return f'<a class="button" href="mailto:{quote(c,safe="@.")}?subject=HNB%20media%20research%20pilot">{label} ↗</a>'
-
 primary=E['models'][0];last=E['observations'][-1];later=[r for r in E['observations'] if r['period']>='2024-04']
 targets=['inflation-evidence','trend-evidence','expectations-evidence']
 stats=[(pp(primary['estimate']),'pp wider gap per +1 pp inflation<br>95% CI '+pp(primary['lo'])+' to '+pp(primary['hi'])),(pp(E['trend']['estimate'],3),'pp per month in the later collection period<br>95% CI '+pp(E['trend']['lo'],3)+' to '+pp(E['trend']['hi'],3)),('Survey timing matters','Results depend on monthly-to-weekly<br>assignment and the selected controls')]
@@ -45,10 +39,14 @@ def responsive_chart(metric,lang='en'):
     return svg.replace('Apr 2024 · source change','04/2024 · novi izvor') if lang=='hr' else svg
 
 values={
+ 'SCENARIO_SVG':scenario_svg(E['time_sensitivity']),'SCENARIO_SVG_HR':scenario_svg(E['time_sensitivity'],hr=True),
+ 'SCENARIO':pp(primary['estimate']*8),'SCENARIO_CI':pp(primary['lo']*8)+' to '+pp(primary['hi']*8),
+ 'SCENARIO_HR':hr(primary['estimate']*8),'SCENARIO_CI_HR':hr(primary['lo']*8)+'–'+hr(primary['hi']*8),
+ 'CENTRALITY':fmt(E['centrality_trend']['estimate'],4),'CENTRALITY_CI':fmt(E['centrality_trend']['lo'],4)+' to '+fmt(E['centrality_trend']['hi'],4),'CENTRALITY_P':fmt(E['centrality_trend']['p'],3),
+ 'CENTRALITY_HR':fmt(E['centrality_trend']['estimate'],4).replace('.',','),'CENTRALITY_CI_HR':fmt(E['centrality_trend']['lo'],4).replace('.',',')+' do '+fmt(E['centrality_trend']['hi'],4).replace('.',','),'CENTRALITY_P_HR':fmt(E['centrality_trend']['p'],3).replace('.',','),
  'QUESTION':escape(STUDY['question']),'ANSWER':escape(STUDY['answer']),
  'PAPER_TITLE':escape(STUDY['paper_title']),'PAPER_SUBTITLE':escape(STUDY['paper_subtitle']),
  'CITATION':escape(STUDY['citation']),'BUILD_DATE':date.today().isoformat(),
- 'CONTACT_EN':contact('en'),'CONTACT_HR':contact('hr'),
  'PRIMARY_HR':hr(primary['estimate']),'PRIMARY_CI_HR':hr(primary['lo'])+'–'+hr(primary['hi']),
  'TREND_HR':hr(E['trend']['estimate'],3),'TREND_CI_HR':hr(E['trend']['lo'],3)+'–'+hr(E['trend']['hi'],3),
  'CHART_SCALES':json.dumps(CHART_SCALES),

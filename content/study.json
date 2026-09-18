@@ -22,27 +22,27 @@
   "doi": null,
   "contributions": "Both researchers are named as authors in the manuscript. Individual contribution roles are not specified.",
   "question": "How visible is the central bank when inflation dominates the news?",
-  "answer": "Higher inflation accompanies lower relative institutional visibility in the primary models. Within April 2024–May 2026, visibility also declines after accounting for inflation. These findings identify questions for closer communication analysis; they do not measure public understanding or the effect of HNB policy.",
+  "answer": "More news about inflation does not necessarily mean more visibility for HNB. The paper finds a smaller relative institutional share at higher inflation, and a declining share within April 2024–May 2026 even after accounting for inflation. For HNB, this identifies media representation as a separate part of communication to assess alongside what the bank publishes.",
   "findings": [
     {
       "id": "F1",
-      "headline": "Higher inflation accompanies lower visibility",
-      "text": "In the primary weekly model, a one percentage point increase in HICP inflation is associated with a wider attention gap, after accounting for the model’s controls.",
+      "headline": "Inflation attracts attention; HNB may receive a smaller share",
+      "text": "The primary weekly model associates 1 percentage point higher HICP inflation with a 0.21 percentage-point wider gap. It compares relative coverage after accounting for inflation changes, media volume and the other controls.",
       "caveat": "This is an association. Statistical significance does not survive every time-control specification.",
       "locator": "Section 4.2 · Table 6 · equations 8 and 9b",
       "paper_anchor": "tbl-primary",
       "verification": "matched_to_output",
-      "implication": "A question for HNB: does institutional coverage keep pace with the wider inflation debate?"
+      "implication": "For HNB: the size of the inflation debate and the bank’s share of it answer different questions."
     },
     {
       "id": "F2",
-      "headline": "Visibility declines within the later period",
+      "headline": "Lower inflation does not guarantee a visibility recovery",
       "text": "From April 2024 to May 2026, the gap rises within the newer data source after controlling for inflation and other regressors. A positive trend also appears when the analysis keeps only common sources.",
       "caveat": "Changing coverage within sources remains possible. This does not establish hysteresis or a causal effect of disinflation.",
       "locator": "Section 4.6 · within-source trend · page 13",
       "paper_anchor": "uvođenje-eura-novi-režim-i-dezinflacija",
       "verification": "matched_to_output",
-      "implication": "A next step: investigate changing coverage, institutional attribution and the uptake of specific explanations."
+      "implication": "For HNB: assess the coverage of monetary explanations even after the initial inflation surge has passed."
     },
     {
       "id": "F3",
@@ -52,7 +52,7 @@
       "locator": "Section 4.5 · Table 8 · Figure 5",
       "paper_anchor": "tbl-lp",
       "verification": "matched_to_output",
-      "implication": "A research priority: measure audience exposure and understanding separately from media representation."
+      "implication": "For HNB: read media visibility alongside survey evidence; one cannot substitute for the other."
     }
   ]
 }

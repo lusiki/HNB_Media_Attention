@@ -14,14 +14,9 @@ function chart(rows,metric,width,selected){
   const x=i=>left+pw*i/Math.max(1,rows.length-1),y=v=>top+(hi-v)/(hi-lo)*ph;
   const value=r=>metric==='share'?share(r):r[metric]*(metric==='gap'?100:1);
   let svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" data-min="${lo}" data-max="${hi}" aria-hidden="true">`;
-  const missing=rows.map((r,i)=>r.gap===null?i:null).filter(i=>i!==null);
-  if(missing.length){const a=x(missing[0])-pw/(rows.length-1)/2,b=x(missing.at(-1))+pw/(rows.length-1)/2;svg+=`<rect x="${a}" y="${top}" width="${b-a}" height="${ph}" fill="white" opacity=".07"/>`;}
   ticks.forEach(t=>{svg+=`<line x1="${left}" x2="${width-right}" y1="${y(t)}" y2="${y(t)}" stroke="#6c8393" opacity="${t===0?.8:.3}" stroke-dasharray="${t===0?'4 4':'0'}"/><text x="${left-10}" y="${y(t)+4}" fill="#cedbe5" text-anchor="end" font-size="12" font-family="Segoe UI,Arial">${t}</text>`;});
-  let paths=[],points=[],lastSource=null;
-  rows.forEach((r,i)=>{if(r.gap===null){if(points.length)paths.push(points);points=[];lastSource=null;return;}if(lastSource&&r.source!==lastSource){if(points.length)paths.push(points);points=[];}points.push(`${x(i)},${y(value(r))}`);lastSource=r.source;});
-  if(points.length)paths.push(points);
-  paths.forEach(points=>svg+=`<polyline fill="none" stroke="${color}" stroke-width="2.4" stroke-linejoin="round" points="${points.join(' ')}"/>`);
-  if(!later){const i=rows.findIndex(r=>r.period==='2024-04');if(i>=0)svg+=`<line x1="${x(i)}" x2="${x(i)}" y1="${top}" y2="${height-bottom}" stroke="#d5dfe6" stroke-dasharray="4 4"/><text x="${Math.min(x(i)+8,width-153)}" y="20" fill="#d5dfe6" font-size="12" font-family="Segoe UI,Arial">Apr 2024 · source break</text>`;}
+  const points=rows.flatMap((r,i)=>r.gap===null?[]:[`${x(i)},${y(value(r))}`]);
+  svg+=`<polyline class="observed-series" fill="none" stroke="${color}" stroke-width="2.4" stroke-linejoin="round" points="${points.join(' ')}"/>`;
   const selectedIndex=rows.findIndex(r=>r.period===selected&&r.gap!==null);
   if(selectedIndex>=0){const r=rows[selectedIndex],xx=x(selectedIndex);svg+=`<g class="selected-month" data-period="${r.period}"><line x1="${xx}" x2="${xx}" y1="${top}" y2="${height-bottom}" stroke="white" opacity=".6" stroke-dasharray="2 3"/><circle cx="${xx}" cy="${y(value(r))}" r="4.5" fill="${color}" stroke="#112838" stroke-width="2"/></g>`;}
   let indices=[0,...rows.map((r,i)=>r.period.endsWith('-01')&&i>3&&i<rows.length-5?i:null).filter(i=>i!==null),rows.length-1];
@@ -37,7 +32,7 @@ function drawCharts(){
   byId('visibility-unit').textContent=metric==='share'?'Weighted share (%) · higher means more visible':'Percentage points · higher means less visible';
   byId('gap-chart').setAttribute('aria-label',`${metric==='share'?'Weighted institutional share, higher means more visibility':'Attention gap, higher means less visibility'}. ${later?'April 2024 to May 2026':'January 2021 to May 2026, excluding January to March 2024; levels across April 2024 are not harmonised'}. Selected month ${selected}.`);
   const scale=chartScales[later?'new':'all'],range=`${scale[metric][0]} to ${scale[metric][1]} ${metric==='share'?'%':'pp'}`,inflationRange=`${scale.inflation[0]} to ${scale.inflation[1]}%`;
-  byId('chart-scope').textContent=(later?'April 2024–May 2026. Same collection phase; coverage composition may still vary.':'January 2021–May 2026. Two collection phases; levels across April 2024 are not harmonised.')+` Vertical axes fit the selected period: ${metric==='share'?'share':'gap'} ${range}; inflation ${inflationRange}. `+(later?'The inflation axis does not start at zero. ':'')+(metric==='gap'?'Zero is a historical reference, not a target.':'');
+  byId('chart-scope').textContent=(later?'April 2024–May 2026. Same collection phase; coverage composition may still vary.':'January 2021–May 2026. Lines connect available observations; the note below explains early 2024.')+` Vertical axes fit the selected period: ${metric==='share'?'share':'gap'} ${range}; inflation ${inflationRange}. `+(later?'The inflation axis does not start at zero. ':'')+(metric==='gap'?'Zero is a historical reference, not a target.':'');
   const r=evidence.observations.find(r=>r.period===selected);
   byId('period-values').textContent=`${r.period} · share ${fixed(share(r))}% · gap ${pp(r.gap)} pp · inflation ${fixed(r.inflation,1)}%`;
 }

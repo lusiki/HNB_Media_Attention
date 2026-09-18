@@ -17,7 +17,7 @@
       "display_multiplier": 100,
       "time_basis": "calendar month of record date; publication timestamp not established",
       "scope": "extended manuscript primary sample; original platform universe",
-      "missing_rule": "null for excluded months; no interpolation or bridging source boundary"
+      "missing_rule": "null for excluded months; display connects available observations without creating estimates"
     },
     {
       "id": "inflation",
@@ -677,5 +677,13 @@
       "N": 268.0
     }
   ],
-  "source_note": "Saved results underlying the 17 September 2026 extended manuscript. Selected values were matched, not re-estimated for this publication."
+  "source_note": "Saved results underlying the 17 September 2026 extended manuscript. Selected values were matched, not re-estimated for this publication.",
+  "centrality_trend": {
+    "estimate": -0.00508653631129087,
+    "se": 0.00370676190665571,
+    "lo": -0.0128741540989097,
+    "hi": 0.002701081476328,
+    "p": 0.186851202931706,
+    "N": 25.0
+  }
 }

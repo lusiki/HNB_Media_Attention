@@ -1,4 +1,4 @@
-"""Pure SVG figures with explicit discontinuities and their own scales."""
+"""SVG figures connecting available observations, with separate scales. Missing values stay null."""
 from html import escape
 
 # Shared by the interactive chart, no-JavaScript SVG and printed figures.
@@ -10,6 +10,20 @@ CHART_SCALES = {
             'inflation': [2.5,5.5,[2.5,3,3.5,4,4.5,5,5.5]]},
 }
 
+def scenario_svg(rows, hr=False):
+    rows=[r for r in rows if r['frequency']=='weekly']
+    names=['Primarni model','Uz trendove razdoblja','Uz godišnje učinke'] if hr else ['Primary model','With period trends','With year effects']
+    x=lambda v:28+(v+.65)/4.3*374
+    n=lambda v:f'{v:.2f}'.replace('.',',' if hr else '.')
+    s=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 365" aria-hidden="true">']
+    for tick in [0,1,2,3]:
+        s.append(f'<line x1="{x(tick)}" x2="{x(tick)}" y1="40" y2="299" stroke="{"#6b7c88" if tick==0 else "#dce3e9"}" stroke-dasharray="3 3"/><text x="{x(tick)}" y="325" text-anchor="middle" font-family="Arial" font-size="16" fill="#4f6470">{tick}</text>')
+    for i,r in enumerate(rows):
+        y=60+i*94;b,lo,hi=[r[k]*800 for k in ['estimate','lo','hi']]
+        s.append(f'<text x="28" y="{y-34}" font-family="Arial" font-size="16" font-weight="bold" fill="#112838">{names[i]}</text><line x1="{x(lo)}" x2="{x(hi)}" y1="{y}" y2="{y}" stroke="#165ce0" stroke-width="4"/><circle cx="{x(b)}" cy="{y}" r="5" fill="#165ce0"/><text x="28" y="{y+28}" font-family="Arial" font-size="15" fill="#4f6470">{n(b)} ({n(lo)} {"do" if hr else "to"} {n(hi)})</text>')
+    s.append('<text x="215" y="355" text-anchor="middle" font-family="Arial" font-size="16" fill="#4f6470">'+('Razlika jaza (postotni bodovi)' if hr else 'Gap difference (percentage points)')+'</text></svg>')
+    return ''.join(s)
+
 def chart(rows, metric, width=1120, height=350, baseline=0):
     left, right, top, bottom = 42, 15, 36, 33
     plotw, ploth = width-left-right, height-top-bottom
@@ -20,28 +34,11 @@ def chart(rows, metric, width=1120, height=350, baseline=0):
     x=lambda i:left+plotw*i/max(1,len(rows)-1)
     y=lambda v:top+(hi-v)/(hi-lo)*ploth
     s=[f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" aria-hidden="true">']
-    missing=[i for i,r in enumerate(rows) if r['gap'] is None]
-    if missing:
-        a=max(left,x(min(missing)) - plotw/(len(rows)-1)/2); b=x(max(missing)) + plotw/(len(rows)-1)/2
-        s.append(f'<rect x="{a:.2f}" y="{top}" width="{b-a:.2f}" height="{ploth}" fill="#ffffff" opacity=".07"/>')
     for tick in ticks:
         yy=y(tick)
         s.append(f'<line x1="{left}" x2="{width-right}" y1="{yy:.2f}" y2="{yy:.2f}" stroke="#6c8393" opacity="{.8 if tick==0 else .3}" stroke-dasharray="{4 if tick==0 else 0}"/><text x="{left-12}" y="{yy+4:.2f}" fill="#cedbe5" text-anchor="end" font-size="12" font-family="Segoe UI,Arial">{tick}</text>')
-    paths=[]; points=[]; last=None
-    for i,r in enumerate(rows):
-        if r['gap'] is None:
-            if points: paths.append(points)
-            points=[];last=None;continue
-        if last and r['source']!=last:
-            if points: paths.append(points)
-            points=[]
-        points.append(f'{x(i):.2f},{y(value(r)):.2f}');last=r['source']
-    if points:paths.append(points)
-    for points in paths:s.append(f'<polyline fill="none" stroke="{color}" stroke-width="2.4" stroke-linejoin="round" points="{" ".join(points)}"/>')
-    for i,r in enumerate(rows):
-        if r['period']=='2024-04' and not later:
-            xx=x(i)
-            s.append(f'<line x1="{xx:.2f}" x2="{xx:.2f}" y1="{top-4}" y2="{height-bottom}" stroke="#d5dfe6" stroke-dasharray="4 4" opacity=".7"/><text x="{min(xx+8,width-145):.2f}" y="21" fill="#d5dfe6" font-size="12" font-family="Segoe UI,Arial">Apr 2024 · source change</text>')
+    points=[f'{x(i):.2f},{y(value(r)):.2f}' for i,r in enumerate(rows) if r['gap'] is not None]
+    s.append(f'<polyline class="observed-series" fill="none" stroke="{color}" stroke-width="2.4" stroke-linejoin="round" points="{" ".join(points)}"/>')
     indices=[0]+[i for i,r in enumerate(rows) if r['period'].endswith('-01') and 3<i<len(rows)-5]+[len(rows)-1]
     if width<500:indices=[0,len(rows)//2 if later else 24,len(rows)-1]
     for i in indices:

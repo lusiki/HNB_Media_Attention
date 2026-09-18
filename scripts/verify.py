@@ -29,6 +29,9 @@ for document in DIST.rglob('*.html'):
     label=document.relative_to(DIST).as_posix()
     check(label+'_all_template_fields_expanded','@@' not in html)
     check(label+'_unique_html_ids',len(p.ids)==len(set(p.ids)))
+    if document.name in ['index.html','hr.html']:
+        check(label+'_removed_pilot_and_logo',not re.search(r'pilot|H<span> / </span>AG|communication-path',html,re.I))
+        check(label+'_scenario_present','scenario-figure' in html)
     for ref in p.refs:
         u=urlsplit(ref)
         if u.scheme or u.netloc:continue
@@ -50,10 +53,11 @@ e=json.loads((DIST/'data/evidence.json').read_text(encoding='utf-8'))
 check('observation_fields_allowlisted',all(set(r)=={'period','gap','inflation','source','status'} for r in e['observations']))
 check('three_missing_months_are_null',[r['period'] for r in e['observations'] if r['gap'] is None]==['2024-01','2024-02','2024-03'])
 check('primary_cutoff',e['observations'][-1]['period']=='2026-05')
-for metric in ['gap','inflation']:
-    svg=chart(e['observations'],metric)
+for metric in ['share','gap','inflation']:
+    svg=chart(e['observations'],metric,baseline=e['baseline']['monthly'])
     segments=re.findall(r'<polyline[^>]* points="([^"]+)"',svg)
-    check(metric+'_source_and_missing_breaks',len(segments)==2)
+    check(metric+'_continuous_observed_line',len(segments)==1)
+    check(metric+'_no_source_marker','source change' not in svg and '<rect' not in svg)
     check(metric+'_only_observed_points',sum(len(segment.split()) for segment in segments)==62)
 with (DIST/'data/monthly-series.csv').open(encoding='utf-8-sig',newline='') as f:
     exported=list(csv.DictReader(f))
@@ -67,12 +71,38 @@ if research_root is not None:
     with (research_root/'results/data_quality_series.csv').open(encoding='utf-8-sig',newline='') as f:
         source={r['date'][:7]:r for r in csv.DictReader(f) if r['frequency']=='monthly'}
     check('all_included_monthly_values_match_saved_outputs',all(r['gap'] is None or (r['gap']==float(source[r['period']]['IAG_primary']) and r['inflation']==float(source[r['period']]['pi_t'])) for r in e['observations']))
+if research_root is not None:
+    def saved(name):
+        with (research_root/'results'/name).open(encoding='utf-8-sig',newline='') as f:return list(csv.DictReader(f))
+    def exact(row,source):return all(row[k]==float(source[k]) for k in ['estimate','se','lo','hi','p','N'])
+    for r in e['models']:
+        src=next(s for s in saved('primary_coefficients.csv') if s['frequency']==r['frequency'] and s['spec']==r['specification'] and s['sample']=='S1' and s['outcome']=='IAG_primary' and s['term']=='pi_t')
+        check('model_matches_'+r['frequency']+'_'+r['specification'],exact(r,src))
+    for r in e['time_sensitivity']:
+        src=next(s for s in saved('regimes_common_slope_sensitivity.csv') if s['frequency']==r['frequency'] and s['adjustment']==r['adjustment'])
+        check('time_controls_match_'+r['frequency']+'_'+r['adjustment'],exact(r,src))
+    for key,file,outcome in [('trend','regimes_trend.csv','IAG_primary'),('common_source_trend','regimes_common_network.csv','IAG_common')]:
+        src=next(s for s in saved(file) if s['frequency']=='monthly' and s['sample']=='S3' and s['outcome']==outcome)
+        check(key+'_matches',exact(e[key],src))
+    for r,outcome in zip(e['expectations'],['exp_linear','exp_step','exp_balance']):
+        rows=[s for s in saved('expectations_irf.csv') if s['sample']=='S1' and s['frequency']==r['frequency'] and s['outcome']==outcome and s['exposure']=='IAG_ext' and s['specification']=='continuity' and int(s['horizon'])>0]
+        check('expectations_match_'+outcome,r['significant_horizons']==[int(s['horizon']) for s in rows if float(s['p_bonf'])<.05] and len(rows)==12)
 for scope,metrics in CHART_SCALES.items():
     for metric,(lo,hi,ticks) in metrics.items():
         values=[100*(e['baseline']['monthly']-r['gap']) if metric=='share' else r[metric]*(100 if metric=='gap' else 1) for r in e['observations'] if r['gap'] is not None and (scope=='all' or r['source']=='new')]
         check(scope+'_'+metric+'_axis_contains_every_point',all(lo<=v<=hi for v in values))
         check(scope+'_'+metric+'_variation_uses_plot_height',(max(values)-min(values))/(hi-lo)>.7)
 check('sensitivity_axis_contains_every_interval',all(-.1<=r['lo']*100<=r['hi']*100<=.5 for r in e['time_sensitivity']))
+
+if research_root is not None:
+    with (research_root/'results/regimes_common_network.csv').open(encoding='utf-8-sig',newline='') as f:
+        network=next(r for r in csv.DictReader(f) if r['sample']=='S3' and r['frequency']=='monthly' and r['outcome']=='C_EV_common')
+    check('centrality_estimate_and_uncertainty_match',all(e['centrality_trend'][k]==float(network[k]) for k in e['centrality_trend']))
+    with (research_root/'results/primary_magnitude.csv').open(encoding='utf-8-sig',newline='') as f:
+        magnitude=next(r for r in csv.DictReader(f) if r['sample']=='S1' and r['frequency']=='weekly')
+    check('scenario_matches_paper_magnitude',abs(e['models'][0]['estimate']*8-float(magnitude['delta_8pp']))<1e-14)
+    for r in e['time_sensitivity']:
+        check('scenario_interval_'+r['frequency']+'_'+r['adjustment'],-.65<r['lo']*800<r['hi']*800<3.65)
 
 manifest=json.loads((SITE/'qa/build-manifest.json').read_text(encoding='utf-8'))['files']
 check('public_files_exactly_allowlisted',set(manifest)=={str(p.relative_to(DIST)).replace('\\','/') for p in DIST.rglob('*') if p.is_file()})
@@ -96,9 +126,12 @@ for name,count in [('hnb-attention-gap-paper.pdf',32),('hnb-attention-gap-brief.
 check('paper_unchanged',hashlib.sha256((DIST/'downloads/hnb-attention-gap-paper.pdf').read_bytes()).hexdigest()=='00aa9a875226ee39d39049d975621a367aa7aa9adeea994e01d12c11469477d1')
 for lang in ['en','hr']:
     name='hnb-attention-gap-brief'+('-hr' if lang=='hr' else '')+'.pdf'
-    check(lang+'_brief_has_companion_links',set(pdf_results[name]['links'])=={'https://lusiki.github.io/HNB_Media_Attention/read/paper.html','https://lusiki.github.io/HNB_Media_Attention/'+('hr.html' if lang=='hr' else 'index.html'),'https://lusiki.github.io/HNB_Media_Attention/downloads/pilot-outline.txt'})
+    check(lang+'_brief_has_companion_links',set(pdf_results[name]['links'])=={'https://lusiki.github.io/HNB_Media_Attention/read/paper.html','https://lusiki.github.io/HNB_Media_Attention/'+('hr.html' if lang=='hr' else 'index.html')})
     body='\n'.join(p.extract_text() for p in PdfReader(DIST/'downloads'/name).pages)
     check(lang+'_trend_has_monthly_unit',('pb mjesečno' if lang=='hr' else 'pp per month') in body)
+    check(lang+'_brief_no_pilot','pilot' not in body.lower())
+    check(lang+'_brief_scenario',('1,68' if lang=='hr' else '1.68') in body)
+    check(lang+'_brief_centrality',('centralnost' if lang=='hr' else 'centrality') in body.lower())
 skipped=[]
 if research_root is not None:
     provenance=json.loads((SITE/'content/research-input-hashes.json').read_text(encoding='utf-8'))

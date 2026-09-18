@@ -66,9 +66,10 @@ evidence = {
     'series_metadata':[
         {'id':'gap','label':'HNB attention gap','definition':'Fixed Jan–Jun 2021 mean weighted share (after baseline outlier exclusion) minus current weighted share',
          'canonical_units':'share units','display_units':'percentage points','display_multiplier':100,'time_basis':'calendar month of record date; publication timestamp not established',
-         'scope':'extended manuscript primary sample; original platform universe','missing_rule':'null for excluded months; no interpolation or bridging source boundary'},
+         'scope':'extended manuscript primary sample; original platform universe','missing_rule':'null for excluded months; display connects available observations without creating estimates'},
         {'id':'inflation','label':'HICP inflation','definition':'Croatian all-items HICP, year-on-year rate','canonical_units':'percent','display_units':'percent','display_multiplier':1,
          'time_basis':'reference month','scope':'primary-sample months','missing_rule':'suppressed with excluded media months for aligned comparison; not a claim of missing HICP'}],
+    'centrality_trend':estimate(select(read('regimes_common_network.csv'), sample='S3', frequency='monthly', outcome='C_EV_common')[0]),
     'observations':observations, 'models':models, 'trend':trend, 'common_source_trend':common, 'expectations':lp,
     'coverage':[{k:(int(r[k]) if k in ['eligible','complete_baseline','segments'] else r[k]) for k in ['frequency','sample','eligible','complete_baseline','start','end','segments']}
                 for r in read('samples_coverage.csv') if r['sample'] in ['S1','S3']],
@@ -104,7 +105,7 @@ save(SITE/'private/figure-register.json', [{
     'type':'faithful selected-series adaptation','source':str(ROOT/'results/data_quality_series.csv'),
     'producer':'analysis/10_data_quality.R; analysis/12_exhibits.R',
     'series':['IAG_primary','pi_t'],'transforms':{'IAG_primary':'multiply by 100 to express percentage points','pi_t':'unchanged'},
-    'sample':'2021-01 to 2026-05; S1 monthly','missing':'Jan–Mar 2024 null; paths break at missing months and April 2024 source boundary',
+    'sample':'2021-01 to 2026-05; S1 monthly','missing':'Jan–Mar 2024 null; a display connector joins available points without creating observations; caption explains collection change',
     'edition':'extended-2026-09-17','uncertainty':'descriptive observed series, no interval invented',
     'baseline':baseline['monthly'],'time_basis':'calendar record month; HICP reference month',
     'caption':'Selected series from Figure 1; primary sample only. Values before and after April 2024 are not harmonised.'}, {
