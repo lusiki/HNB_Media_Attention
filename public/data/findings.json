@@ -1,0 +1,112 @@
+{
+  "version": "2026-09-19.2",
+  "findings": [
+    {
+      "id": "F1",
+      "model": "Primary weekly model, equation 9b",
+      "measure": "Weighted institutional visibility",
+      "sample": "S1 · January 2021–May 2026",
+      "reference": "Section 4.2 · Table 6 · Appendix A23",
+      "finding": "Higher inflation is associated with lower weighted visibility in the primary weekly model; time-control sensitivity qualifies the association.",
+      "finding_hr": "U primarnom tjednom modelu viša inflacija povezana je s nižom ponderiranom vidljivošću; osjetljivost na vremenske kontrole ograničava zaključak.",
+      "checks": [
+        "9b",
+        "9a",
+        "trend",
+        "year",
+        "common",
+        "winsor"
+      ],
+      "model_hr": "Primarni tjedni model, jednadžba 9b",
+      "measure_hr": "Ponderirana institucionalna vidljivost",
+      "sample_hr": "S1 · siječanj 2021. – svibanj 2026.",
+      "reference_hr": "Odjeljak 4.2 · tablica 6 · dodatak A23",
+      "data_version": "extended-2026-09-17",
+      "method_version": "extended-manuscript-2026-09-17",
+      "presentation_version": "2026-09-19.2",
+      "verification": "Matched to saved outputs",
+      "author_review": "pending"
+    },
+    {
+      "id": "F2",
+      "model": "Controlled monthly trend",
+      "measure": "Weighted institutional visibility",
+      "sample": "S3 · April 2024–May 2026",
+      "reference": "Section 4.6 · common-source comparison",
+      "finding": "Weighted visibility declines within April 2024–May 2026 in the primary and common-source monthly trend models.",
+      "finding_hr": "Od travnja 2024. do svibnja 2026. ponderirana vidljivost pada u mjesečnim modelima primarnog uzorka i zajedničkih izvora.",
+      "checks": [
+        "primary",
+        "common"
+      ],
+      "model_hr": "Mjesečni trend uz kontrole",
+      "measure_hr": "Ponderirana institucionalna vidljivost",
+      "sample_hr": "S3 · travanj 2024. – svibanj 2026.",
+      "reference_hr": "Odjeljak 4.6 · usporedba zajedničkih izvora",
+      "data_version": "extended-2026-09-17",
+      "method_version": "extended-manuscript-2026-09-17",
+      "presentation_version": "2026-09-19.2",
+      "verification": "Matched to saved outputs",
+      "author_review": "pending"
+    },
+    {
+      "id": "F3",
+      "model": "Forward projections; article-share exposure; continuity controls",
+      "measure": "Consumer expectations survey balance",
+      "sample": "S1 · January 2021–May 2026",
+      "reference": "Section 4.5 · Table 8 · Appendix A12",
+      "finding": "A stable predictive relationship with consumer expectations is not established; survey assignment and model controls affect the results.",
+      "finding_hr": "Stabilna prediktivna veza s potrošačkim očekivanjima nije utvrđena; vremensko pridruživanje ankete i kontrole mijenjaju rezultate.",
+      "checks": [
+        "linear",
+        "step",
+        "monthly"
+      ],
+      "model_hr": "Projekcije budućih ishoda; udio objava; osnovne kontrole",
+      "measure_hr": "Saldo ankete potrošačkih očekivanja",
+      "sample_hr": "S1 · siječanj 2021. – svibanj 2026.",
+      "reference_hr": "Odjeljak 4.5 · tablica 8 · dodatak A12",
+      "data_version": "extended-2026-09-17",
+      "method_version": "extended-manuscript-2026-09-17",
+      "presentation_version": "2026-09-19.2",
+      "verification": "Matched to saved outputs",
+      "author_review": "pending"
+    },
+    {
+      "id": "F4",
+      "model": "Common-source monthly network trend",
+      "measure": "Normalised eigenvector centrality",
+      "sample": "S3 · April 2024–May 2026",
+      "reference": "Section 4.7 · Appendix B2",
+      "finding": "The common-source monthly centrality interval includes zero; a lasting decline in network position is not established.",
+      "finding_hr": "Interval mjesečnog trenda centralnosti zajedničkih izvora obuhvaća nulu; trajni pad mrežnog položaja nije utvrđen.",
+      "checks": [
+        "common",
+        "reconstructed"
+      ],
+      "model_hr": "Mjesečni trend mreže zajedničkih izvora",
+      "measure_hr": "Normalizirana centralnost svojstvenog vektora",
+      "sample_hr": "S3 · travanj 2024. – svibanj 2026.",
+      "reference_hr": "Odjeljak 4.7 · dodatak B2",
+      "data_version": "extended-2026-09-17",
+      "method_version": "extended-manuscript-2026-09-17",
+      "presentation_version": "2026-09-19.2",
+      "verification": "Matched to saved outputs",
+      "author_review": "pending"
+    }
+  ],
+  "revisions": [
+    {
+      "version": "2026-09-19.2",
+      "type": "editorial",
+      "date": "2026-09-19",
+      "description": "Context-preserving inspection, predefined sensitivity comparisons and diagnostics from existing scored records. Published research estimates unchanged."
+    },
+    {
+      "version": "2026-09-19.1",
+      "type": "editorial",
+      "date": "2026-09-19",
+      "description": "Evidence overview, worked examples, URL selections and selected-view exports. Published research estimates unchanged."
+    }
+  ]
+}

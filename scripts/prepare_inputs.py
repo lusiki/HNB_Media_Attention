@@ -3,12 +3,10 @@ from pathlib import Path
 import argparse, csv, json, hashlib, shutil
 
 SITE = Path(__file__).resolve().parents[1]
-parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--research-root', required=True, type=Path,
-                    help='Local extended research folder containing results/ and paper/. Never uploaded.')
-ROOT = parser.parse_args().research_root.resolve()
-if not (ROOT/'results').is_dir() or not (ROOT/'paper/PAPER_EXT.qmd').is_file():
-    parser.error('The selected research folder must contain results/ and paper/PAPER_EXT.qmd.')
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--research-root',required=True,type=Path)
+ROOT=parser.parse_args().research_root.resolve()
+if not (ROOT/'results').is_dir():parser.error('Research root must contain saved results/.')
 INPUTS = ['primary_coefficients.csv', 'primary_magnitude.csv', 'samples_coverage.csv',
           'regimes_trend.csv', 'regimes_common_network.csv',
           'regimes_common_slope_sensitivity.csv', 'expectations_irf.csv', 'data_quality_series.csv']
@@ -76,15 +74,18 @@ evidence = {
     'time_sensitivity':[{**{'frequency':r['frequency'],'adjustment':r['adjustment']},**estimate(r)} for r in read('regimes_common_slope_sensitivity.csv')],
     'source_note':'Saved results underlying the 17 September 2026 extended manuscript. Selected values were matched, not re-estimated for this publication.'
 }
+evidence['observations']=[{k:r[k] for k in ['period','gap','inflation']} for r in observations if r['gap'] is not None]
+evidence.pop('coverage',None)
+for metadata in evidence['series_metadata']:metadata.pop('missing_rule',None)
 save(SITE/'public/data/evidence.json', evidence)
 with (SITE/'public/data/monthly-series.csv').open('w', encoding='utf-8', newline='') as f:
-    writer=csv.DictWriter(f, fieldnames=['period','gap','inflation','source','status']); writer.writeheader(); writer.writerows(observations)
+    writer=csv.DictWriter(f, fieldnames=['period','gap','inflation']); writer.writeheader(); writer.writerows(evidence['observations'])
 inputs={name:hashlib.sha256((ROOT/'results'/name).read_bytes()).hexdigest() for name in INPUTS}
 save(SITE/'content/research-input-hashes.json', {'inputs':inputs})
 paper=ROOT/'results/qa/PAPER_EXT.pdf'
 assert hashlib.sha256(paper.read_bytes()).hexdigest() == '00aa9a875226ee39d39049d975621a367aa7aa9adeea994e01d12c11469477d1'
 (SITE/'public/downloads').mkdir(parents=True,exist_ok=True)
-shutil.copyfile(paper, SITE/'public/downloads/hnb-attention-gap-paper.pdf')
+# The archived manuscript remains in the research checkout.
 save(SITE/'private/input-provenance.json', {'source_commit':'76d9b66','inputs':inputs,'paper_source':str(paper), 'paper_sha256':hashlib.sha256(paper.read_bytes()).hexdigest()})
 register=[]
 study=json.loads((SITE/'content/study.json').read_text(encoding='utf-8'))

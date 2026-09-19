@@ -1,37 +1,31 @@
-"""SVG figures connecting available observations, with separate scales. Missing values stay null."""
+"""SVG figures from saved monthly observations, with separate scales."""
 from html import escape
-
-# Shared by the interactive chart, no-JavaScript SVG and printed figures.
-# Every observed value is retained. The later inflation axis intentionally omits zero.
-CHART_SCALES = {
-    'all': {'share': [0,16,[0,4,8,12,16]], 'gap': [-12,4,[-12,-8,-4,0,4]],
-            'inflation': [0,14,[0,2,4,6,8,10,12,14]]},
-    'new': {'share': [0,5,[0,1,2,3,4,5]], 'gap': [-1,4,[-1,0,1,2,3,4]],
-            'inflation': [2.5,5.5,[2.5,3,3.5,4,4.5,5,5.5]]},
-}
 
 def scenario_svg(rows, hr=False):
     rows=[r for r in rows if r['frequency']=='weekly']
     names=['Primarni model','Uz trendove razdoblja','Uz godišnje učinke'] if hr else ['Primary model','With period trends','With year effects']
-    x=lambda v:28+(v+.65)/4.3*374
+    x=lambda v:28+(v+3.65)/4.3*374
     n=lambda v:f'{v:.2f}'.replace('.',',' if hr else '.')
     s=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 365" aria-hidden="true">']
-    for tick in [0,1,2,3]:
+    for tick in [-3,-2,-1,0]:
         s.append(f'<line x1="{x(tick)}" x2="{x(tick)}" y1="40" y2="299" stroke="{"#6b7c88" if tick==0 else "#dce3e9"}" stroke-dasharray="3 3"/><text x="{x(tick)}" y="325" text-anchor="middle" font-family="Arial" font-size="16" fill="#4f6470">{tick}</text>')
     for i,r in enumerate(rows):
-        y=60+i*94;b,lo,hi=[r[k]*800 for k in ['estimate','lo','hi']]
+        y=60+i*94;b,lo,hi=[-r[k]*800 for k in ['estimate','hi','lo']]
         s.append(f'<text x="28" y="{y-34}" font-family="Arial" font-size="16" font-weight="bold" fill="#112838">{names[i]}</text><line x1="{x(lo)}" x2="{x(hi)}" y1="{y}" y2="{y}" stroke="#165ce0" stroke-width="4"/><circle cx="{x(b)}" cy="{y}" r="5" fill="#165ce0"/><text x="28" y="{y+28}" font-family="Arial" font-size="15" fill="#4f6470">{n(b)} ({n(lo)} {"do" if hr else "to"} {n(hi)})</text>')
-    s.append('<text x="215" y="355" text-anchor="middle" font-family="Arial" font-size="16" fill="#4f6470">'+('Razlika jaza (postotni bodovi)' if hr else 'Gap difference (percentage points)')+'</text></svg>')
+    s.append('<text x="215" y="355" text-anchor="middle" font-family="Arial" font-size="16" fill="#4f6470">'+('Promjena udjela (postotni bodovi)' if hr else 'Weighted-share change (percentage points)')+'</text></svg>')
     return ''.join(s)
 
-def chart(rows, metric, width=1120, height=350, baseline=0):
+def chart(rows, metric, width=1120, height=210, baseline=0):
     left, right, top, bottom = 42, 15, 36, 33
     plotw, ploth = width-left-right, height-top-bottom
     gap=metric=='gap'; share=metric=='share'; later=len(rows)<35
-    lo,hi,ticks=CHART_SCALES['new' if later else 'all'][metric]
+    ticks=([0,2,4,6] if later else [0,6,12,18]) if share else ([-12,-8,-4,0,4] if gap else [0,4,8,12])
+    lo,hi=((0,6) if later else (0,18)) if share else ((-12.5,5) if gap else (-.7,14.5))
     color='#9bc4ff' if gap or share else '#ffb17f'
     value=lambda r:100*(baseline-r['gap']) if share else r[metric]*(100 if gap else 1)
-    x=lambda i:left+plotw*i/max(1,len(rows)-1)
+    ordinal=lambda p:int(p[:4])*12+int(p[5:7])
+    start,end=ordinal(rows[0]['period']),ordinal(rows[-1]['period'])
+    x=lambda i:left+plotw*(ordinal(rows[i]['period'])-start)/max(1,end-start)
     y=lambda v:top+(hi-v)/(hi-lo)*ploth
     s=[f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" aria-hidden="true">']
     for tick in ticks:
@@ -39,12 +33,15 @@ def chart(rows, metric, width=1120, height=350, baseline=0):
         s.append(f'<line x1="{left}" x2="{width-right}" y1="{yy:.2f}" y2="{yy:.2f}" stroke="#6c8393" opacity="{.8 if tick==0 else .3}" stroke-dasharray="{4 if tick==0 else 0}"/><text x="{left-12}" y="{yy+4:.2f}" fill="#cedbe5" text-anchor="end" font-size="12" font-family="Segoe UI,Arial">{tick}</text>')
     points=[f'{x(i):.2f},{y(value(r)):.2f}' for i,r in enumerate(rows) if r['gap'] is not None]
     s.append(f'<polyline class="observed-series" fill="none" stroke="{color}" stroke-width="2.4" stroke-linejoin="round" points="{" ".join(points)}"/>')
-    indices=[0]+[i for i,r in enumerate(rows) if r['period'].endswith('-01') and 3<i<len(rows)-5]+[len(rows)-1]
-    if width<500:indices=[0,len(rows)//2 if later else 24,len(rows)-1]
-    for i in indices:
-        label=rows[i]['period'] if later or i in [0,len(rows)-1] else rows[i]['period'][:4]
-        anchor='start' if i==0 else 'end' if i==len(rows)-1 else 'middle'
-        s.append(f'<text x="{x(i):.2f}" y="{height-9}" fill="#cedbe5" text-anchor="{anchor}" font-size="12" font-family="Segoe UI,Arial">{escape(label)}</text>')
+    if later:
+        indices=[0]+[i for i,r in enumerate(rows) if r['period'].endswith('-01') and i>3]+[len(rows)-1]
+        if width<500:indices=[0,len(rows)//2,len(rows)-1]
+        labels=[(rows[i]['period'],x(i)) for i in indices]
+    else:
+        labels=[(str(year),left+plotw*(ordinal(f'{year}-01')-start)/max(1,end-start)) for year in range(int(rows[0]['period'][:4]),int(rows[-1]['period'][:4])+1)]
+    for label,position in labels:
+        position=min(max(position,43),width-35)
+        s.append(f'<text x="{position:.2f}" y="{height-9}" fill="#cedbe5" text-anchor="middle" font-size="12" font-family="Segoe UI,Arial">{escape(label)}</text>')
     s.append('</svg>');return ''.join(s)
 
 def model_svg(row):
@@ -54,7 +51,7 @@ def model_svg(row):
 
 def sensitivity_svg(rows, narrow=False):
     x=(lambda v:25+(v*100+.1)/.6*290) if narrow else (lambda v:165+(v*100+.1)/.6*285)
-    names={'none':'Primary','trend':'Segment trends','year':'Year effects'}
+    names={'none':'Primary','trend':'Period trends','year':'Year effects'}
     s=['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+('340 450' if narrow else '480 310')+'" aria-hidden="true">']
     for tick in [-.1,0,.1,.2,.3,.4,.5]:
         xx=x(tick/100)

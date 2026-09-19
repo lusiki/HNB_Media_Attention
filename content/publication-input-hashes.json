@@ -1,0 +1,25 @@
+{
+  "version": "2026-09-19.2",
+  "text_line_endings": "LF",
+  "files": {
+    "data/evidence.json": "fb015c3759312f555b127e313d9b3ec61ceafdd4f8b33fce92a067123e672fdd",
+    "data/findings.json": "5cd5e8f5794a4917f2b76861ac1cf445f61a9802e6520129d35f4f97f845d80d",
+    "data/inspection.json": "1af31135afa45ebcbd33633eee5ed4590d663a6d7ead989c81f6030b86ab3f3f",
+    "data/monthly-series.csv": "16978b01a03b5570b046efdb2acb58e1560a775d605701b049b336e97766f4ed",
+    "downloads/citation.txt": "4ef5c72d40c8ae4bbb46fa3f4e64f5c68e8007368df9d3063e447cd0512faf7b",
+    "downloads/hnb-attention-gap-brief-hr.pdf": "23036967dd33f1e328ce5ba78fcfbef2e237497c8f4deda73c9035e48b0436cc",
+    "downloads/hnb-attention-gap-brief.pdf": "619fc204f847216585061826e32a373d4488941c4ab5bace6461fd09b19c1086",
+    "figures/attention-gap.png": "7b48f297801e43de8d64ff6f83e117795d3994aa98e000d51e1ff2a49e85b8d5",
+    "figures/inflation-scenario-hr.png": "33f7c06165993592960f041d0f8d3c8d6c814c9bbf12397aaea66f8e55e02df9",
+    "figures/inflation-scenario.png": "ec937d29804de4541fe8bbce53c95ed65286c0c0e70eeabf6efdf413fee557c1",
+    "figures/social-preview.png": "2125c0e55ed40f970c3937b7c961f5370d1d279df23d7e201b5ecf3b0e693469",
+    "figures/visibility-later-hr.png": "79ef9a0bb34a0b868cf8eaa1f68819da990a46c6c37d471baf9c2487a0f01464",
+    "figures/visibility-later.png": "a0dd147f3fb41197226d3108136a16cb4ef61eda7a15ec7173f0497deb6bb18a",
+    "read/brief/page-01.webp": "4937cb288605c79cf8b93e03fa48bfde3d4c937ca8ad0dda302060908565cb83",
+    "read/brief/page-02.webp": "0ecabcab0d9858b17a6a0cfa07cd6341f06ed942019c71393f3ab25a06c68a9c",
+    "read/brief/pages.json": "00694259f59c7f247fba80e31d7771ab4494c3edfdb62f6dc008eb4eabd69da1",
+    "read/brief-hr/page-01.webp": "37f9c174257f22bf4a5c4b027f3704a2c199eae869cde7fa5a4b36b56b09202d",
+    "read/brief-hr/page-02.webp": "9afa8872ff602fca8376a8eb9345bbc46bce3cde4d022b0629498367763c6285",
+    "read/brief-hr/pages.json": "d0ad28dadc3f2b7286f9354dcf7fc7a94ac9003e4ae53133f64505ce57bf35c5"
+  }
+}

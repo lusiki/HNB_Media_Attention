@@ -12,7 +12,7 @@ from pypdf import PdfReader
 SITE = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--pdftoppm', default=shutil.which('pdftoppm'), help='Path to the Poppler pdftoppm executable')
-parser.add_argument('--documents', nargs='+', choices=['brief','brief-hr','paper'], default=['brief','brief-hr','paper'])
+parser.add_argument('--documents', nargs='+', choices=['brief','brief-hr'], default=['brief','brief-hr'])
 args = parser.parse_args()
 if not args.pdftoppm:
     parser.error('Install Poppler or supply --pdftoppm PATH')

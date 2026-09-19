@@ -1,116 +1,88 @@
-# HNB Media Attention
+# HNB in Croatia's inflation debate
 
-A static research observatory presenting **HNB in Croatia’s inflation debate**, based on the extended Croatian research draft by Petra Palić and Luka Sikić, dated 17 September 2026.
+Bilingual static research publication based on the extended manuscript by Petra Palić and Luka Sikić, dated **17 September 2026**. Presentation version: **2026-09-19.2**. Author review is pending.
 
-- **Observatory:** https://lusiki.github.io/HNB_Media_Attention/
-- **Repository:** https://github.com/lusiki/HNB_Media_Attention
-- **Deployment:** [Build and deploy observatory](https://github.com/lusiki/HNB_Media_Attention/actions/workflows/pages.yml)
+This is the canonical publication checkout. [Live site](https://lusiki.github.io/HNB_Media_Attention/) · [Repository](https://github.com/lusiki/HNB_Media_Attention) · [Deployment workflow](https://github.com/lusiki/HNB_Media_Attention/actions/workflows/pages.yml).
 
-The page includes three qualified findings, an interactive view of the selected monthly aggregates, model comparisons, methods, authors, two-page English and Croatian briefs, a Croatian executive page, a clear measurement guide, the paper’s conditional inflation comparison and implications for the governor and the unchanged 32-page Croatian paper. The manuscript remains labelled **research draft; author review pending**. Hosting it does not establish peer review, HNB endorsement or resolution of the legacy replication discrepancy.
+Pushes to `main` build, verify and deploy through GitHub Actions. Pull requests run checks without deployment. Only the generated `dist` artifact is published. Ordinary builds use committed publication inputs and the Python standard library; verification additionally requires `requirements-checks.txt`. Neither requires the original research workspace.
 
-The **Read** links open on-site readers with rendered document pages and selectable page text. They work without a browser PDF viewer or JavaScript. Separate **Download PDF** links retain the original PDFs. The paper reader also supports direct page links, such as `read/paper.html#page-28`.
-
-## Local preview
-
-Run these commands from this repository:
+## Build and preview
 
 ```powershell
 python scripts/build.py
-python -m http.server 8765 --bind 127.0.0.1 --directory dist
+python -m http.server 8766 --bind 127.0.0.1 --directory dist
 ```
 
-Open http://127.0.0.1:8765/. Stop the server with Ctrl+C. Serve only `dist`, which is the allowlisted public output. The build uses Python 3.12 or later and its standard library; it works from this checkout alone without R, a database, the original research folder or private files.
+Serve only `dist`. English: http://127.0.0.1:8766/; Croatian: http://127.0.0.1:8766/hr.html. Both pages provide the interactive explorer and static chart/table fallbacks. The brief links open on-site readers with rendered pages and selectable text; each reader also offers the original PDF download. The build produces 25 allowlisted files and `hnb-attention-gap-publication.zip`. A local build does not deploy anything.
 
-## Future changes and publishing
+For production, set `SITE_URL` to the HTTPS directory URL before building. This gives Open Graph metadata absolute image and page URLs. Otherwise metadata uses a relative image for local previews. The 1200 × 630 preview is generated from the saved primary estimate.
 
-This checkout's `origin` is `lusiki/HNB_Media_Attention`, and its `main` branch tracks `origin/main`. Changes pushed to `main` automatically build, verify and deploy the site through GitHub Actions. Pull requests run checks without deploying. The workflow can also be run manually from the Actions tab.
+## Reading paths
 
-1. Before editing, run `git pull --ff-only` to obtain changes made elsewhere.
-2. Edit the source files described below. Update the brief too when changing its claims.
-3. Build, check and inspect the local page.
-4. Review, commit and push the intended changes:
+The opening overview links to four research questions. The main chart follows immediately; the indicator guide, worked examples, concise findings and practical investigation agenda follow it. Detailed estimates, methods, research status and downloads provide the longer reading path. Sticky contents marks the active section.
 
-```powershell
-python -m pip install -r requirements-checks.txt
-python scripts/build.py
-python scripts/verify.py
-git status
-git diff
-git add src content public scripts README.md .github requirements-authoring.txt requirements-checks.txt .gitignore .gitattributes
-git commit -m "Describe the observatory update"
-git push
-```
+Weighted visibility is the main narrative measure. The attention gap remains available in the chart and technical estimates. The baseline is a historical reference. All empirical values come from saved research outputs; hypothetical examples use the manuscript's actual salience formula.
 
-Wait for the deployment workflow to succeed before expecting the online page to reflect the update. GitHub Pages is configured to use **GitHub Actions**; only the generated `dist` artifact is deployed. The workflow follows [GitHub's documented Pages workflow](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages), with official actions pinned to commit IDs.
+Both languages use the same interactive controller. Four question lenses configure visibility, source-composition, inflation and public-understanding views. Nine indicator concepts use consistent dialogs with meaning, construction, scope, interpretation, limitations and evidence. Closing restores chart position and focus.
 
-## Files to edit
+The comparison desk separates selected level, descriptive endpoint movement and evidence for the named finding. It compares primary/common-source series and predefined saved model checks: F1 inflation association, F2 controlled trends, F3 survey assignments and F4 network trends. Units and explicit evidence-label criteria accompany results; they do not grade policy performance.
 
-| Location | Purpose |
-| --- | --- |
-| `content/study.json` | Study metadata, authors, publication status, findings and source locators |
-| `src/index.html`, `src/hr.html` | English evidence page and Croatian executive page |
-| `src/styles.css` | Responsive design |
-| `src/app.js` | Chart and model controls |
-| `public/data/evidence.json` | Canonical selected aggregate observations and model results |
-| `public/data/monthly-series.csv` | Downloadable aggregate series, checked against the JSON |
-| `public/downloads/` | Paper, two-page brief and citation |
-| `public/figures/` | Figure download and chart input for the brief |
-| `scripts/build.py` | Static build and publication package |
-| `scripts/make_brief.py` | Editable two-page brief source |
-| `scripts/make_figures.py` | Static figure source |
-| `scripts/make_readers.py` | Regenerates browser-readable pages from the PDFs using Poppler |
-| `src/reader.html`, `src/reader.css` | On-site document reader layout |
-| `public/read/` | Committed page images and PDF hash/text manifests |
-| `scripts/verify.py` | Publication, PDF and data-contract checks |
+Media context distinguishes potential reach, exposure, attention and understanding. Concentration summaries cover the largest five source contributions, largest ten item contributions, weighted-numerator HHI and counts. Domain tables start alphabetically and offer named numerical sorts. Fixed records F1–F4 connect claims to models, samples, manuscript locations, sensitivity checks and versioned citations.
 
-`dist/`, `qa/`, `.runtime/`, private notes, raw research stores and generated ZIPs are ignored by Git. No private engagement note or raw media records are included in this repository. The source research project remains separate and unchanged.
+## Interactions and public files
 
-## Regenerate publication assets
+- Query parameters `window`, `metric`, `period`, `sample`, `frequency`, `specification`, `lens`, `from`, `to`, `finding`, `mode`, `inspect` and `sort` preserve selections. Language is recorded in shared links. Invalid values fall back to valid defaults.
+- Copy controls, Back/Forward and language switches preserve context. Reset restores full history, weighted share, May 2026 and the primary weekly model.
+- Selected-view SVGs contain scope, units, selected month, source definition, model context and versions. Period CSVs retain full precision and the selected measure. Separate downloads cover model comparisons and domain contributions. Fixed-scope downloads remain available.
+- Interval bounds use extra precision near zero; interpretations use original values, never rounded display values.
+- The month panel shows values, edition, transformation and evidence links. Source and item diagnostics use reconciled aggregates from existing scored records.
+- `evidence.json` retains its original `period`, `gap`, `inflation` observations. `inspection.json` adds the two source definitions, indicator catalog, aggregate diagnostics and selected comparisons; `findings.json` contains fixed records and revisions. Calendar coordinates preserve actual month spacing. No values are fabricated.
+- The English and Croatian briefs are two pages each. The original manuscript is retained in the ignored local research archive, outside the public bundle. Citation and methodological references remain on the pages.
+- The research-status panel explains review, saved-output reproduction, the earlier coefficient discrepancy, code availability, reuse and version history. Author profiles and a correction email are linked.
 
-Ordinary website builds deploy the committed PDFs and figures unchanged. For deliberate figure/brief revisions, install the optional authoring requirements and run:
+`public/` supplies publication assets. `private/`, `qa/`, `.runtime/`, research inputs and working documentation are not served or bundled. The previous Desktop version is retained in `private/before-2026-09-19-sync/`. Saved inputs for this release are in `private/research-inputs/`, and derived source summaries are in `private/inspection-aggregates/`. These local records are not committed. The second round leaves the two briefs unchanged.
+
+## Editing and regeneration
+
+Edit `src/index.html`, `src/hr.html`, `src/styles.css`, `src/app.js`, `src/charts.js`, shared components in `scripts/inspection_components.py` and `content/study.json`. Keep languages and briefs consistent when changing claims. The standard-library build embeds prepared values, saved estimates and static charts.
 
 ```powershell
-python -m pip install -r requirements-authoring.txt
-python scripts/make_figures.py
-python scripts/make_brief.py
-python scripts/make_readers.py --pdftoppm "PATH_TO_PDFTOPPM"
 python scripts/build.py
 python scripts/verify.py
-```
-
-On Windows the brief uses installed Arial and Georgia. `OBS_FONT_DIR` can select another folder containing those fonts; Linux can use DejaVu Sans/Serif. Fonts can change pagination, so **render and inspect both pages of each brief after regenerating the brief**, and commit the revised PDF with its source. Automatic deployment checks page count, selectable text, companion links and file integrity; it does not substitute for visual review of new PDFs.
-
-Install Poppler for reader authoring, or pass its `pdftoppm` executable using the option above. If it is on `PATH`, the option can be omitted. Regenerate and commit `public/read/` whenever any PDF changes. The build rejects readers whose saved PDF hashes no longer match. Ordinary builds and GitHub deployments use the committed pages and do not require Poppler or image libraries.
-
-The paper PDF is checked against its selected edition's SHA-256. Replacing it requires reviewing its provenance and deliberately updating the edition metadata and the checks in `prepare_inputs.py` and `verify.py`.
-
-## Optional refresh from the original research project
-
-This operation is separate from building or publishing. It reads only saved aggregate outputs and the selected PDF, never a research database. Supply the research folder explicitly:
-
-```powershell
-python scripts/prepare_inputs.py --research-root "PATH_TO_EXTENDED_DATASET"
-python scripts/build.py
-python scripts/verify.py --research-root "PATH_TO_EXTENDED_DATASET"
-```
-
-It creates provenance and claim/figure registers under ignored `private/`. Do not add those files to GitHub. Without `--research-root`, verification runs entirely from this checkout and clearly reports that upstream comparisons were not rerun. After changing research inputs, regenerate and review all affected figures, claims and briefing content before committing. The current extraction rules intentionally describe the September 2026 edition; they do not automatically adopt newer data.
-
-## Optional browser checks
-
-With Playwright installed (`npm install --no-save --package-lock=false playwright`, then `npx playwright install chromium`), start the local server and run:
-
-```powershell
+python scripts/verify_inspection.py
+node --check src/app.js
+node --check src/charts.js
 node scripts/browser_qa.cjs
+node scripts/inspection_qa.cjs
 node scripts/reader_qa.cjs
 ```
 
-`BASE_URL` selects a different preview or the deployed site, including its repository prefix. `BROWSER_EXECUTABLE` optionally selects an installed browser; `PLAYWRIGHT_MODULE` optionally selects an existing Playwright installation. These are local environment settings, not credentials. Screenshots and reports go to ignored `qa/`.
+Figures need matplotlib; briefs need reportlab and the Windows Arial/Georgia fonts named in the script; verification needs pypdf. Install `requirements-authoring.txt` for optional figure/brief regeneration. `OBS_FONT_DIR` selects compatible fonts; Linux can use DejaVu. After deliberate PDF revisions, render and visually inspect both pages, then regenerate the reader assets using `python scripts/make_readers.py --pdftoppm PATH_TO_PDFTOPPM`. Ordinary builds validate and reuse these committed reader assets.
 
-## Research scope
+Run `python scripts/prepare_inputs.py --research-root PATH_TO_SAVED_RESEARCH` only for an intentional research refresh. It reads saved outputs, not raw databases, enforces the archived manuscript hash, and applies the public export scope. Research inputs are checked against `content/research-input-hashes.json`.
 
-The primary sample covers January 2021–May 2026, excluding unusable periods. The monthly display defaults to the full January 2021–May 2026 weighted institutional share. Taller panels and period-specific vertical scales show variation without excluding extreme values; the optional April 2024–May 2026 inflation view uses a clearly labelled 2.5–5.5% axis. The full-history view connects available observations through early 2024 without a source marker. Missing months remain null; the caption explains the connector and the collection change. Later-source levels are not claimed to be harmonised with the earlier source. The gap is displayed as 100 times its stored share-unit value; inflation has its own axis. Selected-month markers align the two panels. The six time-control comparisons display saved coefficient intervals; they do not represent new estimation.
+To intentionally regenerate inspection diagnostics, run `Rscript scripts/aggregate_inspection.R . PATH_TO_SCORED_RDS` (requires `data.table`), then `python scripts/prepare_inspection.py --research-root PATH_TO_SAVED_RESEARCH` and rebuild. The R script writes private monthly/domain/channel summaries without fitting models. Python reconciles weighted numerators and relevant-item counts with the saved monthly panels. The common-source set has 258 labels and restricts both numerator and denominator. The diagnostic HHI describes the institutional weighted numerator, distinct from the broader source-reach regression control. Hashes are recorded in `content/inspection-input-hashes.json`; provenance is documented in `content/inspection-evidence.md`.
 
-Public findings were matched to saved outputs, not independently re-estimated for this website. Potential reach is not observed exposure or trust. The manuscript's causal limits, specification sensitivity, missing contact/contribution details and unresolved legacy discrepancy remain visible. This is a publication of one study, not an automated monitoring service.
+## Publishing
 
-The two-page briefs explain the inflation comparison, later visibility, network centrality and expectations. The pilot offer, example story and H/AG mark have been removed. `content/editorial-evidence.md` maps the claims to the paper and saved estimates. The unchanged manuscript remains the archived edition.
+Start with `git pull --ff-only`. After editing, build and run the checks above, inspect the page, review `git diff`, commit the intended source/assets, and push `main`. Wait for the Pages workflow to succeed. Private research inputs, backups, screenshots, generated ZIPs and local tooling remain ignored by Git.
+
+## Verification
+
+`verify.py` checks source values, transformations, chart ranges, HTML anchors, public scope, PDF text and links, exact bundle/ZIP contents and research hashes. `browser_qa.cjs` uses an isolated headless Chrome context, the local preview server and Playwright from the Codex runtime. Set `BASE_URL` to check another preview or the deployed repository path. `PLAYWRIGHT_MODULE` selects an installed Playwright module; `BROWSER_EXECUTABLE` selects the browser. The reader suite uses these same settings. Browser tests require a running preview.
+
+Outside the Codex runtime, install Playwright with `npm install --no-save --package-lock=false playwright` and `npx playwright install chromium`. Use `PLAYWRIGHT_MODULE=playwright` to select that installation. These optional browser tools are not needed by the static build or deployment.
+
+`verify_inspection.py` checks both series, numerator/denominator arithmetic, counts, concentration, domain contributions, all 20 saved coefficient comparisons, chart bounds, metadata and embedded data. `inspection_qa.cjs` adds modal focus/return position, cross-language context, every comparison family, source ordering, citations and browser history checks.
+
+Browser checks cover 360/768/1440 px, 200% text enlargement, keyboard navigation, disclosures, active contents, URL restore/reset, copied links, actual SVG/CSV downloads, bilingual deep links, static fallbacks, asset links, console errors and external requests. Tables scroll inside their containers. This is targeted QA, not accessibility certification or new econometric replication.
+
+
+Standalone checks validate committed input fingerprints in `content/publication-input-hashes.json`, numerical contracts, reader/PDF consistency and bundle contents. When intentionally updating an input, update its SHA-256 entry after reviewing provenance and affected results; JSON, CSV and TXT hashes normalise CRLF to LF so Windows and Linux agree. For upstream comparisons using the saved release inputs held locally:
+
+```powershell
+python scripts/verify.py --research-root private/research-inputs
+python scripts/verify_inspection.py --research-root private/research-inputs
+```
+
+Optional source aggregation needs the scored RDS input supplied explicitly; that input is not distributed. The analytical research workspace is separate from this publication repository.

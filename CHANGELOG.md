@@ -1,35 +1,51 @@
 # Publication revisions
 
+## 2026-09-19.2 — Contextual inspection and evidence comparisons
+
+- Integrated the completed release into the canonical GitHub checkout, preserved on-site brief readers and added standalone inspection checks to deployment.
+
+- Added four question lenses and the same interactive explorer in English and Croatian.
+- Added consistent indicator dialogs that retain selected context and return focus and scroll position.
+- Separated selected levels, descriptive endpoint changes and explicitly defined evidence labels.
+- Added primary/common-source series, two-month comparisons and 20 saved coefficient comparisons, plus survey-assignment comparisons.
+- Aggregated source/item concentration from existing scored records and reconciled counts and weighted totals to the saved panels; added neutral, sortable domain tables.
+- Added dated Croatia media context with primary Reuters methodology links and precise audience terminology.
+- Added fixed finding IDs, reference-model records, versioned citations and revision categories.
+- Extended URL state, cross-language navigation, downloads and responsive/keyboard checks. Preserved published estimates, manuscript and briefs.
+
+## 2026-09-19.1 — Evidence overview and publication interactions
+
+- Moved the evidence overview and main chart ahead of the expanded measurement guide.
+- Added seven consistently structured indicator panels, actual-rule hypothetical scoring examples and a practical investigation agenda in both languages.
+- Simplified finding cards and made weighted visibility the main narrative and scenario-chart measure.
+- Added persistent contents, qualified social preview, research status, profiles, correction contact and version information.
+- Added validated URL state, copy links, reset and selected-view SVG/CSV exports.
+- Corrected near-zero interval precision and based interval interpretation on original bounds.
+- Updated public asset scope and both briefs; preserved the original manuscript in the research archive.
+- Verified saved research values, bundle inventory, two-page PDFs, responsive layout, keyboard interactions and 200% text enlargement.
+
 ## 18 September 2026 — governor-focused evidence revision
 
 - Replaced the pilot proposal and example story with findings and implications drawn from the archived paper; removed the pilot download and H/AG mark.
 - Rebuilt both two-page briefs with a conditional inflation comparison, time-control sensitivity, later-period trend, network centrality and expectations results.
 - Explained relevance, prominence, relative share and the gap in ordinary language.
 - Added a responsive chart of the 2% to 10% inflation comparison, with 95% intervals and bilingual downloadable figures.
-- Connected full-history lines through early 2024 and removed the visual source marker. Excluded months remain null; captions explain the connector and comparability limits.
+- Revised full-history chart presentation and methodological captions.
 - Retained original monthly values, model estimates and the archived paper. Expanded verification of saved estimates and responsive behaviour.
 - The previous entry below records the superseded September 17 presentation. Its pilot and contact workflow is no longer active.
-
-
-## 17 September 2026 — full timeline and chart readability
-
-- Restored January 2021–May 2026 as the opening chart in English, Croatian and both briefs.
-- Increased chart height and aligned the interactive, static and print scales; the later inflation view now spans 2.5–5.5%, explicitly labelled as not starting at zero.
-- Retained every eligible value, source boundaries, missing months and unchanged model estimates.
-
 
 ## 17 September 2026 — senior HNB audience
 
 - Reframed the public title and opening around the institutional question and potential use of media analysis.
 - Added a hypothetical measure example, denominator explanation and conceptual communication pathway that separates observed media representation from audience outcomes.
-- Defaulted to later-period weighted share, retaining full-history and gap views with explicit sign, scale and source-boundary explanations.
+- Defaulted to later-period weighted share, retaining full-history and gap views with explicit sign and scale explanations.
 - Added aligned selected-month markers and labelled standalone figure/data downloads.
 - Replaced the broad disinflation/recovery headline with the supported within-period visibility result.
 - Added side-by-side time-control coefficient comparisons, exact intervals and model-specific technical details.
 - Connected each finding to its own evidence, including working cross-language deep links and automatic disclosure opening.
 - Added a proposed research pilot with concrete deliverables, an illustrative output structure and a bilingual scoping outline.
 - Added the Croatian executive page and two-page brief; revised the English brief around application as well as evidence.
-- Retained the archived manuscript, all frozen numerical results, sample exclusions and earlier-paper replication disclosure.
+- Retained the archived manuscript, all frozen numerical results and earlier-paper replication disclosure.
 
 The pilot is prospective. No classification validation, message-uptake study, audience experiment, causal analysis or new econometric estimation was carried out by this editorial revision. A later paper revision should be a separately identified edition; it must not silently replace the archived PDF.
 

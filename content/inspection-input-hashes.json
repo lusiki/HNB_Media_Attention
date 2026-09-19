@@ -1,0 +1,14 @@
+{
+  "inputs": {
+    "panel_monthly.csv": "9c406d876587793fbbcdf821ff4bdb3cc8f831b197da8234e5fd420c35357642",
+    "panel_monthly_commonsrc.csv": "f2536bead9d63d26784e45539cbaf2162784a316cce464613e28b3ca662dc49a",
+    "results/spec_curve_curve.csv": "95093d04fcc691d607e321e0739d055dbfc865ec72d67246403337fcb2119e83",
+    "results/regimes_trend.csv": "85e2860beef660da3db694a33a30fc86ef3a5d4e7dc3e0a12f07546fb786febd",
+    "results/regimes_common_network.csv": "fe2c2ae8bdc134c5f5227245e2d0fd6fdf8833479c7d4b81df6ad1e88e6f5f6a"
+  },
+  "aggregates": {
+    "concentration.csv": "fc749a6434a6ac3100e0d5ee8672e1d3373ce6d49d0d48024fc67b5d82d579a6",
+    "domains.csv": "4c8dad38342a65e9617ff58afd5e363b12129b5d46583a52fcf3932c0142df70",
+    "channels.csv": "f6f832cc9d9fd0f34c3312f5bc39b1ec41fe76a4ff9f540f50b69ba52aa64913"
+  }
+}

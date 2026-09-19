@@ -12,9 +12,8 @@ def build_readers(site, dist):
     shutil.copyfile(site / 'src/reader.css', dist / 'read/reader.css')
     files.append('read/reader.css')
     for name, title, language, lang, other, other_title in [
-        ('brief', 'Two-page research brief', 'English', 'en', 'paper', 'Read the full paper'),
-        ('brief-hr', 'Sažetak istraživanja na dvije stranice', 'Croatian', 'hr', 'paper', 'Read the full paper'),
-        ('paper', 'Full research paper', 'Croatian', 'hr', 'brief', 'Read the two-page brief'),
+        ('brief', 'Two-page research brief', 'English', 'en', 'brief-hr', 'Hrvatski sažetak'),
+        ('brief-hr', 'Sažetak istraživanja na dvije stranice', 'Croatian', 'hr', 'brief', 'English brief'),
     ]:
         source = site / 'public/read' / name
         manifest = json.loads((source / 'pages.json').read_text(encoding='utf-8'))

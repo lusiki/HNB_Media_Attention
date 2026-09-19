@@ -18,7 +18,7 @@ fs.mkdirSync(path.join(site,'qa'),{recursive:true});
    page.on('pageerror',error=>errors.push(error.message));
    for(const width of [1440,360]){
     await page.setViewportSize({width,height:1000});
-    for(const [name,count] of [['brief',2],['brief-hr',2],['paper',32]]){
+    for(const [name,count] of [['brief',2],['brief-hr',2]]){
      await page.goto(base);
      await page.locator(`a[href="read/${name}.html"]`).first().click();
      await page.waitForURL(`**/read/${name}.html`);

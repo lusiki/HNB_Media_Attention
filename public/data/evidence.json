@@ -16,8 +16,7 @@
       "display_units": "percentage points",
       "display_multiplier": 100,
       "time_basis": "calendar month of record date; publication timestamp not established",
-      "scope": "extended manuscript primary sample; original platform universe",
-      "missing_rule": "null for excluded months; display connects available observations without creating estimates"
+      "scope": "extended manuscript primary sample; original platform universe"
     },
     {
       "id": "inflation",
@@ -27,465 +26,319 @@
       "display_units": "percent",
       "display_multiplier": 1,
       "time_basis": "reference month",
-      "scope": "primary-sample months",
-      "missing_rule": "suppressed with excluded media months for aligned comparison; not a claim of missing HICP"
+      "scope": "primary-sample months"
     }
   ],
   "observations": [
     {
       "period": "2021-01",
       "gap": -0.00990859177647119,
-      "inflation": 0.0,
-      "source": "original",
-      "status": "included"
+      "inflation": 0.0
     },
     {
       "period": "2021-02",
       "gap": 0.0214174421127233,
-      "inflation": 0.7,
-      "source": "original",
-      "status": "included"
+      "inflation": 0.7
     },
     {
       "period": "2021-03",
       "gap": -0.00238852887499758,
-      "inflation": 1.6,
-      "source": "original",
-      "status": "included"
+      "inflation": 1.6
     },
     {
       "period": "2021-04",
       "gap": 0.000307869340081431,
-      "inflation": 2.1,
-      "source": "original",
-      "status": "included"
+      "inflation": 2.1
     },
     {
       "period": "2021-05",
       "gap": 0.0019566081015493,
-      "inflation": 2.4,
-      "source": "original",
-      "status": "included"
+      "inflation": 2.4
     },
     {
       "period": "2021-06",
       "gap": -0.0113847989028853,
-      "inflation": 2.2,
-      "source": "original",
-      "status": "included"
+      "inflation": 2.2
     },
     {
       "period": "2021-07",
       "gap": -0.0198819425103799,
-      "inflation": 2.7,
-      "source": "original",
-      "status": "included"
+      "inflation": 2.7
     },
     {
       "period": "2021-08",
       "gap": -0.0061604420361883,
-      "inflation": 3.1,
-      "source": "original",
-      "status": "included"
+      "inflation": 3.1
     },
     {
       "period": "2021-09",
       "gap": -0.0111352723144424,
-      "inflation": 3.5,
-      "source": "original",
-      "status": "included"
+      "inflation": 3.5
     },
     {
       "period": "2021-10",
       "gap": -0.00249084450607366,
-      "inflation": 3.9,
-      "source": "original",
-      "status": "included"
+      "inflation": 3.9
     },
     {
       "period": "2021-11",
       "gap": 0.00122145405781921,
-      "inflation": 4.7,
-      "source": "original",
-      "status": "included"
+      "inflation": 4.7
     },
     {
       "period": "2021-12",
       "gap": -0.00567113147004641,
-      "inflation": 5.2,
-      "source": "original",
-      "status": "included"
+      "inflation": 5.2
     },
     {
       "period": "2022-01",
       "gap": -0.0059511952855051,
-      "inflation": 5.5,
-      "source": "original",
-      "status": "included"
+      "inflation": 5.5
     },
     {
       "period": "2022-02",
       "gap": 0.017610429824085,
-      "inflation": 6.3,
-      "source": "original",
-      "status": "included"
+      "inflation": 6.3
     },
     {
       "period": "2022-03",
       "gap": 0.0103794553003707,
-      "inflation": 7.3,
-      "source": "original",
-      "status": "included"
+      "inflation": 7.3
     },
     {
       "period": "2022-04",
       "gap": 0.00753843060269405,
-      "inflation": 9.6,
-      "source": "original",
-      "status": "included"
+      "inflation": 9.6
     },
     {
       "period": "2022-05",
       "gap": 0.00429702068351516,
-      "inflation": 10.7,
-      "source": "original",
-      "status": "included"
+      "inflation": 10.7
     },
     {
       "period": "2022-06",
       "gap": 0.0138399641442558,
-      "inflation": 12.1,
-      "source": "original",
-      "status": "included"
+      "inflation": 12.1
     },
     {
       "period": "2022-07",
       "gap": 0.00846181359426814,
-      "inflation": 12.7,
-      "source": "original",
-      "status": "included"
+      "inflation": 12.7
     },
     {
       "period": "2022-08",
       "gap": 0.0239859261120745,
-      "inflation": 12.6,
-      "source": "original",
-      "status": "included"
+      "inflation": 12.6
     },
     {
       "period": "2022-09",
       "gap": 0.0213240383263036,
-      "inflation": 12.6,
-      "source": "original",
-      "status": "included"
+      "inflation": 12.6
     },
     {
       "period": "2022-10",
       "gap": 0.0112716286541851,
-      "inflation": 12.7,
-      "source": "original",
-      "status": "included"
+      "inflation": 12.7
     },
     {
       "period": "2022-11",
       "gap": 0.0138823129458179,
-      "inflation": 13.0,
-      "source": "original",
-      "status": "included"
+      "inflation": 13.0
     },
     {
       "period": "2022-12",
       "gap": 0.00521974905643111,
-      "inflation": 12.7,
-      "source": "original",
-      "status": "included"
+      "inflation": 12.7
     },
     {
       "period": "2023-01",
       "gap": 0.016216030102955,
-      "inflation": 12.5,
-      "source": "original",
-      "status": "included"
+      "inflation": 12.5
     },
     {
       "period": "2023-02",
       "gap": 0.0176740120738955,
-      "inflation": 11.7,
-      "source": "original",
-      "status": "included"
+      "inflation": 11.7
     },
     {
       "period": "2023-03",
       "gap": 0.00647974005479417,
-      "inflation": 10.5,
-      "source": "original",
-      "status": "included"
+      "inflation": 10.5
     },
     {
       "period": "2023-04",
       "gap": -0.108005050735334,
-      "inflation": 8.9,
-      "source": "original",
-      "status": "included"
+      "inflation": 8.9
     },
     {
       "period": "2023-05",
       "gap": 0.011922585879284,
-      "inflation": 8.3,
-      "source": "original",
-      "status": "included"
+      "inflation": 8.3
     },
     {
       "period": "2023-06",
       "gap": 0.00252868241410754,
-      "inflation": 8.3,
-      "source": "original",
-      "status": "included"
+      "inflation": 8.3
     },
     {
       "period": "2023-07",
       "gap": 0.00882971979403006,
-      "inflation": 8.0,
-      "source": "original",
-      "status": "included"
+      "inflation": 8.0
     },
     {
       "period": "2023-08",
       "gap": 0.00430143928882259,
-      "inflation": 8.4,
-      "source": "original",
-      "status": "included"
+      "inflation": 8.4
     },
     {
       "period": "2023-09",
       "gap": 0.0147159314964444,
-      "inflation": 7.4,
-      "source": "original",
-      "status": "included"
+      "inflation": 7.4
     },
     {
       "period": "2023-10",
       "gap": 0.0125710273178322,
-      "inflation": 6.7,
-      "source": "original",
-      "status": "included"
+      "inflation": 6.7
     },
     {
       "period": "2023-11",
       "gap": -0.0675414515665312,
-      "inflation": 5.5,
-      "source": "original",
-      "status": "included"
+      "inflation": 5.5
     },
     {
       "period": "2023-12",
       "gap": 0.00128727587567549,
-      "inflation": 5.4,
-      "source": "original",
-      "status": "included"
-    },
-    {
-      "period": "2024-01",
-      "gap": null,
-      "inflation": null,
-      "source": "original",
-      "status": "excluded_text_coverage"
-    },
-    {
-      "period": "2024-02",
-      "gap": null,
-      "inflation": null,
-      "source": "original",
-      "status": "excluded_text_coverage"
-    },
-    {
-      "period": "2024-03",
-      "gap": null,
-      "inflation": null,
-      "source": "original",
-      "status": "excluded_text_coverage"
+      "inflation": 5.4
     },
     {
       "period": "2024-04",
       "gap": 0.012472696309824,
-      "inflation": 4.7,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.7
     },
     {
       "period": "2024-05",
       "gap": 0.0106982442052052,
-      "inflation": 4.3,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.3
     },
     {
       "period": "2024-06",
       "gap": -0.00721596737001617,
-      "inflation": 3.5,
-      "source": "new",
-      "status": "included"
+      "inflation": 3.5
     },
     {
       "period": "2024-07",
       "gap": 0.00760290978138191,
-      "inflation": 3.3,
-      "source": "new",
-      "status": "included"
+      "inflation": 3.3
     },
     {
       "period": "2024-08",
       "gap": 0.0179369572295178,
-      "inflation": 3.0,
-      "source": "new",
-      "status": "included"
+      "inflation": 3.0
     },
     {
       "period": "2024-09",
       "gap": 0.0130381776099414,
-      "inflation": 3.1,
-      "source": "new",
-      "status": "included"
+      "inflation": 3.1
     },
     {
       "period": "2024-10",
       "gap": 0.0263383488177045,
-      "inflation": 3.6,
-      "source": "new",
-      "status": "included"
+      "inflation": 3.6
     },
     {
       "period": "2024-11",
       "gap": 0.0120255542164311,
-      "inflation": 4.0,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.0
     },
     {
       "period": "2024-12",
       "gap": 0.0170190398497476,
-      "inflation": 4.5,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.5
     },
     {
       "period": "2025-01",
       "gap": 0.0248527198093661,
-      "inflation": 5.0,
-      "source": "new",
-      "status": "included"
+      "inflation": 5.0
     },
     {
       "period": "2025-02",
       "gap": 0.00765183340489981,
-      "inflation": 4.8,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.8
     },
     {
       "period": "2025-03",
       "gap": 0.0164803171886478,
-      "inflation": 4.3,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.3
     },
     {
       "period": "2025-04",
       "gap": 0.0100496786534657,
-      "inflation": 4.0,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.0
     },
     {
       "period": "2025-05",
       "gap": 0.0174123660487746,
-      "inflation": 4.3,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.3
     },
     {
       "period": "2025-06",
       "gap": 0.0103578444432364,
-      "inflation": 4.4,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.4
     },
     {
       "period": "2025-07",
       "gap": 0.0119146521692693,
-      "inflation": 4.5,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.5
     },
     {
       "period": "2025-08",
       "gap": 0.0256247061191742,
-      "inflation": 4.6,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.6
     },
     {
       "period": "2025-09",
       "gap": 0.014540694608145,
-      "inflation": 4.6,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.6
     },
     {
       "period": "2025-10",
       "gap": 0.0174666527955925,
-      "inflation": 4.0,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.0
     },
     {
       "period": "2025-11",
       "gap": 0.0357998135127043,
-      "inflation": 4.3,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.3
     },
     {
       "period": "2025-12",
       "gap": 0.0237725201074034,
-      "inflation": 3.8,
-      "source": "new",
-      "status": "included"
+      "inflation": 3.8
     },
     {
       "period": "2026-01",
       "gap": -0.00113671888646039,
-      "inflation": 3.6,
-      "source": "new",
-      "status": "included"
+      "inflation": 3.6
     },
     {
       "period": "2026-02",
       "gap": 0.0250883403533103,
-      "inflation": 3.9,
-      "source": "new",
-      "status": "included"
+      "inflation": 3.9
     },
     {
       "period": "2026-03",
       "gap": 0.0323609829996404,
-      "inflation": 4.6,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.6
     },
     {
       "period": "2026-04",
       "gap": 0.03343579255484,
-      "inflation": 5.4,
-      "source": "new",
-      "status": "included"
+      "inflation": 5.4
     },
     {
       "period": "2026-05",
       "gap": 0.0241756045193128,
-      "inflation": 4.9,
-      "source": "new",
-      "status": "included"
+      "inflation": 4.9
     }
   ],
   "models": [
@@ -575,44 +428,6 @@
       "tested_future_horizons": 12,
       "correction_family_size": 13,
       "minimum_adjusted_p": 0.00287588711934732
-    }
-  ],
-  "coverage": [
-    {
-      "frequency": "monthly",
-      "sample": "S1",
-      "eligible": 62,
-      "complete_baseline": 60,
-      "start": "2021-01-01",
-      "end": "2026-05-01",
-      "segments": 2
-    },
-    {
-      "frequency": "monthly",
-      "sample": "S3",
-      "eligible": 26,
-      "complete_baseline": 25,
-      "start": "2024-04-01",
-      "end": "2026-05-01",
-      "segments": 1
-    },
-    {
-      "frequency": "weekly",
-      "sample": "S1",
-      "eligible": 270,
-      "complete_baseline": 268,
-      "start": "2021-01-04",
-      "end": "2026-05-25",
-      "segments": 2
-    },
-    {
-      "frequency": "weekly",
-      "sample": "S3",
-      "eligible": 113,
-      "complete_baseline": 112,
-      "start": "2024-04-01",
-      "end": "2026-05-25",
-      "segments": 1
     }
   ],
   "time_sensitivity": [
