@@ -98,11 +98,11 @@ record_hr={
  'F4':('Mjesečni trend mreže zajedničkih izvora','Normalizirana centralnost svojstvenog vektora','S3 · travanj 2024. – svibanj 2026.','Odjeljak 4.7 · dodatak B2')}
 for record in records:
     record.update(dict(zip(['model_hr','measure_hr','sample_hr','reference_hr'],record_hr[record['id']])))
-    record.update(data_version=e['edition'],method_version='extended-manuscript-2026-09-17',presentation_version='2026-09-19.2',verification='Matched to saved outputs',author_review='pending')
-result={'version':'2026-09-19.2','data_version':e['edition'],'method_version':'extended-manuscript-2026-09-17','observations':observations,'robustness':robustness,'indicators':catalog,'findings':records,
+    record.update(data_version=e['edition'],method_version='extended-manuscript-2026-09-17',presentation_version='2026-09-19.3',verification='Matched to saved outputs',author_review='pending')
+result={'version':'2026-09-19.3','data_version':e['edition'],'method_version':'extended-manuscript-2026-09-17','observations':observations,'robustness':robustness,'indicators':catalog,'findings':records,
  'common_source_definition':{'source_labels':258,'reference_windows':['2023-01–2023-12','2024-07–2024-12'],'rule':'Intersection of source labels with institutional items in both reference windows; restrict both numerator and denominator.'},
  'channels':[{ 'channel':r['channel'],'items':int(r['items'])} for r in read_csv(private/'channels.csv')],
- 'revisions':[{'version':'2026-09-19.2','type':'editorial','date':'2026-09-19','description':'Context-preserving inspection, predefined sensitivity comparisons and diagnostics from existing scored records. Published research estimates unchanged.'},{'version':'2026-09-19.1','type':'editorial','date':'2026-09-19','description':'Evidence overview, worked examples, URL selections and selected-view exports. Published research estimates unchanged.'}]}
+ 'revisions':[{'version': '2026-09-19.3', 'type': 'editorial', 'date': '2026-09-19', 'description': 'Redesigned bilingual briefs and figures; full January 2021–May 2026 timeline in both briefs. Research estimates unchanged.'},{'version':'2026-09-19.2','type':'editorial','date':'2026-09-19','description':'Context-preserving inspection, predefined sensitivity comparisons and diagnostics from existing scored records. Published research estimates unchanged.'},{'version':'2026-09-19.1','type':'editorial','date':'2026-09-19','description':'Evidence overview, worked examples, URL selections and selected-view exports. Published research estimates unchanged.'}]}
 save(P/'public/data/inspection.json',result)
 save(P/'public/data/findings.json',{'version':result['version'],'findings':records,'revisions':result['revisions']})
 inputs=['panel_monthly.csv','panel_monthly_commonsrc.csv','results/spec_curve_curve.csv','results/regimes_trend.csv','results/regimes_common_network.csv']

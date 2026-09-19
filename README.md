@@ -1,6 +1,6 @@
 # HNB in Croatia's inflation debate
 
-Bilingual static research publication based on the extended manuscript by Petra Palić and Luka Sikić, dated **17 September 2026**. Presentation version: **2026-09-19.2**. Author review is pending.
+Bilingual static research publication based on the extended manuscript by Petra Palić and Luka Sikić, dated **17 September 2026**. Presentation version: **2026-09-19.3**. Author review is pending.
 
 This is the canonical publication checkout. [Live site](https://lusiki.github.io/HNB_Media_Attention/) · [Repository](https://github.com/lusiki/HNB_Media_Attention) · [Deployment workflow](https://github.com/lusiki/HNB_Media_Attention/actions/workflows/pages.yml).
 
@@ -13,7 +13,7 @@ python scripts/build.py
 python -m http.server 8766 --bind 127.0.0.1 --directory dist
 ```
 
-Serve only `dist`. English: http://127.0.0.1:8766/; Croatian: http://127.0.0.1:8766/hr.html. Both pages provide the interactive explorer and static chart/table fallbacks. The brief links open on-site readers with rendered pages and selectable text; each reader also offers the original PDF download. The build produces 25 allowlisted files and `hnb-attention-gap-publication.zip`. A local build does not deploy anything.
+Serve only `dist`. English: http://127.0.0.1:8766/; Croatian: http://127.0.0.1:8766/hr.html. Both pages provide the interactive explorer and static chart/table fallbacks. The brief links open on-site readers with rendered pages and selectable text; each reader also offers the original PDF download. The build produces 32 allowlisted files and `hnb-attention-gap-publication.zip`. A local build does not deploy anything.
 
 For production, set `SITE_URL` to the HTTPS directory URL before building. This gives Open Graph metadata absolute image and page URLs. Otherwise metadata uses a relative image for local previews. The 1200 × 630 preview is generated from the saved primary estimate.
 
@@ -40,7 +40,7 @@ Media context distinguishes potential reach, exposure, attention and understandi
 - The English and Croatian briefs are two pages each. The original manuscript is retained in the ignored local research archive, outside the public bundle. Citation and methodological references remain on the pages.
 - The research-status panel explains review, saved-output reproduction, the earlier coefficient discrepancy, code availability, reuse and version history. Author profiles and a correction email are linked.
 
-`public/` supplies publication assets. `private/`, `qa/`, `.runtime/`, research inputs and working documentation are not served or bundled. The previous Desktop version is retained in `private/before-2026-09-19-sync/`. Saved inputs for this release are in `private/research-inputs/`, and derived source summaries are in `private/inspection-aggregates/`. These local records are not committed. The second round leaves the two briefs unchanged.
+`public/` supplies publication assets. `private/`, `qa/`, `.runtime/`, research inputs and working documentation are not served or bundled. The previous Desktop version is retained in `private/before-2026-09-19-sync/`. Saved inputs for this release are in `private/research-inputs/`, and derived source summaries are in `private/inspection-aggregates/`. These local records are not committed. The pre-design edition is preserved in `private/before-magazine-briefs/`. Both current briefs include the full January 2021–May 2026 timeline; shorter-period estimates retain their stated scope.
 
 ## Editing and regeneration
 
@@ -57,7 +57,7 @@ node scripts/inspection_qa.cjs
 node scripts/reader_qa.cjs
 ```
 
-Figures need matplotlib; briefs need reportlab and the Windows Arial/Georgia fonts named in the script; verification needs pypdf. Install `requirements-authoring.txt` for optional figure/brief regeneration. `OBS_FONT_DIR` selects compatible fonts; Linux can use DejaVu. After deliberate PDF revisions, render and visually inspect both pages, then regenerate the reader assets using `python scripts/make_readers.py --pdftoppm PATH_TO_PDFTOPPM`. Ordinary builds validate and reuse these committed reader assets.
+Install `requirements-authoring.txt` for optional figure/brief regeneration. Source Serif 4 and Source Sans 3 are bundled with licenses and pinned provenance in `assets/fonts/`; the readers use local WOFF2 copies. The palette and font definitions live in `scripts/artifact_style.py`. Run `python scripts/make_figures.py` before `python scripts/make_brief.py`: the latter embeds the vector PDF charts produced by the former. Both briefs use the complete published observation series for the main timeline and saved estimates for model comparisons. Render and visually inspect all four pages after PDF revisions, then run `python scripts/make_readers.py --pdftoppm PATH_TO_PDFTOPPM` and `python scripts/update_publication_hashes.py`. Ordinary builds validate and reuse these committed publication assets without authoring dependencies.
 
 Run `python scripts/prepare_inputs.py --research-root PATH_TO_SAVED_RESEARCH` only for an intentional research refresh. It reads saved outputs, not raw databases, enforces the archived manuscript hash, and applies the public export scope. Research inputs are checked against `content/research-input-hashes.json`.
 

@@ -1,5 +1,13 @@
 # Publication revisions
 
+## 2026-09-19.3 — Full-sample briefs and publication design
+
+- Redesigned both two-page briefs with Source Serif 4 and Source Sans 3, a warm paper palette, cobalt emphasis, vector figures and an aligned evidence grid.
+- Included the full January 2021–May 2026 visibility and inflation timeline in both languages; retained explicit scopes beside shorter-period estimates.
+- Updated all eight downloadable figures and added bilingual full-sample visibility downloads.
+- Matched the on-site readers to the document design, translated reader controls and bundled licensed fonts locally.
+- Preserved research values and model estimates; added PDF timeline and font checks, and verified desktop/mobile readers with JavaScript enabled and disabled.
+
 ## 2026-09-19.2 — Contextual inspection and evidence comparisons
 
 - Integrated the completed release into the canonical GitHub checkout, preserved on-site brief readers and added standalone inspection checks to deployment.

@@ -120,6 +120,17 @@ for name,count in [('hnb-attention-gap-brief.pdf',2),('hnb-attention-gap-brief-h
     check(name+'_page_count',len(reader.pages)==count)
     pages=[p.extract_text() or '' for p in reader.pages]
     check(name+'_selectable_text',all(len(t)>100 for t in pages))
+    check(name+'_full_sample_timeline',all(tick in pages[1] for tick in ['01/2021','2022','2023','2024','2025','05/2026']))
+    font_names=[]
+    for page in reader.pages:
+        for ref in page['/Resources']['/Font'].values():
+            font=ref.get_object()
+            font_names.append(str(font.get('/BaseFont','')))
+            if font.get('/Subtype')=='/Type0':font=font['/DescendantFonts'][0].get_object()
+            if '/FontDescriptor' in font:
+                descriptor=font['/FontDescriptor']
+                check(name+'_embedded_'+str(font.get('/BaseFont')),any(key in descriptor for key in ['/FontFile','/FontFile2','/FontFile3']))
+    check(name+'_source_font_pair',any('SourceSerif4' in font for font in font_names) and any('SourceSans3' in font for font in font_names))
     check(name+'_no_private_paths',not private_pattern.search('\n'.join(pages)))
     check(name+'_no_unresolved_tokens',not any(t in '\n'.join(pages) for t in ['Error!','Reference source not found','`r ','@@']))
     pdf_results[name]={'pages':len(pages),'selectable_text':True,'links':[str(a.get_object().get('/A',{}).get('/URI','')) for p in reader.pages for a in p.get('/Annots',[]) if a.get_object().get('/A',{}).get('/URI')]}

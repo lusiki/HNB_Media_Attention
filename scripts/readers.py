@@ -15,6 +15,8 @@ def build_readers(site, dist):
         ('brief', 'Two-page research brief', 'English', 'en', 'brief-hr', 'Hrvatski sažetak'),
         ('brief-hr', 'Sažetak istraživanja na dvije stranice', 'Croatian', 'hr', 'brief', 'English brief'),
     ]:
+        hr=lang=='hr'
+        t=lambda en,cr:cr if hr else en
         source = site / 'public/read' / name
         manifest = json.loads((source / 'pages.json').read_text(encoding='utf-8'))
         pdf = site / 'public/downloads' / f'hnb-attention-gap-{name}.pdf'
@@ -32,14 +34,23 @@ def build_readers(site, dist):
             image_path = f'{name}/{filename}'
             loading = 'eager' if i == 1 else 'lazy'
             sections.append(f'''<section class="document-page" id="page-{i}" aria-labelledby="label-{i}">
-              <div class="page-heading" lang="en"><h2 id="label-{i}">Page {i} of {count}</h2><a href="{image_path}">Open full-size page ↗</a></div>
-              <img class="page-image" src="{image_path}" width="{page['width']}" height="{page['height']}" loading="{loading}" alt="{escape(title)} — page {i}. Selectable text follows below.">
-              <details class="page-text"><summary lang="en">Read / copy page text</summary><div class="transcription">{escape(page['text'])}</div></details>
+              <div class="page-heading"><h2 id="label-{i}">{t('Page','Stranica')} {i} / {count}</h2><a href="{image_path}">{t('Open full-size page','Otvori stranicu u punoj veličini')} ↗</a></div>
+              <img class="page-image" src="{image_path}" width="{page['width']}" height="{page['height']}" loading="{loading}" alt="{escape(title)} - {t('page','stranica')} {i}. {t('Selectable text follows below.','Tekst za odabir nalazi se ispod.')}">
+              <details class="page-text"><summary>{t('Read / copy page text','Čitaj / kopiraj tekst stranice')}</summary><div class="transcription">{escape(page['text'])}</div></details>
             </section>''')
         values = {'TITLE': title, 'COUNT': str(count), 'LANGUAGE': language, 'LANG': lang,
                   'NAME': name, 'OTHER': other, 'OTHER_TITLE': other_title,
                   'PAGE_LINKS': ''.join(f'<a href="#page-{i}">{i}</a>' for i in range(1, count + 1)),
-                  'PAGES': '\n'.join(sections)}
+                  'PAGES': '\n'.join(sections),
+                  'SAMPLE':t('The full sample: January 2021 - May 2026','Cijeli uzorak: siječanj 2021. - svibanj 2026.'),
+                  'SKIP':t('Skip to document pages','Prijeđi na dokument'),
+                  'RETURN':t('Research observatory','Istraživačka stranica'),
+                  'RETURN_URL':'../hr.html#rad' if hr else '../index.html#paper',
+                  'EYEBROW':t('HNB / RESEARCH LIBRARY','HNB / ISTRAŽIVAČKA BIBLIOTEKA'),
+                  'EDITION':t('Two pages · manuscript 17 September 2026 · author review pending','Dvije stranice · rukopis od 17. rujna 2026. · čeka autorsku provjeru'),
+                  'CONTROLS':t('Document controls','Kontrole dokumenta'),
+                  'GO_TO':t('Go to page','Odaberi stranicu'),
+                  'DOWNLOAD':t('Download PDF','Preuzmi PDF')}
         html = template
         for key, value in values.items():
             html = html.replace('@@' + key + '@@', value)

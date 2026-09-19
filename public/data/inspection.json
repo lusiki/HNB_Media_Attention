@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-19.2",
+  "version": "2026-09-19.3",
   "data_version": "extended-2026-09-17",
   "method_version": "extended-manuscript-2026-09-17",
   "observations": [
@@ -68535,7 +68535,7 @@
       "reference_hr": "Odjeljak 4.2 · tablica 6 · dodatak A23",
       "data_version": "extended-2026-09-17",
       "method_version": "extended-manuscript-2026-09-17",
-      "presentation_version": "2026-09-19.2",
+      "presentation_version": "2026-09-19.3",
       "verification": "Matched to saved outputs",
       "author_review": "pending"
     },
@@ -68557,7 +68557,7 @@
       "reference_hr": "Odjeljak 4.6 · usporedba zajedničkih izvora",
       "data_version": "extended-2026-09-17",
       "method_version": "extended-manuscript-2026-09-17",
-      "presentation_version": "2026-09-19.2",
+      "presentation_version": "2026-09-19.3",
       "verification": "Matched to saved outputs",
       "author_review": "pending"
     },
@@ -68580,7 +68580,7 @@
       "reference_hr": "Odjeljak 4.5 · tablica 8 · dodatak A12",
       "data_version": "extended-2026-09-17",
       "method_version": "extended-manuscript-2026-09-17",
-      "presentation_version": "2026-09-19.2",
+      "presentation_version": "2026-09-19.3",
       "verification": "Matched to saved outputs",
       "author_review": "pending"
     },
@@ -68602,7 +68602,7 @@
       "reference_hr": "Odjeljak 4.7 · dodatak B2",
       "data_version": "extended-2026-09-17",
       "method_version": "extended-manuscript-2026-09-17",
-      "presentation_version": "2026-09-19.2",
+      "presentation_version": "2026-09-19.3",
       "verification": "Matched to saved outputs",
       "author_review": "pending"
     }
@@ -68654,6 +68654,12 @@
     }
   ],
   "revisions": [
+    {
+      "version": "2026-09-19.3",
+      "type": "editorial",
+      "date": "2026-09-19",
+      "description": "Redesigned bilingual briefs and figures; full January 2021–May 2026 timeline in both briefs. Research estimates unchanged."
+    },
     {
       "version": "2026-09-19.2",
       "type": "editorial",

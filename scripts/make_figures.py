@@ -1,82 +1,100 @@
-"""Scientific export figures from frozen aggregates; no model fitting."""
+"""Publication figures from frozen observations and saved coefficient intervals."""
 from pathlib import Path
-import json, os
 from datetime import datetime
-SITE=Path(__file__).resolve().parents[1]
-os.environ['MPLCONFIGDIR']=str(SITE/'.runtime/matplotlib')
+import json,os
+from artifact_style import SITE,PAPER,INK,BLUE,MUTED,RULE,COPPER,configure_matplotlib
+os.environ.setdefault('MPLCONFIGDIR',str(SITE/'.runtime/matplotlib'))
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import numpy as np
+configure_matplotlib()
 E=json.loads((SITE/'public/data/evidence.json').read_text(encoding='utf-8'))
 OUT=SITE/'public/figures';OUT.mkdir(parents=True,exist_ok=True)
-plt.rcParams.update({'font.family':'DejaVu Sans','font.size':11,'axes.spines.top':False,'axes.spines.right':False,'axes.spines.left':False,'axes.spines.bottom':False})
-def draw(later,lang='en'):
+WORK=SITE/'.runtime/brief-figures';WORK.mkdir(parents=True,exist_ok=True)
+manifest={}
+
+def timeline(lang='en',later=False,gap=False,brief=False):
+    hr=lang=='hr';t=lambda en,cr:cr if hr else en
     rows=[r for r in E['observations'] if not later or r['period']>='2024-04']
     dates=[datetime.fromisoformat(r['period']+'-01') for r in rows]
-    fig,axes=plt.subplots(2,1,figsize=(10.5,4.9),sharex=True,gridspec_kw={'hspace':.65})
-    titles=['Ponderirani institucionalni udio (%) · više znači veću vidljivost','Inflacija u Hrvatskoj · HICP, godišnja stopa (%)'] if lang=='hr' else ['Weighted institutional share (%) · higher means more visibility','Inflation in Croatia · HICP, year-on-year (%)']
-    if not later:titles[0]='HNB attention gap (pp) · higher means less relative visibility'
-    for n,(ax,color) in enumerate(zip(axes,['#165ce0','#b95a22'])):
-        values=np.array([np.nan if r['gap'] is None else ((E['baseline']['monthly']-r['gap'])*100 if later else r['gap']*100) for r in rows]) if n==0 else np.array([np.nan if r['inflation'] is None else r['inflation'] for r in rows])
-        selected=np.flatnonzero(np.isfinite(values))
-        ax.plot([dates[i] for i in selected],values[selected],color=color,lw=1.7)
-        ax.axhline(0,color='#627789',ls='--',lw=.6);ax.grid(axis='y',color='#dce3e9',lw=.5)
-        ax.tick_params(length=0,labelsize=10);ax.set_title(titles[n],loc='left',fontsize=12,color='#112838',pad=8)
-        ax.set_ylim((0,6) if n==0 and later else ((-12.5,5) if n==0 else (-.7,14.5)))
-        ax.set_yticks([0,2,4,6] if n==0 and later else ([-12,-8,-4,0,4] if n==0 else [0,4,8,12]))
+    series=[[100*r['gap'] if gap else 100*(E['baseline']['monthly']-r['gap']) for r in rows],[r['inflation'] for r in rows]]
+    fig,axes=plt.subplots(2,1,figsize=(11.4,5.1 if brief else 6.2),sharex=True,gridspec_kw={'hspace':.77})
+    fig.subplots_adjust(left=.065,right=.90,top=.90 if brief else .79,bottom=.15 if brief else .20)
+    titles=[t('Attention gap (percentage points)','Jaz u pažnji (postotni bodovi)') if gap else t('Weighted institutional share (%)','Ponderirani institucionalni udio (%)'),t('Inflation in Croatia - HICP, year-on-year (%)','Inflacija u Hrvatskoj - HICP, godišnja stopa (%)')]
+    for index,(ax,values,color) in enumerate(zip(axes,series,[BLUE,COPPER])):
+        ax.plot(dates,values,color=color,lw=2.0,solid_capstyle='round')
+        ax.scatter([dates[-1]],[values[-1]],s=30,color=color,zorder=4)
+        ax.set_title(titles[index],loc='left',fontsize=16,color=INK,pad=14)
+        ax.grid(axis='y',color=RULE,lw=.7);ax.set_axisbelow(True);ax.tick_params(length=0,pad=8,labelsize=13)
+        limits=(-12.5,5) if gap else ((0,6) if later else (0,18))
+        ticks=[-12,-8,-4,0,4] if gap else ([0,2,4,6] if later else [0,6,12,18])
+        ax.set_ylim(limits if index==0 else (-.7,14.5));ax.set_yticks(ticks if index==0 else [0,4,8,12])
         ax.set_xlim(dates[0],dates[-1])
-    if later:
-        axes[1].set_xticks([dates[0],datetime(2025,1,1),datetime(2026,1,1),dates[-1]],labels=['04/2024','01/2025','01/2026','05/2026'])
-        axes[1].get_xticklabels()[0].set_horizontalalignment('left')
-        axes[1].get_xticklabels()[-1].set_horizontalalignment('right')
-        note=('Travanj 2024. – svibanj 2026. | Opažene vrijednosti, ne procijenjeni trend.\nUdio = početna referenca − jaz. Potencijalni doseg nije stvarna izloženost. Izvor: nacrt od 17. 9. 2026.' if lang=='hr' else 'April 2024–May 2026 | Observed values, not a fitted trend.\nShare = baseline − gap. Potential reach is not actual exposure. Source: extended draft, 17 September 2026.')
-        name='visibility-later'+('-hr' if lang=='hr' else '')+'.png'
+        label=f'{values[-1]:.2f}' if index==0 else f'{values[-1]:.1f}'
+        if hr:label=label.replace('.',',')
+        ax.annotate(label+('' if gap and index==0 else '%'),(dates[-1],values[-1]),xytext=(8,0),textcoords='offset points',ha='left',va='center',color=color,fontsize=14,fontweight='semibold',annotation_clip=False)
+    ticks=[dates[0],datetime(2025,1,1),datetime(2026,1,1),dates[-1]] if later else [dates[0],*[datetime(y,1,1) for y in range(2022,2026)],dates[-1]]
+    labels=['04/2024','01/2025','01/2026','05/2026'] if later else ['01/2021','2022','2023','2024','2025','05/2026']
+    axes[1].set_xticks(ticks,labels);axes[1].get_xticklabels()[0].set_ha('left');axes[1].get_xticklabels()[-1].set_ha('right')
+    if brief:
+        name='brief-timeline-'+lang
+        fig.savefig(WORK/(name+'.pdf'));fig.savefig(WORK/(name+'.svg'));fig.savefig(WORK/(name+'.png'),dpi=220)
     else:
-        axes[1].set_xticks([datetime(y,1,1) for y in range(2021,2027)],labels=[str(y) for y in range(2021,2027)])
-        note='Jan 2021–May 2026 | Gap = baseline − weighted share. Higher gap means lower relative visibility.\nPotential reach is not observed readership. Source: extended draft, 17 September 2026.'
-        name='attention-gap.png'
-    fig.subplots_adjust(left=.065,right=.98,top=.92,bottom=.19)
-    fig.text(.065,.05,note,fontsize=9,color='#4f6470',linespacing=1.5)
-    fig.savefig(OUT/name,dpi=180,facecolor='white');plt.close(fig)
-def scenario(lang='en'):
-    hr=lang=='hr'
-    rows=[r for r in E['time_sensitivity'] if r['frequency']=='weekly']
-    fig,ax=plt.subplots(figsize=(9,4))
-    fig.subplots_adjust(left=.31,right=.96,top=.87,bottom=.26)
-    names=['Primarni model','Uz trendove razdoblja','Uz godišnje učinke'] if hr else ['Primary model','With period trends','With year effects']
-    ax.axvline(0,color='#6b7c88',ls='--',lw=1)
-    for i,r in enumerate(rows):
-        b,lo,hi=[-r[k]*800 for k in ['estimate','hi','lo']]
-        y=2-i
-        ax.plot([lo,hi],[y,y],color='#165ce0',lw=3,solid_capstyle='round')
-        ax.scatter([b],[y],s=42,color='#165ce0',zorder=3)
-        label=f'{b:.2f} ({lo:.2f} to {hi:.2f})'
-        if hr:label=label.replace('.',',').replace(' to ',' do ')
-        ax.text(b,y+.2,label,ha='center',fontsize=11,color='#112838')
-    ax.set_yticks([2,1,0],names,fontsize=11)
-    ax.set_ylim(-.4,2.6);ax.set_xlim(-3.65,.65)
-    ax.set_xticks([-3,-2,-1,0]);ax.tick_params(length=0,pad=9)
-    ax.grid(axis='x',color='#e2e7ed',lw=.5);ax.set_axisbelow(True)
-    ax.set_xlabel('Promjena ponderiranog udjela (postotni bodovi)' if hr else 'Change in weighted share (percentage points)',labelpad=12,color='#4f6470',fontsize=11)
-    fig.text(.04,.94,'Inflacija: 2% → 10%' if hr else 'Inflation: 2% → 10%',fontsize=15,color='#112838',weight='bold')
-    fig.text(.04,.025,'Uvjetne razlike uz ostalo nepromijenjeno · 95%-tni intervali · 268 tjedana' if hr else 'Conditional differences, other variables held fixed · 95% intervals · 268 weeks',fontsize=10,color='#4f6470')
-    fig.savefig(OUT/('inflation-scenario'+('-hr' if hr else '')+'.png'),dpi=180,facecolor='white');plt.close(fig)
+        name='attention-gap' if gap else 'visibility-'+('later' if later else 'full')+('-hr' if hr else '')
+        title=t('Institutional visibility and the inflation debate','Institucionalna vidljivost i rasprava o inflaciji') if not gap else 'Visibility relative to its historical reference'
+        scope=t('April 2024 - May 2026','Travanj 2024. - svibanj 2026.') if later else t('January 2021 - May 2026','Siječanj 2021. - svibanj 2026.')
+        fig.text(.065,.925,title,fontfamily='Source Serif 4 Display',fontsize=25,color=INK)
+        fig.text(.065,.863,scope+'  /  '+t('PRIMARY CORPUS','PRIMARNI KORPUS'),fontsize=12,color=MUTED)
+        note=t('Observed monthly series. Separate scales. Potential reach is not observed readership.','Opažene mjesečne serije. Zasebne skale. Potencijalni doseg nije opažena čitanost.')
+        fig.text(.065,.073,note,fontsize=12,color=MUTED)
+        fig.text(.065,.035,t('Palić & Sikić | Extended manuscript, 17 September 2026','Palić i Sikić | Prošireni rukopis, 17. rujna 2026.'),fontsize=11,color=MUTED)
+        fig.savefig(OUT/(name+'.png'),dpi=220)
+    manifest[name]={'periods':[r['period'] for r in rows],'primary_metric':'gap_pp' if gap else 'weighted_share_percent','values':series,'sample':'primary'}
+    plt.close(fig)
 
-draw(False);draw(True);draw(True,'hr');scenario();scenario('hr')
-# A share card is a research graphic with a single, qualified estimate.
-fig=plt.figure(figsize=(12,6.3),dpi=100,facecolor='#112838')
-fig.text(.065,.87,'MONETARY COMMUNICATION / RESEARCH',fontsize=15,color='#a6caff')
-fig.text(.065,.70,'HNB in Croatia’s inflation debate',fontsize=31,color='white',fontfamily='DejaVu Serif')
-fig.text(.065,.47,'−0.21',fontsize=75,color='#a6caff')
-fig.text(.38,.52,'percentage points of weighted visibility',fontsize=19,color='white')
-fig.text(.38,.45,'per +1 percentage point of inflation',fontsize=19,color='white')
-ax=fig.add_axes([.08,.24,.35,.12],facecolor='#112838')
-r=E['models'][0];ax.axvline(0,color='#b0c1cc',ls='--',lw=1)
-ax.plot([-r['hi']*100,-r['lo']*100],[0,0],lw=4,color='#a6caff');ax.scatter([-r['estimate']*100],[0],s=65,color='#a6caff')
-ax.set_xlim(-.36,.05);ax.set_ylim(-1,1);ax.set_yticks([]);ax.set_xticks([-.3,-.2,-.1,0]);ax.tick_params(colors='#dce5eb',labelsize=12,length=0)
-fig.text(.49,.30,'Primary weekly model · 95% interval',fontsize=15,color='white')
-fig.text(.49,.24,'Sensitive to time controls; not a causal effect.',fontsize=14,color='#cedbe5')
-fig.text(.065,.08,'Palić & Sikić · Manuscript 17 September 2026 · Author review pending',fontsize=14,color='#cedbe5')
-fig.savefig(OUT/'social-preview.png',dpi=100,facecolor=fig.get_facecolor());plt.close(fig)
-print('Created six research figures from saved observations and estimates.')
+def scenario(lang='en',brief=False):
+    hr=lang=='hr';t=lambda en,cr:cr if hr else en
+    rows=[r for r in E['time_sensitivity'] if r['frequency']=='weekly']
+    fig,ax=plt.subplots(figsize=(11.4,4.15 if brief else 5.0))
+    fig.subplots_adjust(left=.33,right=.93,top=.89 if brief else .77,bottom=.19 if brief else .33)
+    names=[t('Primary model','Primarni model'),t('Period trends','Trendovi razdoblja'),t('Year effects','Godišnji učinci')]
+    ax.axvline(0,color=MUTED,ls=(0,(3,3)),lw=.9)
+    values=[]
+    for index,r in enumerate(rows):
+        b,lo,hi=[-r[k]*800 for k in ['estimate','hi','lo']];y=2-index;values.append({'estimate':b,'lo':lo,'hi':hi})
+        color=BLUE if index==0 else MUTED
+        ax.plot([lo,hi],[y,y],color=color,lw=3.0,solid_capstyle='round');ax.scatter([b],[y],s=55,color=color,zorder=4)
+        label=f'{b:.2f} ({lo:.2f} '+t('to','do')+f' {hi:.2f})'
+        if hr:label=label.replace('.',',')
+        ax.text(-3.65,y+.27,label,fontsize=14,color=color,ha='left')
+    ax.set_yticks([2,1,0],names,fontsize=16);ax.tick_params(length=0,pad=12)
+    ax.set_ylim(-.45,2.65);ax.set_xlim(-3.65,.65);ax.set_xticks([-3,-2,-1,0]);ax.grid(axis='x',color=RULE,lw=.6);ax.set_axisbelow(True)
+    ax.set_xlabel(t('Weighted-share difference (percentage points)','Razlika ponderiranog udjela (postotni bodovi)'),labelpad=11,fontsize=13,color=MUTED)
+    if brief:
+        fig.savefig(WORK/('brief-scenario-'+lang+'.pdf'));fig.savefig(WORK/('brief-scenario-'+lang+'.svg'));fig.savefig(WORK/('brief-scenario-'+lang+'.png'),dpi=220)
+    else:
+        fig.text(.065,.92,t('Inflation from 2% to 10%','Inflacija s 2% na 10%'),fontsize=28,fontfamily='Source Serif 4 Display',color=INK)
+        fig.text(.065,.845,t('The estimate changes with the time controls.','Procjena se mijenja s vremenskim kontrolama.'),fontsize=15,color=MUTED)
+        fig.text(.065,.095,t('Points: conditional differences. Lines: 95% intervals. All models include media volume.','Točke: uvjetne razlike. Crte: 95%-tni intervali. Svi modeli uključuju medijski obujam.'),fontsize=12,color=MUTED)
+        fig.text(.065,.052,t('268 fitted weeks | January 2021 - May 2026 | Palić & Sikić, 17 September 2026','268 tjedana u regresiji | Siječanj 2021. - svibanj 2026. | Palić i Sikić, 17. rujna 2026.'),fontsize=11,color=MUTED)
+        fig.savefig(OUT/('inflation-scenario'+('-hr' if hr else '')+'.png'),dpi=220)
+    manifest['scenario-'+lang]={'frequency':'weekly','N':268,'inflation_contrast_pp':8,'values':values}
+    plt.close(fig)
+
+for lang in ['en','hr']:
+    timeline(lang);timeline(lang,later=True);timeline(lang,brief=True);scenario(lang);scenario(lang,brief=True)
+timeline(gap=True)
+# Keep the site's social preview in the same typographic system.
+fig=plt.figure(figsize=(12,6.3),dpi=100)
+fig.text(.065,.88,'MONETARY COMMUNICATION / CROATIA / 2021-2026',fontsize=13,color=BLUE)
+fig.text(.065,.70,'HNB in the inflation debate',fontfamily='Source Serif 4 Display',fontsize=39,color=INK)
+fig.text(.065,.36,'-0.21',fontfamily='Source Serif 4 Display',fontsize=82,color=BLUE)
+fig.text(.41,.44,'percentage points of weighted share',fontsize=20,color=INK)
+fig.text(.41,.36,'per +1 percentage point of inflation',fontsize=20,color=INK)
+fig.text(.065,.20,'Primary weekly model | 95% interval: -0.31 to -0.11 pp',fontsize=16,color=MUTED)
+fig.text(.065,.145,'Sensitive to time controls; not a causal effect.',fontsize=16,color=MUTED)
+fig.text(.065,.055,'Palić & Sikić | Manuscript 17 September 2026 | Author review pending',fontsize=12,color=MUTED)
+fig.savefig(OUT/'social-preview.png',dpi=100);plt.close(fig)
+(SITE/'qa').mkdir(exist_ok=True)
+(SITE/'qa/figure-data.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+print('Created eight publication figures and vector charts for the two full-sample briefs.')

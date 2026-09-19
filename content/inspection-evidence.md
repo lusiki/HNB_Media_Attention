@@ -1,6 +1,6 @@
-# Inspection release 2026-09-19.2
+# Inspection release 2026-09-19.3
 
-This release extends the public presentation of the 17 September 2026 manuscript. It does not re-estimate econometric models. It adds descriptive aggregation of existing scored institutional records and reconciles those aggregates to the saved monthly panels.
+The inspection layer introduced in presentation 2026-09-19.2 extends the public presentation of the 17 September 2026 manuscript. It does not re-estimate econometric models. Its descriptive aggregates of existing scored institutional records are reconciled to the saved monthly panels. Presentation 2026-09-19.3 preserves those values and updates the briefs, figures and document readers, including the full January 2021–May 2026 timeline in both briefs.
 
 ## Value provenance
 
@@ -30,6 +30,6 @@ The media-context paragraph uses the [Reuters Institute's 2025 Croatia profile](
 
 ## Version and scope
 
-Data: `extended-2026-09-17`. Method: `extended-manuscript-2026-09-17`. Presentation: `2026-09-19.2`. Aggregate and input hashes are in `inspection-input-hashes.json`; baseline research hashes are in `research-input-hashes.json`. Review remains pending. The four finding records provide English and Croatian claim, model, measure, sample and manuscript location.
+Data: `extended-2026-09-17`. Method: `extended-manuscript-2026-09-17`. Presentation: `2026-09-19.3`. Aggregate and input hashes are in `inspection-input-hashes.json`; baseline research hashes are in `research-input-hashes.json`. Review remains pending. The four finding records provide English and Croatian claim, model, measure, sample and manuscript location.
 
 The new public JSON contains monthly aggregates, selected saved coefficients and domain-form source labels. The scored input, item text, social account identifiers, aggregate preparation intermediates, QA artifacts and author manuscript remain outside the served bundle. Earlier editorial notes document historical presentations; this release's source and built pages define current behavior.

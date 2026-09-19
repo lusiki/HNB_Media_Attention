@@ -30,7 +30,7 @@ fs.mkdirSync(path.join(site,'qa'),{recursive:true});
      if(context.pages().length!==1)throw new Error('Read link opened another tab');
      if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw new Error('Reader overflows viewport');
      if(javaScriptEnabled)await page.screenshot({path:path.join(site,'qa',`reader-${name}-${width}.png`)});
-     await page.getByText('Go to page',{exact:true}).click();
+     await page.locator('.page-menu summary').click();
      await page.locator(`.page-links a[href="#page-${count}"]`).first().click();
      const last=page.locator(`#page-${count} .page-image`);
      await last.evaluate(image=>image.decode());

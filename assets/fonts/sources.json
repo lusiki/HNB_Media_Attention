@@ -1,0 +1,45 @@
+{
+  "license": "SIL Open Font License 1.1; license texts included",
+  "files": [
+    {
+      "file": "SourceSerif4-Regular.ttf",
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-serif/80d3f8894c09c937bebfa9011247d2e1c79fd6f4/TTF/SourceSerif4-Regular.ttf",
+      "sha256": "e5a4ee6a3d87bb9024796be390c6771e2a0eb1883dae25effaf57ca01668e24b"
+    },
+    {
+      "file": "SourceSerif4-It.ttf",
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-serif/80d3f8894c09c937bebfa9011247d2e1c79fd6f4/TTF/SourceSerif4-It.ttf",
+      "sha256": "9d2950a8f1da66e21502c35d646a1d2148e79f9ea43fd2158cf02f5232e7f430"
+    },
+    {
+      "file": "SourceSerif4Display-Regular.ttf",
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-serif/80d3f8894c09c937bebfa9011247d2e1c79fd6f4/TTF/SourceSerif4Display-Regular.ttf",
+      "sha256": "a1788d674713c99e61d4541c85e5cfbc3145c4e746b0185c674a0b15f7313295"
+    },
+    {
+      "file": "../../public/fonts/SourceSerif4Display-Regular.woff2",
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-serif/80d3f8894c09c937bebfa9011247d2e1c79fd6f4/WOFF2/TTF/SourceSerif4Display-Regular.ttf.woff2",
+      "sha256": "c75301c83bef55b3787f3060c2f62cb5d902a6706419149b7ff9d0c7927055ac"
+    },
+    {
+      "file": "SourceSans3-Regular.ttf",
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-sans/87b37a2daaed80fcb8e8ccb0085c4d72ddade12e/TTF/SourceSans3-Regular.ttf",
+      "sha256": "4644c81b86ec9caaa76b634889968ed3c4f4f52f054855933acc7c2b21e53b0f"
+    },
+    {
+      "file": "SourceSans3-Semibold.ttf",
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-sans/87b37a2daaed80fcb8e8ccb0085c4d72ddade12e/TTF/SourceSans3-Semibold.ttf",
+      "sha256": "a3f4f8dcf343a8f24dc61951de93f3ba1558b15cd250ba24af8a40e957081b7d"
+    },
+    {
+      "file": "../../public/fonts/SourceSans3-Regular.woff2",
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-sans/87b37a2daaed80fcb8e8ccb0085c4d72ddade12e/WOFF2/TTF/SourceSans3-Regular.ttf.woff2",
+      "sha256": "53492fb3a0def77354f166a55d09b63a10855e91c206c7620a81cf56e97f8ec3"
+    },
+    {
+      "file": "../../public/fonts/SourceSans3-Semibold.woff2",
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-sans/87b37a2daaed80fcb8e8ccb0085c4d72ddade12e/WOFF2/TTF/SourceSans3-Semibold.ttf.woff2",
+      "sha256": "47b9b661b9f395fe7f0d0e119637fba5c8dad97bde3df60066fd24229c0792f4"
+    }
+  ]
+}

@@ -14,6 +14,9 @@ E=json.loads((SITE/'public/data/evidence.json').read_text(encoding='utf-8'))
 I=json.loads((SITE/'public/data/inspection.json').read_text(encoding='utf-8'))
 DIST=SITE/'dist'; DIST.mkdir(exist_ok=True)
 assets=['data/inspection.json','data/findings.json','figures/social-preview.png','downloads/hnb-attention-gap-brief.pdf','downloads/hnb-attention-gap-brief-hr.pdf','downloads/citation.txt','figures/attention-gap.png','figures/inflation-scenario.png','figures/inflation-scenario-hr.png','figures/visibility-later.png','figures/visibility-later-hr.png','data/evidence.json','data/monthly-series.csv']
+assets += ['figures/visibility-full.png','figures/visibility-full-hr.png',
+    'fonts/SourceSerif4Display-Regular.woff2','fonts/SourceSans3-Regular.woff2',
+    'fonts/SourceSans3-Semibold.woff2','fonts/source-serif-LICENSE.txt','fonts/source-sans-LICENSE.txt']
 for name in assets:
     src=SITE/'public'/name
     if not src.is_file():raise FileNotFoundError(f'Required asset missing: {name}')

@@ -1,81 +1,116 @@
-"""Two-page governor briefs, using only the archived paper's saved evidence."""
+"""Two-page research-magazine briefs with full-sample, vector evidence figures."""
 from pathlib import Path
-import json, os
+import json
+from io import BytesIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Paragraph
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
+from pypdf import PdfReader,PdfWriter,Transformation
+from artifact_style import SITE,PAPER,INK,BLUE,MUTED,RULE,PALE,register_pdf_fonts
 
-SITE=Path(__file__).resolve().parents[1]
-S=json.loads((SITE/'content/study.json').read_text(encoding='utf-8'))
+register_pdf_fonts()
 E=json.loads((SITE/'public/data/evidence.json').read_text(encoding='utf-8'))
-font_sets=[
-    (Path(os.environ.get('OBS_FONT_DIR','C:/Windows/Fonts')),('arial.ttf','arialbd.ttf','georgia.ttf')),
-    (Path('/usr/share/fonts/truetype/dejavu'),('DejaVuSans.ttf','DejaVuSans-Bold.ttf','DejaVuSerif.ttf')),
-]
-for directory,names in font_sets:
-    if all((directory/name).is_file() for name in names):
-        for label,name in zip(['Body','Body-Bold','Display'],names):
-            pdfmetrics.registerFont(TTFont(label,str(directory/name)))
-        break
-else:
-    raise SystemExit('Install DejaVu fonts or set OBS_FONT_DIR to a folder containing arial.ttf, arialbd.ttf and georgia.ttf. Existing PDF can still be built/deployed unchanged.')
-pdfmetrics.registerFontFamily('Body',normal='Body',bold='Body-Bold',italic='Body',boldItalic='Body-Bold')
-INK='#112838';BLUE='#165ce0';MUTED='#4f6470';M=42;W=511.276
+PAGE_W,PAGE_H=595.276,841.89
+M=38;W=PAGE_W-2*M;GUTTER=20;COL=(W-2*GUTTER)/3
+WORK=SITE/'.runtime/brief-figures'
+layout=[]
 
 def make(lang):
-    hr=lang=='hr'
-    def num(v,k=2):return f'{v:.{k}f}'.replace('.',',' if hr else '.')
-    def pp(v,k=2):return num(100*v,k)
-    def choose(en,cr):return cr if hr else en
-    r=E['models'][0];t=E['trend'];common=E['common_source_trend'];net=E['centrality_trend']
-    path=SITE/'public/downloads'/('hnb-attention-gap-brief'+('-hr' if hr else '')+'.pdf')
-    c=canvas.Canvas(str(path),pagesize=(595.276,841.89),pageCompression=1)
-    c.setTitle(choose('HNB in Croatia’s inflation debate - executive brief','HNB u raspravi o inflaciji - sažetak za guvernera'))
-    c.setAuthor('Research summary of the draft by Petra Palić and Luka Sikić')
-    c.setSubject('Evidence and implications for HNB; extended draft, 17 September 2026; author review pending')
-    def text(value,y,size=10.3,font='Body',color=INK,leading=None):
-        p=Paragraph(value,ParagraphStyle('block',fontName=font,fontSize=size,leading=leading or size*1.32,textColor=HexColor(color)))
-        _,h=p.wrap(W,780)
-        if y-h<46:raise ValueError(f'{lang}: text below footer at {y-h:.1f}: {value[:80]}')
-        p.drawOn(c,M,y-h);return y-h
-    def header(page):
-        text(choose('RESEARCH BRIEF / IMPLICATIONS FOR HNB','ISTRAŽIVAČKI SAŽETAK / ZNAČENJE ZA HNB'),811,8.5,color=BLUE)
-        c.setStrokeColor(HexColor('#cbd6de'));c.line(M,789,M+W,789)
-        c.setFillColor(HexColor(MUTED));c.setFont('Body',8)
-        c.drawString(M,25,choose('Draft: 17 September 2026 | Author review pending','Nacrt: 17. 9. 2026. | Čeka autorsku provjeru'))
-        c.drawRightString(M+W,25,f'{page} / 2')
-    def label(value,y):return text(value,y,9,font='Body-Bold',color=BLUE)-7
-    def figure(name,y,height):
-        c.drawImage(str(SITE/'public/figures'/name),M,y-height,width=W,height=height,mask='auto')
-        return y-height-10
-    header(1)
-    y=text(choose('HNB in Croatia’s inflation debate','HNB u raspravi o inflaciji'),769,25,font='Display',leading=30)-12
-    y=text(choose('More attention to prices need not mean more attention to the central bank.','Veća pozornost prema cijenama ne znači nužno veću pozornost prema središnjoj banci.'),y,16,font='Display',leading=21)-13
-    y=text(choose('The paper asks whether the Croatian National Bank’s (HNB) relative media visibility keeps pace when inflation dominates the news. Its contribution is to separate what the institution publishes from its place in the wider debate. Higher inflation accompanies a smaller institutional share in the primary models; visibility declines during April 2024-May 2026.','Rad ispituje prati li relativna medijska vidljivost Hrvatske narodne banke (HNB) širenje vijesti o inflaciji. Njegov je doprinos razlikovanje onoga što institucija objavljuje od njezina mjesta u široj raspravi. U primarnim modelima viša inflacija prati manji institucionalni udio; vidljivost pada od travnja 2024. do svibnja 2026.'),y)-13
-    y=label(choose('READING THE INDICATOR','KAKO ČITATI POKAZATELJ'),y)
-    y=text(choose('<b>Relevance</b> selects items about inflation. <b>Prominence</b> reflects the institution’s presence in the title, position and frequency of mentions, and cues that it acts or speaks. The measure combines prominence with potential reach and compares this with reach across inflation coverage. The <b>attention gap = baseline share minus current weighted share</b>. A larger gap means less relative visibility.','<b>Relevantnost</b> izdvaja objave o inflaciji. <b>Istaknutost</b> obuhvaća prisutnost institucije u naslovu, položaj i učestalost spominjanja te naznake njezina djelovanja ili govora. Mjera spaja istaknutost s potencijalnim dosegom i uspoređuje ih s dosegom objava o inflaciji. <b>Jaz u pažnji = početni udio minus tekući ponderirani udio</b>. Veći jaz znači manju relativnu vidljivost.'),y,10)-8
-    y=text(choose('Example: a 4% baseline and a 3% current share give a +1 percentage-point gap. These are illustrative values. The baseline is a historical reference, not a communication target; the share is neither readership nor a simple percentage of articles.','Primjer: početni udio od 4% i tekući udio od 3% daju jaz od +1 postotnog boda. Vrijednosti su ilustrativne. Baza je povijesna referenca, a ne komunikacijski cilj; udio ne mjeri čitatelje niti jednostavan postotak članaka.'),y,9.4,color=MUTED)-14
-    y=label(choose('THE SCALE OF THE INFLATION ASSOCIATION','VELIČINA POVEZANOSTI S INFLACIJOM'),y)
-    y=text(choose(f'<b>Inflation from 2% to 10%: a {pp(r["estimate"]*8)} percentage-point lower weighted share.</b> Holding the other variables fixed, the primary weekly model implies a weighted share lower by the same amount (95% interval: {pp(r["lo"]*8)} to {pp(r["hi"]*8)}). This is the paper’s conditional comparison, not a forecast or a policy effect.',f'<b>Inflacija s 2% na 10%: ponderirani udio manji za {pp(r["estimate"]*8)} postotnih bodova.</b> Uz ostale varijable nepromijenjene, primarni tjedni model podrazumijeva ponderirani udio manji za isti iznos (95%-tni interval: {pp(r["lo"]*8)} do {pp(r["hi"]*8)}). To je uvjetna usporedba iz rada, a ne prognoza ni učinak politike.'),y,10.3)-6
-    y=figure('inflation-scenario'+('-hr' if hr else '')+'.png',y,W*4/9)
-    y=text(choose(f'<b>How robust?</b> Per 1 percentage point higher inflation, the primary gap estimate is {pp(r["estimate"])} pp (95% interval {pp(r["lo"])} to {pp(r["hi"])}; 268 fitted weeks). All three chart models include media volume. With year effects, the interval includes zero; the association is not independent of every choice of time controls. The monthly trend-control model is also inconclusive.',f'<b>Koliko je nalaz robustan?</b> Uz inflaciju višu za 1 postotni bod primarna procjena jaza raste za {pp(r["estimate"])} pb (95%-tni interval {pp(r["lo"])} do {pp(r["hi"])}; 268 tjedana u regresiji). Sva tri modela na slici uključuju medijski obujam. Uz godišnje učinke interval obuhvaća nulu. Nalaz nije neovisan o svim vremenskim kontrolama; ni mjesečni model s trendovima ne odbacuje nulti nagib.'),y,9.8)-8
-    y=text(choose('Source: paper Section 4.2 and Appendix A23. HICP is the Harmonised Index of Consumer Prices; inflation is the year-on-year rate.','Izvor: odjeljak 4.2 i dodatak A23 rada. HICP je harmonizirani indeks potrošačkih cijena; inflacija je godišnja stopa promjene.'),y,8.5,color=MUTED)
-    print(lang,'page 1 content ends at',round(y,1))
-    c.showPage();header(2)
-    y=text(choose('What the findings mean for HNB','Što nalazi znače za HNB'),769,25,font='Display',leading=30)-12
-    y=text(choose(f'<b>1. Assess visibility after the inflation surge as well.</b> Within April 2024-May 2026, the controlled gap trend is +{pp(t["estimate"],3)} pp per month (95% interval {pp(t["lo"],3)} to {pp(t["hi"],3)}; 25 fitted months). Keeping only common sources still gives +{pp(common["estimate"],3)} pp per month (p = {num(common["p"],3)}). This is evidence of declining relative visibility within that period, not proof that disinflation caused the decline.',f'<b>1. Pratiti vidljivost i nakon inflacijskog vala.</b> Od travnja 2024. do svibnja 2026. kontrolirani trend jaza iznosi +{pp(t["estimate"],3)} pb mjesečno (95%-tni interval {pp(t["lo"],3)} do {pp(t["hi"],3)}; 25 mjeseci u procjeni). Među zajedničkim izvorima iznosi +{pp(common["estimate"],3)} pb mjesečno (p = {num(common["p"],3)}). To je nalaz pada relativne vidljivosti unutar razdoblja, a ne dokaz da ga uzrokuje dezinflacija.'),y,10.2)-6
-    y=figure('visibility-later'+('-hr' if hr else '')+'.png',y,W*4.9/10.5)
-    y=text(choose(f'<b>2. Distinguish visibility from network position.</b> A share describes how much of the debate the institution occupies. Centrality describes its position among actors linked through media sources, weighting connections to well-connected actors more heavily. The common-source monthly trend is {num(net["estimate"],4)} index units (95% interval {num(net["lo"],4)} to {num(net["hi"],4)}; p = {num(net["p"],3)}). The interval includes zero: lasting structural erosion is not established.',f'<b>2. Razlikovati vidljivost od mrežnog položaja.</b> Udio opisuje zastupljenost u raspravi. Centralnost opisuje položaj među akterima koje povezuju medijski izvori, uz veću težinu veza s dobro povezanim akterima. Mjesečni trend među zajedničkim izvorima iznosi {num(net["estimate"],4)} indeksnih jedinica (95%-tni interval {num(net["lo"],4)} do {num(net["hi"],4)}; p = {num(net["p"],3)}). Interval obuhvaća nulu: trajna strukturna erozija nije utvrđena.'),y,10)-12
-    y=text(choose('<b>3. Read media evidence alongside expectations surveys.</b> For the article-share measure, baseline weekly projections find no significant future horizons with linear survey interpolation, but weeks 1-2 with step assignment; the monthly comparison finds month 12, after correction for multiple tests. Controls change the pattern too. These results do not establish a stable predictive channel, or show that a media gap causes expectations to become unanchored.','<b>3. Medijske nalaze čitati uz ankete o očekivanjima.</b> Za udio članaka osnovne tjedne projekcije uz linearnu interpolaciju ankete ne nalaze značajne buduće horizonte. Uz stepenasto pridruživanje značajni su 1. i 2. tjedan, a u mjesečnim podatcima 12. mjesec, nakon korekcije za višestruko testiranje. Kontrole također mijenjaju obrazac. Stabilan prediktivni kanal nije utvrđen, kao ni tvrdnja da medijski jaz uzrokuje gubitak usidrenosti očekivanja.'),y,10)-12
-    y=text(choose('<b>Implication for the governor.</b> Consider institutional output, relative media representation and public understanding as separate dimensions. More publications need not produce a larger share of a growing debate. The gap adds a diagnostic of representation; it does not score message quality, credibility or policy success.','<b>Značenje za guvernera.</b> Vlastite objave, relativnu medijsku zastupljenost i razumijevanje javnosti treba razmatrati odvojeno. Više objava ne jamči veći udio u rastućoj raspravi. Jaz dopunjuje uvid u zastupljenost; ne ocjenjuje kvalitetu poruke, vjerodostojnost ni uspjeh politike.'),y,10)-12
-    y=label(choose('SCOPE AND SOURCE','OBUHVAT I IZVOR'),y)
-    y=text(choose('January 2021-May 2026: 60 monthly / 268 weekly observations in the main regressions. Generic central-bank terms may include the ECB or others; potential reach is not observed exposure. The selected corpus is not a representative audience sample. Earlier-paper numerical discrepancies remain unresolved.','Siječanj 2021.-svibanj 2026.: 60 mjesečnih / 268 tjednih opažanja u glavnim regresijama. Generički izrazi mogu uključiti ESB ili druge banke; potencijalni doseg nije opažena izloženost. Korpus nije reprezentativan uzorak publike. Numerička odstupanja ranijeg rada ostaju neriješena.'),y,8.5,leading=11.1)-9
-    y=text(choose('<b>Petra Palić and Luka Sikić</b> | Hrvatsko katoličko sveučilište. Independent draft, 17 September 2026; not an HNB publication. Sections 4.2-4.7, discussion, Appendices A12, A23 and B2. Figures and numbers use saved results; models were not re-estimated.','<b>Petra Palić i Luka Sikić</b> | Hrvatsko katoličko sveučilište. Neovisni nacrt, 17. rujna 2026.; nije publikacija HNB-a. Odjeljci 4.2-4.7, rasprava, dodatci A12, A23 i B2. Slike i brojke koriste spremljene rezultate; modeli nisu ponovno procijenjeni.'),y,8.3)-7
-    y=text('<link href="../'+choose('index.html','hr.html')+'" color="'+BLUE+'">'+choose('Research page and interactive evidence','Istraživačka stranica i dodatni nalazi')+'</link>',y,9)
-    c.save();print(lang,'page 2 content ends at',round(y,1),';',path.name)
+    hr=lang=='hr';t=lambda en,cr:cr if hr else en
+    def num(value,digits=2):return f'{value:.{digits}f}'.replace('.',',' if hr else '.')
+    r=E['models'][0];trend=E['trend'];common=E['common_source_trend'];net=E['centrality_trend']
+    stream=BytesIO();c=canvas.Canvas(stream,pagesize=(PAGE_W,PAGE_H),pageCompression=1)
+    charts=[];page_number=1
+    def text(value,x,y,width,size=11,font='Sans',color=INK,leading=None,key=''):
+        p=Paragraph(value,ParagraphStyle('text',fontName=font,fontSize=size,leading=leading or size*1.28,textColor=HexColor(color)))
+        _,height=p.wrap(width,PAGE_H)
+        if y-height<51:raise ValueError(f'{lang} page {page_number}: {key} below content boundary: {y-height:.1f}')
+        p.drawOn(c,x,y-height)
+        layout.append({'language':lang,'page':page_number,'key':key,'box':[x,y-height,x+width,y],'text':value})
+        return y-height
+    def line(y,x=M,width=W,color=RULE,weight=.65):
+        c.setStrokeColor(HexColor(color));c.setLineWidth(weight);c.line(x,y,x+width,y)
+    def small(value,x,y,width=W):return text(value,x,y,width,8.4,'Sans-Bold',BLUE,leading=10.4,key='label')
+    def furniture(number):
+        c.setFillColor(HexColor(PAPER));c.rect(0,0,PAGE_W,PAGE_H,fill=1,stroke=0)
+        c.setFont('Sans-Bold',8.7);c.setFillColor(HexColor(INK));c.drawString(M,806,t('MONETARY COMMUNICATION / RESEARCH BRIEF','MONETARNA KOMUNIKACIJA / ISTRAŽIVAČKI SAŽETAK'))
+        c.setFont('Sans',8.5);c.drawRightString(PAGE_W-M,806,f'{number} / 2');line(791)
+        line(44)
+        c.setFillColor(HexColor(MUTED));c.setFont('Sans',7.6)
+        c.drawString(M,30,t('Palić & Sikić | 17 September 2026 | Independent research; author review pending','Palić i Sikić | 17. rujna 2026. | Neovisno istraživanje; čeka autorsku provjeru'))
+        c.drawRightString(PAGE_W-M,30,'2026-09-19.3')
+    def figure(name,top):
+        file=WORK/(name+'.pdf')
+        source=PdfReader(file).pages[0]
+        height=W*float(source.mediabox.height)/float(source.mediabox.width)
+        charts.append((page_number-1,file,M,top-height,W))
+        layout.append({'language':lang,'page':page_number,'key':name,'box':[M,top-height,M+W,top],'figure':True})
+        return top-height
 
-for lang in ['en','hr']:make(lang)
-(SITE/'public/downloads/citation.txt').write_text(S['citation']+'\n',encoding='utf-8')
+    furniture(1)
+    small(t('CROATIA / JANUARY 2021 - MAY 2026','HRVATSKA / SIJEČANJ 2021. - SVIBANJ 2026.'),M,773)
+    text(t('HNB in a crowded<br/>inflation debate.','HNB u širokoj<br/>raspravi o inflaciji.'),M,751,W,38,'Display',leading=40.5,key='headline')
+    text(t('Higher inflation accompanies a smaller institutional share<br/>in the primary models. Time controls qualify that finding.','Viša inflacija u primarnim modelima prati manji institucionalni<br/>udio. Vremenske kontrole ograničavaju taj zaključak.'),M,653,W,14,'Serif',leading=18,key='deck')
+    text(t('Petra Palić & Luka Sikić  /  Hrvatsko katoličko sveučilište','Petra Palić i Luka Sikić  /  Hrvatsko katoličko sveučilište'),M,601,W,9.1,'Sans',MUTED,key='authors')
+    line(581)
+    text('-'+num(r['estimate']*100),M,565,210,54,'Display',BLUE,leading=57,key='main-estimate')
+    text(t('percentage points of weighted share<br/>per +1 percentage point of inflation','postotnih bodova ponderiranog udjela<br/>uz inflaciju višu za 1 postotni bod'),M,500,207,10.2,'Sans',leading=13,key='estimate-unit')
+    text(t(f'<b>Primary weekly model.</b> The 95% interval is {num(r["lo"]*100)} to {num(r["hi"]*100)} percentage points lower. The full-sample models contain 268 fitted weeks or 60 months. This is a conditional association, not a causal effect.',f'<b>Primarni tjedni model.</b> 95%-tni interval odgovara udjelu manjem za {num(r["lo"]*100)} do {num(r["hi"]*100)} postotnih bodova. Modeli cijelog uzorka imaju 268 tjednih ili 60 mjesečnih opažanja. To je uvjetna povezanost, a ne uzročni učinak.'),M+233,562,W-233,10.9,'Sans',leading=14.1,key='principal-qualification')
+    line(449)
+    text(t('An inflation comparison: 2% to 10%','Usporedba inflacije: s 2% na 10%'),M,433,W,19,'Display',leading=23,key='scenario-title')
+    text(t(f'Primary difference: -{num(r["estimate"]*800)} pp. Other variables held fixed; all models include media volume.',f'Primarna razlika: -{num(r["estimate"]*800)} pb. Ostale varijable nepromijenjene; svi modeli uključuju medijski obujam.'),M,405,W,9.6,'Sans',MUTED,leading=12.2,key='scenario-description')
+    figure('brief-scenario-'+lang,387)
+    text(t('Points show estimates; lines show 95% intervals. With year effects, the interval includes zero: the association is sensitive to time controls.','Točke označavaju procjene, a crte 95%-tne intervale. Uz godišnje učinke interval obuhvaća nulu: povezanost je osjetljiva na vremenske kontrole.'),M,190,W,10.1,'Sans',leading=12.6,key='scenario-qualification')
+    line(149)
+    half=(W-GUTTER)/2
+    text(t('What is being measured?','Što se zapravo mjeri?'),M,135,half,15,'Display',leading=18,key='measure-title')
+    text(t('Inflation relevance selects the items; prominence and potential reach determine their weights. The gap is the baseline share minus the current share. The baseline is a reference, not a target.','Relevantnost za inflaciju izdvaja objave; istaknutost i potencijalni doseg određuju pondere. Jaz je referentni udio minus tekući udio. Referenca nije komunikacijski cilj.'),M,111,half,9.6,'Sans',leading=12,key='measure-definition')
+    x=M+half+GUTTER
+    text(t('Same numerator, smaller share.','Isti brojnik, manji udio.'),x,135,half,14.2,'Display',leading=18,key='example-title')
+    text('4 / 100 = 4%<font color="'+MUTED+'"> &nbsp; | &nbsp; </font>4 / 200 = 2%',x,109,half,16,'Display',BLUE,leading=20,key='example-arithmetic')
+    text(t('Illustrative units: unchanged numerator, doubled denominator. The example does not establish an observed cause.','Ilustrativne jedinice: isti brojnik, dvostruki nazivnik. Primjer ne utvrđuje uzrok opaženih promjena.'),x,84,half,9.1,'Sans',MUTED,leading=11.3,key='example-limit')
+    c.showPage();page_number=2;furniture(2)
+    small(t('THE FULL SAMPLE / PRIMARY CORPUS','CIJELI UZORAK / PRIMARNI KORPUS'),M,773)
+    text(t('The whole timeline, in view.','Cijelo razdoblje u jednom pogledu.'),M,750,W,28,'Display',leading=33,key='timeline-title')
+    text(t('January 2021 - May 2026. Monthly weighted visibility and inflation.<br/>Separate scales; observed series, not fitted trends.','Siječanj 2021. - svibanj 2026. Mjesečna ponderirana vidljivost i inflacija.<br/>Zasebne skale; opažene serije, a ne procijenjeni trendovi.'),M,707,W,10.5,'Sans',MUTED,leading=13.2,key='timeline-scope')
+    figure('brief-timeline-'+lang,673)
+    text(t('Weighted visibility relates institutional prominence and potential reach to the inflation corpus. Potential reach is not observed readership or understanding.','Ponderirana vidljivost povezuje institucionalnu istaknutost i potencijalni doseg s inflacijskim korpusom. Potencijalni doseg nije opažena čitanost ni razumijevanje.'),M,435,W,9.6,'Sans',MUTED,leading=12,key='timeline-meaning')
+    line(401)
+    # Three findings share a baseline and column grid, with scope next to each claim.
+    for index,label in enumerate([t('01 / VISIBILITY TREND','01 / TREND VIDLJIVOSTI'),t('02 / NETWORK POSITION','02 / MREŽNI POLOŽAJ'),t('03 / EXPECTATIONS','03 / OČEKIVANJA')]):small(label,M+index*(COL+GUTTER),384,COL)
+    text('-'+num(trend['estimate']*100,3),M,365,COL,31,'Display',BLUE,leading=35,key='trend-number')
+    text(t('pp per month','pb mjesečno'),M,326,COL,10,'Sans-Bold',leading=12,key='trend-unit')
+    text(t('April 2024 - May 2026','Travanj 2024. - svibanj 2026.'),M,302,COL,8.8,'Sans',MUTED,leading=11,key='trend-scope')
+    text(t(f'Controlled share trend: 95% interval -{num(trend["hi"]*100,3)} to -{num(trend["lo"]*100,3)} pp per month (25 months). Common sources also give a negative trend: -{num(common["estimate"]*100,3)} pp per month. This is a result for the stated period.',f'Kontrolirani trend udjela: 95%-tni interval od -{num(trend["hi"]*100,3)} do -{num(trend["lo"]*100,3)} pb mjesečno (25 mjeseci). I trend zajedničkih izvora je negativan: -{num(common["estimate"]*100,3)} pb mjesečno. Nalaz vrijedi za navedeno razdoblje.'),M,281,COL,9.5,'Sans',leading=12.2,key='trend-qualification')
+    x=M+COL+GUTTER
+    text(t('Direction<br/>uncertain','Neizvjestan<br/>smjer'),x,362,COL,23,'Display',leading=25,key='network-verdict')
+    text(t('April 2024 - May 2026','Travanj 2024. - svibanj 2026.'),x,302,COL,8.8,'Sans',MUTED,leading=11,key='network-scope')
+    text(t(f'The common-source centrality trend is {num(net["estimate"],4)} index units per month. Its 95% interval ({num(net["lo"],4)} to {num(net["hi"],4)}) includes zero. Lasting network decline is not established. Centrality is not trust.',f'Trend centralnosti zajedničkih izvora iznosi {num(net["estimate"],4)} indeksnih jedinica mjesečno. 95%-tni interval ({num(net["lo"],4)} do {num(net["hi"],4)}) obuhvaća nulu. Trajni pad mrežnog položaja nije utvrđen. Centralnost nije povjerenje.'),x,281,COL,9.5,'Sans',leading=12.2,key='network-qualification')
+    x=M+2*(COL+GUTTER)
+    text(t('No stable<br/>predictive link','Nema stabilne<br/>prediktivne veze'),x,362,COL,22,'Display',leading=25,key='expectations-verdict')
+    text(t('January 2021 - May 2026','Siječanj 2021. - svibanj 2026.'),x,302,COL,8.8,'Sans',MUTED,leading=11,key='expectations-scope')
+    text(t('Article-share projections: no significant future horizons with linear weekly assignment; weeks 1-2 with step assignment; month 12 in monthly data, after correction. Controls also matter. Understanding and anchoring are not established by this pattern.','Projekcije udjela objava: linearno tjedno pridruživanje bez značajnih budućih horizonata; stepenasto pridruživanje: 1. i 2. tjedan; mjesečni podatci: 12. mjesec, nakon korekcije. Kontrole također utječu. Obrazac ne utvrđuje razumijevanje ni usidrenost.'),x,281,COL,9.5,'Sans',leading=12.2,key='expectations-qualification')
+    line(165)
+    for index,label in enumerate([t('PUBLICATION','VLASTITE OBJAVE'),t('REPRESENTATION','ZASTUPLJENOST'),t('UNDERSTANDING','RAZUMIJEVANJE')]):
+        text(label,M+index*(COL+GUTTER),151,COL,10.1,'Sans-Bold',BLUE if index==1 else MUTED,leading=13,key='communication-dimension')
+    text(t('For HNB: read publication activity, media representation and audience understanding together. This study measures representation; it complements communication records and audience research.','Za HNB: vlastite objave, medijsku zastupljenost i razumijevanje javnosti pratiti zajedno. Istraživanje mjeri zastupljenost i dopunjuje evidenciju komunikacije i istraživanja publike.'),M,127,W,11.2,'Serif',leading=14,key='implication')
+    text(t('Scope: selected media corpus, not a representative audience sample. Generic references can include the ECB. Earlier-paper numerical discrepancies remain unresolved.','Obuhvat: odabrani medijski korpus, a ne reprezentativan uzorak publike. Generičke reference mogu uključiti ESB. Numerička odstupanja ranijeg rada ostaju neriješena.'),M,80,W,8.2,'Sans',MUTED,leading=10.2,key='scope')
+    # Small source strip remains above the footer and links to the companion evidence.
+    c.setFont('Sans',7.6);c.setFillColor(HexColor(MUTED))
+    c.drawString(M,51,t('Sources: Sections 4.2-4.7; Appendices A12, A23, B2.','Izvori: odjeljci 4.2-4.7; dodatci A12, A23, B2.'))
+    c.setFillColor(HexColor(BLUE));link=t('Interactive evidence','Interaktivni nalazi');c.drawRightString(PAGE_W-M,51,link)
+    c.linkURL('../'+('hr.html' if hr else 'index.html'),(PAGE_W-M-100,48,PAGE_W-M,60),relative=0,thickness=0)
+    c.save();stream.seek(0)
+    base=PdfReader(stream)
+    for page,file,x,y,width in charts:
+        graphic=PdfReader(file).pages[0];scale=width/float(graphic.mediabox.width)
+        base.pages[page].merge_transformed_page(graphic,Transformation().scale(scale).translate(x,y),over=True)
+    writer=PdfWriter();writer.append(base)
+    writer.add_metadata({'/Title':t('HNB in Croatia\'s inflation debate - full-sample research brief','HNB u hrvatskoj raspravi o inflaciji - cijeli uzorak'),'/Author':'Petra Palić and Luka Sikić','/Subject':'January 2021 - May 2026 | Manuscript 17 September 2026 | Author review pending | Presentation 2026-09-19.3','/Keywords':'HNB, Croatia, inflation, media visibility, 2021-2026'})
+    path=SITE/'public/downloads'/('hnb-attention-gap-brief'+('-hr' if hr else '')+'.pdf')
+    with path.open('wb') as output:writer.write(output)
+    print(f'Created {path.name}: two pages, embedded Source fonts and full-sample vector timeline.')
+
+for language in ['en','hr']:make(language)
+(SITE/'qa/brief-layout.json').write_text(json.dumps(layout,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
