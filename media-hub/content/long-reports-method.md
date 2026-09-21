@@ -66,7 +66,9 @@ does not infer later legal outcomes, consumer advice or causal policy effects.
 
 From the publication checkout, `python media-hub/scripts/make_long_reports.py`
 regenerates the two PDFs, HTML companions, vocabulary CSV and artifact metadata
-using committed aggregates, ReportLab, pypdf and the licensed repository fonts.
+using committed aggregates, ReportLab, pypdf and installed Georgia / Segoe UI fonts.
+The font directory is selected with `HNB_REPORT_FONT_DIR` (default: Windows Fonts).
+The fonts permit document embedding; font source files are not redistributed.
 `report_overview.py`, `report_language.py` and `report_layout.py` hold the editable
 content and layout. Rendering the PDFs is a separate operation from rebuilding
 the site. A new restricted-data edition requires repeating the upstream review.
@@ -74,3 +76,11 @@ the site. A new restricted-data edition requires repeating the upstream review.
 The public output contains no article text or vendor identifiers. The source ZIP
 rebuilds the static site using fixed PDFs; its existing reproducibility boundary
 does not claim to recreate restricted extraction or lexical measurement.
+
+## Presentation 2026-09-21.3
+
+The reports now share the hub's white background, navy text, Georgia headings,
+Segoe UI body, blue statistic rules and chart emphasis, pale grey panels and thin
+grey separators. Covers follow the hub's hero/scope/statistics sequence. Content,
+numerical results, page counts and review status are unchanged. The online readers
+and cover thumbnails use the same revised visual identity.

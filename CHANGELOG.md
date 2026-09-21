@@ -1,5 +1,12 @@
 # Publication revisions
 
+## 2026-09-21.3 — Reports aligned with the media hub
+
+- Restyled both long PDFs around the hub's white background, Georgia / Segoe UI
+  typography, blue statistics and charts, grey panels and fine separators.
+- Updated cover thumbnails and companion readers to match. Preserved all report
+  content, data, 14/12 page counts and author-review-pending status.
+
 ## 2026-09-21.2 — Two Croatian reports for the broad media hub
 
 - Added a 14-page descriptive media overview and a 12-page language companion,

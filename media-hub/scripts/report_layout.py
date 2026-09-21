@@ -1,7 +1,7 @@
 """A4 editorial report layout with vector charts and a matching HTML edition."""
 from pathlib import Path
 from html import escape
-import math, random, re
+import math, random, re, os
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor, Color
 from reportlab.lib.styles import ParagraphStyle
@@ -12,15 +12,18 @@ from reportlab.graphics.shapes import Drawing, Rect, Line, String, PolyLine
 from reportlab.graphics import renderPDF, renderSVG
 
 ROOT=Path(__file__).resolve().parents[2]
-for name,file in [('Sans','SourceSans3-Regular.ttf'),('Bold','SourceSans3-Semibold.ttf'),('Serif','SourceSerif4-Regular.ttf'),('Display','SourceSerif4Display-Regular.ttf')]:
-    pdfmetrics.registerFont(TTFont(name,str(ROOT/'assets/fonts'/file)))
+# Match the hub's native Georgia / Segoe UI font stack. These installed fonts
+# permit document embedding; source font files are not redistributed.
+FONT_DIR=Path(os.environ.get('HNB_REPORT_FONT_DIR','C:/Windows/Fonts'))
+for name,file in [('Sans','segoeui.ttf'),('Bold','seguisb.ttf'),('Serif','georgia.ttf'),('Display','georgia.ttf')]:
+    pdfmetrics.registerFont(TTFont(name,str(FONT_DIR/file)))
 pdfmetrics.registerFontFamily('Sans',normal='Sans',bold='Bold',italic='Sans',boldItalic='Bold')
-INK='#172A32';NAVY='#153641';BLUE='#2454CF';COPPER='#A95836';GOLD='#E7B880';MUTED='#53636A';PAPER='#FAF9F4';RULE='#D5D7CF';PALE='#E9EDF6'
+INK='#112838';NAVY=INK;BLUE='#165CE0';COPPER='#C7662B';MUTED='#4F6470';PAPER='#FFFFFF';RULE='#CBD6DE';PALE='#F1F5F8'
 W,H=595.276,841.89;M=46;CW=W-2*M
 
 def number(v,d=0):return f'{v:,.{d}f}'.replace(',','@').replace('.',',').replace('@','.')
 def pct(v,n):return number(100*v/n,1)+'%'
-def style(size=11.5,font='Sans',color=INK,leading=None):
+def style(size=11,font='Sans',color=INK,leading=None):
     return ParagraphStyle('p',fontName=font,fontSize=size,leading=leading or size*1.37,textColor=HexColor(color))
 
 class Report:
@@ -34,24 +37,27 @@ class Report:
         self.lowest.append(round(self.y,1));self.html.append('</section>');self.c.showPage()
     def new(self,kicker,title,lead=None):
         self.finish_page();self.page+=1;c=self.c;c.setFillColor(HexColor(PAPER));c.rect(0,0,W,H,fill=1,stroke=0)
-        c.setFillColor(HexColor(COPPER));c.setFont('Bold',8.6);c.drawString(M,H-38,f'{self.page:02d} / {kicker.upper()}')
+        c.setFillColor(HexColor(BLUE));c.setFont('Bold',8.3);c.drawString(M,H-38,f'{self.page:02d}')
+        c.setFillColor(HexColor(MUTED));c.drawString(M+20,H-38,'· '+kicker.upper())
+        c.setStrokeColor(HexColor(RULE));c.setLineWidth(.5);c.line(M,H-49,W-M,H-49)
         c.setStrokeColor(HexColor(RULE));c.line(M,45,W-M,45)
         c.setFont('Sans',7);c.setFillColor(HexColor(MUTED));c.drawString(M,31,'HNB U MEDIJIMA / '+self.short.upper()+' / NACRT · 21. 9. 2026.');c.drawRightString(W-M,31,f'{self.page} / {self.total}')
         self.y=H-70;self.html.append(f'<section id="stranica-{self.page}"><p class="eyebrow">{self.page:02d} / {escape(kicker)}</p>')
-        self.text(title,26,'Display',after=15,tag='h2',leading=30)
-        if lead:self.text(lead,12.3,after=16)
-    def text(self,txt,size=11.5,font='Sans',color=INK,after=11,tag='p',leading=None):
+        self.text(title,25,'Display',after=15,tag='h2',leading=30)
+        if lead:self.text(lead,11.8,after=16)
+    def text(self,txt,size=11,font='Sans',color=INK,after=11,tag='p',leading=None):
+        txt=txt.replace('#2454CF',BLUE)
         para=Paragraph(txt,style(size,font,color,leading));_,height=para.wrap(CW,1000)
         para.drawOn(self.c,M,self.y-height);self.y-=height+after
         self.html.append(f'<{tag}>{txt}</{tag}>')
     def sub(self,title,txt=None):
-        self.text(title,13,'Bold',after=6,tag='h3')
+        self.text(title,12.2,'Bold',after=7,tag='h3')
         if txt:self.text(txt)
     def note(self,txt):self.text(txt,9,'Sans',MUTED,after=12)
     def callout(self,txt):
-        p=Paragraph(txt,style(17,'Serif',NAVY,22));_,h=p.wrap(CW-28,1000)
+        p=Paragraph(txt,style(16,'Serif',NAVY,22));_,h=p.wrap(CW-30,1000)
         self.c.setFillColor(HexColor(PALE));self.c.rect(M,self.y-h-24,CW,h+24,fill=1,stroke=0)
-        self.c.setFillColor(HexColor(BLUE));self.c.rect(M,self.y-h-24,3,h+24,fill=1,stroke=0)
+        self.c.setFillColor(HexColor(COPPER));self.c.rect(M,self.y-h-24,2,h+24,fill=1,stroke=0)
         p.drawOn(self.c,M+14,self.y-h-12);self.y-=h+40;self.html.append('<blockquote>'+txt+'</blockquote>')
     def table(self,headers,rows,widths=None,size=10.1):
         widths=widths or [CW/len(headers)]*len(headers)
@@ -68,7 +74,7 @@ class Report:
         for id in re.findall(r'\bid="([^"]+)"',svg):
             unique=f'figure-{self.figure_serial}-{id}'
             svg=svg.replace(f'id="{id}"',f'id="{unique}"').replace(f'url(#{id})',f'url(#{unique})')
-        svg=svg.replace('font-family: Bold;', 'font-family: ReportSans; font-weight: 600;').replace('font-family: Sans;', 'font-family: ReportSans; font-weight: 400;')
+        svg=svg.replace('font-family: Bold;', "font-family: 'Segoe UI', ReportSans, Arial, sans-serif; font-weight: 600;").replace('font-family: Sans;', "font-family: 'Segoe UI', ReportSans, Arial, sans-serif; font-weight: 400;")
         svg=svg.replace('<title>...</title>','<title>'+escape(re.sub('<[^>]+>','',caption))+'</title>').replace('<desc>...</desc>','<desc>Brojčani podaci dostupni su u tablici ispod grafikona.</desc>')
         self.html.append('<figure>'+svg+'<figcaption>'+caption+'</figcaption></figure>')
         # Figure captions are included once in HTML.
@@ -77,21 +83,26 @@ class Report:
             self.html.append('<details><summary>Brojčani podaci uz grafikon</summary><div class="table-wrap"><table><thead><tr>'+''.join('<th>'+str(x)+'</th>' for x in headers)+'</tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+str(x)+'</td>' for x in row)+'</tr>' for row in rows)+'</tbody></table></div></details>')
     def cover(self,lines,deck,stats,closing):
         self.page=1;c=self.c;c.setFillColor(HexColor(PAPER));c.rect(0,0,W,H,fill=1,stroke=0)
-        c.setFillColor(HexColor(NAVY));c.rect(0,275,W,H-275,fill=1,stroke=0)
-        c.setFillColor(HexColor(GOLD));c.setFont('Bold',9);c.drawString(M,H-55,'HNB U HRVATSKIM MEDIJIMA / ISTRAŽIVAČKI IZVJEŠTAJ')
-        yy=H-143
+        c.setFillColor(HexColor(INK));c.setFont('Bold',9);c.drawString(M,H-39,'HNB · MEDIJSKA ISTRAŽIVANJA')
+        c.setStrokeColor(HexColor(RULE));c.setLineWidth(.6);c.line(M,H-55,W-M,H-55)
+        c.setFillColor(HexColor(MUTED));c.setFont('Bold',8.5);c.drawString(M,H-109,'NEOVISNO ISTRAŽIVANJE · OPISNO IZDANJE')
+        yy=H-169
         for line in lines:
-            c.setFont('Display',34);c.setFillColor(HexColor('#FFFFFF'));c.drawString(M,yy,line);yy-=42
-        p=Paragraph(deck,style(15,'Sans','#E2EBEA',20));_,h=p.wrap(CW,200);p.drawOn(c,M,yy-h-5)
-        c.setStrokeColor(HexColor(GOLD));c.setLineWidth(2);c.line(M,yy-h-32,M+82,yy-h-32)
-        c.setFont('Sans',11);c.setFillColor(HexColor('#E2EBEA'));c.drawString(M,yy-h-64,'Siječanj 2021. - kolovoz 2026.');c.drawString(M,yy-h-85,'21. rujna 2026.')
-        c.setFont('Bold',10);c.drawString(M,yy-h-117,'Javni istraživački nacrt');c.setFont('Sans',10);c.drawString(M,yy-h-135,'Autorska provjera u tijeku')
+            size=40 if line=='HNB' else min(35,35*CW/pdfmetrics.stringWidth(line,'Display',35))
+            c.setFont('Display',size);c.setFillColor(HexColor(INK));c.drawString(M,yy,line);yy-=48
+        p=Paragraph(deck,style(15,'Sans',INK,22));_,h=p.wrap(CW,200);p.drawOn(c,M,yy-h-10)
+        c.setFillColor(HexColor(PALE));c.rect(0,438,W,72,fill=1,stroke=0)
+        c.setStrokeColor(HexColor(RULE));c.setLineWidth(.6);c.line(0,438,W,438);c.line(0,510,W,510)
+        c.setFillColor(HexColor(INK));c.setFont('Sans',10);c.drawString(M,486,'Siječanj 2021. - kolovoz 2026. · 21. rujna 2026.')
+        c.setFont('Bold',9.5);c.drawString(M,463,'Javni istraživački nacrt');c.setFont('Sans',9.5);c.drawString(M+133,463,'· Autorska provjera u tijeku')
         for i,(value,label) in enumerate(stats):
-            x=M+i*(CW/3);c.setFont('Serif',24);c.setFillColor(HexColor(GOLD));c.drawString(x,338,value)
-            pp=Paragraph(label,style(9,'Sans','#FFFFFF',12));_,hh=pp.wrap(CW/3-14,100);pp.drawOn(c,x,321-hh)
+            x=M+i*(CW/3);c.setStrokeColor(HexColor(BLUE));c.setLineWidth(1.5);c.line(x,385,x+CW/3-18,385)
+            c.setFont('Serif',30);c.setFillColor(HexColor(BLUE));c.drawString(x,342,value)
+            pp=Paragraph(label,style(9.5,'Sans',INK,13));_,hh=pp.wrap(CW/3-20,100);pp.drawOn(c,x,324-hh)
         self.y=H;self.html.append('<section id="stranica-1" class="cover"><p class="eyebrow">HNB u hrvatskim medijima / Istraživački izvještaj</p><h1>'+escape(self.title)+'</h1><p class="lead">'+deck+'</p><p>Siječanj 2021. - kolovoz 2026. · 21. rujna 2026.</p><p>Javni istraživački nacrt. Autorska provjera u tijeku.</p><div class="stats">'+''.join('<p><b>'+v+'</b><br>'+l+'</p>' for v,l in stats)+'</div>')
-        self.y=235;self.text(closing,22,'Display',leading=28,after=15)
+        self.y=248;self.text(closing,21,'Display',leading=28,after=20)
         self.note('Neovisno istraživanje. Publikacija ne podrazumijeva pripadnost HNB-u ni njegovo odobrenje.')
+        c.setStrokeColor(HexColor(RULE));c.setLineWidth(.5);c.line(M,49,W-M,49)
         c.setFont('Sans',8);c.setFillColor(HexColor(MUTED));c.drawString(M,32,'HNB_MEDIA · podaci 2026-09-21.1 · '+self.subtitle)
     def save(self):
         self.finish_page();assert self.page==self.total,(self.page,self.total);self.c.save()
@@ -115,7 +126,7 @@ def timeline(monthly,metric='hnb_count',height=180,stable=None):
     for j in range(5):
         v=maximum*j/4;d.add(Line(l,y(v),width-right,y(v),strokeColor=HexColor(RULE),strokeWidth=.5));d.add(String(l-6,y(v)-3,number(v),textAnchor='end',fontName='Sans',fontSize=8,fillColor=HexColor(MUTED)))
     boundary=next(i for i,r in enumerate(monthly) if r['period']=='2024-01')
-    d.add(Line(x(boundary),b,x(boundary),height-17,strokeColor=HexColor(COPPER),strokeWidth=.8,strokeDashArray=[3,3]));d.add(String(x(boundary)+5,height-12,'01/2024: promjena prikupljanja',fontName='Sans',fontSize=8,fillColor=HexColor(COPPER)))
+    d.add(Line(x(boundary),b,x(boundary),height-17,strokeColor=HexColor(MUTED),strokeWidth=.8,strokeDashArray=[3,3]));d.add(String(x(boundary)+5,height-12,'01/2024: promjena prikupljanja',fontName='Sans',fontSize=8,fillColor=HexColor(MUTED)))
     for key,col in [(metric,BLUE)]+([(stable,COPPER)] if stable else []):
         points=[]
         for i,r in enumerate(monthly):points.extend([x(i),y(r[key])])
@@ -130,7 +141,7 @@ def heatmap(labels,columns,values,width=CW,height=310):
     for i,label in enumerate(labels):
         yy=height-29-(i+1)*rh;d.add(String(0,yy+rh/2-3,label,fontName='Sans',fontSize=10,fillColor=HexColor(INK)))
         for j,val in enumerate(values[i]):
-            alpha=val/maximum;col=Color(.92-.78*alpha,.94-.61*alpha,.98-.2*alpha)
+            alpha=val/maximum;col=Color((241-219*alpha)/255,(245-153*alpha)/255,(248-24*alpha)/255)
             d.add(Rect(left+j*cw,yy,cw-2,rh-2,fillColor=col,strokeColor=None));d.add(String(left+(j+.5)*cw,yy+rh/2-3,number(val,1),textAnchor='middle',fontName='Bold',fontSize=10,fillColor=HexColor('#FFFFFF' if alpha>.55 else INK)))
     return d
 
@@ -150,7 +161,7 @@ def cloud(items,width=CW,height=240,max_words=30):
                 rect=(xx-3,yy-3,xx+tw+3,yy+th+3)
                 if all(rect[2]<a or rect[0]>c or rect[3]<b or rect[1]>e for a,b,c,e in occupied):chosen=(xx,yy,rect);break
             if chosen:
-                xx,yy,rect=chosen;occupied.append(rect);d.add(String(xx,yy+size*.23,label,fontName='Bold',fontSize=size,fillColor=HexColor([NAVY,COPPER,MUTED,BLUE][index%4])));break
+                xx,yy,rect=chosen;occupied.append(rect);d.add(String(xx,yy+size*.23,label,fontName='Bold',fontSize=size,fillColor=HexColor([NAVY,BLUE,MUTED,'#387AB6'][index%4])));break
             size*=.9
         else:raise ValueError('Cloud did not fit: '+label)
     return d
