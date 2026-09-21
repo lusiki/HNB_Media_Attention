@@ -1,0 +1,1 @@
+{"date":"2026-09-21","base_commit":"621d509e62aabfffb3eb7c63ec8b9639422f3764","working_tree_was_dirty":true,"source_identity":"Exact public rendering inputs are content-hashed in the release manifest; base commit alone is insufficient.","rebuild_boundary":"Static HTML/CSS/JS, fixed approved aggregates, pre-rendered PDF and image assets."}

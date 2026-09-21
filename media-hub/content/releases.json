@@ -1,0 +1,31 @@
+{
+  "presentation_version": "2026-09-21.1",
+  "status": "public_research_draft_author_review_pending",
+  "contact": null,
+  "doi": null,
+  "canonical_url": "https://lusiki.github.io/HNB_Media_Attention/media",
+  "studies": {
+    "hnb-media": {
+      "corpus_id": "HNB_MEDIA",
+      "data_version": "2026-09-21.1",
+      "method_version": "1.0",
+      "schema_version": "1.0",
+      "title_hr": "Hrvatska narodna banka u hrvatskim medijima",
+      "title_en": "The Croatian National Bank in Croatian media",
+      "period": "2021-01/2026-08",
+      "partial_endpoint": "2026-09-10",
+      "review": "author_review_pending",
+      "independent_validation": false
+    },
+    "inflation": {
+      "corpus_id": "legacy_inflation",
+      "data_version": "extended-2026-09-17",
+      "method_version": "extended-manuscript-2026-09-17",
+      "schema_version": "1.1",
+      "period": "2021-01/2026-05",
+      "manuscript_date": "2026-09-17",
+      "review": "author_review_pending",
+      "prior_presentation": "2026-09-19.2"
+    }
+  }
+}

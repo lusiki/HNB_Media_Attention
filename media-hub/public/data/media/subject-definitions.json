@@ -1,0 +1,66 @@
+[
+  {
+    "id": "prices",
+    "label_hr": "Cijene i inflacija",
+    "label_en": "Prices and inflation",
+    "pattern": "inflacij|deflacij|dezinflacij|poskupljen|rast cijena|pad cijena",
+    "assignment": "overlapping_title_and_body_lexical_screen",
+    "validation": "agent_development_audit; no independent validation"
+  },
+  {
+    "id": "rates",
+    "label_hr": "Monetarna politika i kamate",
+    "label_en": "Monetary policy and rates",
+    "pattern": "monetarn[a-zčćšđž]* politik|kamatn[a-zčćšđž]* stop|referentn[a-zčćšđž]* kamat",
+    "assignment": "overlapping_title_and_body_lexical_screen",
+    "validation": "agent_development_audit; no independent validation"
+  },
+  {
+    "id": "currency",
+    "label_hr": "Euro i valute",
+    "label_en": "Euro and currencies",
+    "pattern": "uvođen[a-zčćšđž]* eur|uvodjen[a-z]* eur|eurozon|europodruč|konverzij|tečaj|tecaj",
+    "assignment": "overlapping_title_and_body_lexical_screen",
+    "validation": "agent_development_audit; no independent validation"
+  },
+  {
+    "id": "stability",
+    "label_hr": "Stabilnost i nadzor banaka",
+    "label_en": "Bank stability and supervision",
+    "pattern": "financijsk[a-zčćšđž]* stabil|bankovn[a-zčćšđž]* sustav|nadzor[a-zčćšđž]* ban|superviz|kapitaln[a-zčćšđž]* zahtjev",
+    "assignment": "overlapping_title_and_body_lexical_screen",
+    "validation": "agent_development_audit; no independent validation"
+  },
+  {
+    "id": "lending",
+    "label_hr": "Kreditiranje i potrošači",
+    "label_en": "Lending and consumers",
+    "pattern": "kredit|zaduživ|zaduziv|dužnik|duznik|potrošač|potrosac",
+    "assignment": "overlapping_title_and_body_lexical_screen",
+    "validation": "agent_development_audit; no independent validation"
+  },
+  {
+    "id": "forecasts",
+    "label_hr": "Prognoze i statistika",
+    "label_en": "Forecasts and statistics",
+    "pattern": "prognoz|projekcij|statistik|statistič|bilan[cč]|platn[a-zčćšđž]* bilanc",
+    "assignment": "overlapping_title_and_body_lexical_screen",
+    "validation": "agent_development_audit; no independent validation"
+  },
+  {
+    "id": "governance",
+    "label_hr": "Upravljanje i odgovornost",
+    "label_en": "Governance and accountability",
+    "pattern": "imenovan|mandat|sukob[a-zčćšđž]* interes|odgovornost|ostavk|savjet[a-zčćšđž]* hnb",
+    "assignment": "overlapping_title_and_body_lexical_screen",
+    "validation": "agent_development_audit; no independent validation"
+  },
+  {
+    "id": "payments",
+    "label_hr": "Plaćanja i gotovina",
+    "label_en": "Payments and cash",
+    "pattern": "platn[a-zčćšđž]* promet|plaćanj|placanj|gotovin|novčanic|novcanic|kovanic|digitaln[a-zčćšđž]* eur",
+    "assignment": "overlapping_title_and_body_lexical_screen",
+    "validation": "agent_development_audit; no independent validation"
+  }
+]

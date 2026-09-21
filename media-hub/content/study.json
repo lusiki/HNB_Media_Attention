@@ -1,0 +1,58 @@
+{
+  "id": "hnb-attention-gap-extended-2026-09-17",
+  "title": "HNB in Croatia’s inflation debate",
+  "subtitle": "Media evidence for monetary communication",
+  "paper_title": "Pasivno zamijenjena: cijena inflacije koju ne mjeri indeks potrošačkih cijena",
+  "paper_subtitle": "Od inflacijskog vala do dezinflacije: institucionalni jaz u pažnji HNB-a 2021.–2026.",
+  "authors": [
+    "Petra Palić",
+    "Luka Sikić"
+  ],
+  "affiliation": "Hrvatsko katoličko sveučilište",
+  "status": "Research draft · author review pending",
+  "manuscript_date": "2026-09-17",
+  "edition": "Extended manuscript edition",
+  "sample": "January 2021–May 2026",
+  "latest_included_month": "2026-05",
+  "dataset_last_observed_day": "2026-09-10",
+  "dataset_last_observed_day_status": "Documented in the dataset README; later periods are not the headline analytical sample.",
+  "language": "English summary; Croatian manuscript",
+  "citation": "Palić, P., & Sikić, L. (2026). Pasivno zamijenjena: cijena inflacije koju ne mjeri indeks potrošačkih cijena. Extended research draft, 17 September 2026. Hrvatsko katoličko sveučilište.",
+  "contact": null,
+  "doi": null,
+  "contributions": "Both researchers are named as authors in the manuscript. Individual contribution roles are not specified.",
+  "question": "How visible is the central bank when inflation dominates the news?",
+  "answer": "The primary model associates higher inflation with lower weighted institutional visibility. Visibility also declines during April 2024–May 2026. A stable relationship with consumer expectations is not established.",
+  "findings": [
+    {
+      "id": "F1",
+      "headline": "Higher inflation is associated with lower visibility",
+      "text": "A 1 percentage-point higher HICP inflation rate is associated with a 0.21 percentage-point lower weighted share in the primary weekly model.",
+      "caveat": "The association is sensitive to time controls; it does not establish causality.",
+      "locator": "Section 4.2 · Table 6 · equations 8 and 9b",
+      "paper_anchor": "tbl-primary",
+      "verification": "matched_to_output",
+      "implication": "For HNB: the size of the inflation debate and the bank’s share of it answer different questions."
+    },
+    {
+      "id": "F2",
+      "headline": "Visibility declines during April 2024–May 2026",
+      "text": "The weighted institutional share declines by 0.076 percentage points per month after accounting for inflation and the other regressors.",
+      "caveat": "This is a within-period association, not evidence that disinflation causes lower visibility.",
+      "locator": "Section 4.6 · within-source trend · page 13",
+      "paper_anchor": "uvođenje-eura-novi-režim-i-dezinflacija",
+      "verification": "matched_to_output",
+      "implication": "For HNB: assess the coverage of monetary explanations even after the initial inflation surge has passed."
+    },
+    {
+      "id": "F3",
+      "headline": "A stable link to expectations is not established",
+      "text": "Forward projections of consumer expectations depend on how monthly survey information is assigned to weeks and which controls are used. They do not robustly establish a persistent predictive channel.",
+      "caveat": "Some horizons are significant under other specifications. The survey balance does not measure long-term anchoring or trust.",
+      "locator": "Section 4.5 · Table 8 · Figure 5",
+      "paper_anchor": "tbl-lp",
+      "verification": "matched_to_output",
+      "implication": "For HNB: read media visibility alongside survey evidence; one cannot substitute for the other."
+    }
+  ]
+}

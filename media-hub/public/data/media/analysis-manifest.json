@@ -1,0 +1,26 @@
+{
+  "data_version": "2026-09-21.1",
+  "method_version": "1.0",
+  "snapshot": "merged-maintained-2026-09-19",
+  "archive_rows": 42267474,
+  "fingerprint": "metadata, schema, and counts; no whole-database content hash",
+  "source_access": "read-only",
+  "seed": 20260921,
+  "inputs": {
+    "analysis-manifest.json": "e2cdbbe4fbdac9aad93a1b4e6c4cf367d15f2a2a2936129768c1968b65ac5576",
+    "legacy-candidate-baseline.csv": "3a4043179b107598a82daf4138138a56f25250bcd5a9a2139f25f5eae8ee76e1",
+    "media-monthly.csv": "d3421e92d189bfd8d8af221cfc89310107710c1cc3c8f0a83ca05d007e3681c8",
+    "media-source-monthly.csv": "c3a63e16d4e8ed25ade698b67ce6d981a647a1f1d96356d18162d9da82594b59",
+    "media-sources.csv": "1af716754bfbb6d24fd8df4275557046af86f44f4971ca08c167a336ad00d0d7",
+    "media-subjects.csv": "fce2032df0e95323c6cfd2a52ac34f9047ab523c54c4da4800a6e3650e769cb9",
+    "period-summary.csv": "909d2e73f2bac6914ec7bbc4db779951812940c5d47f2f703228a7251b9567ee",
+    "platform-audit.csv": "dd18bc985aa5a2b09ca0bf35d4a95288f8ba3cb94d230937bb73fc0c84eb85a9",
+    "retrieval-audit.csv": "81325d52ea10ce6ca2f6d606ba249ed592399b4ba1a51eaebf17567154d720f5",
+    "retrieval-bridge.csv": "77e1f770dc82ff5700488d5b6c2295cccca6fd5fbd7b71d822928ec9e4ef8b52",
+    "source-registry.csv": "b3ce23d4fc4801250869a32ba85072861b450c6b96864ec639d5043070b99804",
+    "subject-definitions.json": "d5bca48230d5191f41109729bbf075027a949c784b0d8068ae00a6ce02e72728",
+    "summary.json": "7caae0d9dc11ff7316fd028472d09d92a2a3e59873f4fe42a8272364527848bc",
+    "unclassified-web-sources.csv": "4858f8a53f93fdfe69d62e6cf13973cc693e511b870f19f66ac186a6a9df4644"
+  },
+  "validation": "development audit only"
+}

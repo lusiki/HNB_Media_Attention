@@ -38,11 +38,19 @@ jobs:
         run: |
           node --check src/app.js
           node --check src/charts.js
+      - name: Build media hub and verify combined public files
+        env:
+          SITE_URL: https://lusiki.github.io/HNB_Media_Attention
+        run: |
+          python scripts/build_site.py
+          node --check media-hub/src/media.js
+          node --check media-hub/src/legacy-links.js
       - name: Upload only the public site
+        # Compose only after the original publication checks have passed.
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         with:
-          path: dist
+          path: site-dist
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

@@ -25,3 +25,7 @@ Thumbs.db
 /raw/
 /data-raw/
 /results/
+/media-hub/dist/
+/media-hub/qa/
+/media-hub/*.zip.sha256
+/site-dist/

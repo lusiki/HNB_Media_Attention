@@ -1,10 +1,19 @@
 # HNB in Croatia's inflation debate
 
+This repository publishes two complementary bilingual research pages:
+
+- **HNB in Croatian media** — the broad media research hub: [Hrvatski](https://lusiki.github.io/HNB_Media_Attention/media/hr.html) · [English](https://lusiki.github.io/HNB_Media_Attention/media/). Explore explicit HNB mentions across registered outlets, January 2021–August 2026, with aggregate downloads, an overview, briefs and slides. Public research draft; author review pending.
+- **HNB in Croatia's inflation debate** — the existing specialist study: [English](https://lusiki.github.io/HNB_Media_Attention/) · [Hrvatski](https://lusiki.github.io/HNB_Media_Attention/hr.html).
+
+The broad hub's reproducible publication source is in `media-hub/`. Its data and method editions are separate from the inflation study. Only aggregate publication inputs are included; the underlying article archive and private analysis are excluded.
+
+To preview both pages, run `python scripts/build.py`, then `python scripts/build_site.py`, and serve `site-dist/`. The deployment workflow checks the original study, builds the hub, verifies both file manifests, and publishes the combined `site-dist/` artifact. The original study remains at the site root; the new hub is under `media/`.
+
 Bilingual static research publication based on the extended manuscript by Petra Palić and Luka Sikić, dated **17 September 2026**. Presentation version: **2026-09-19.3**. Author review is pending.
 
 This is the canonical publication checkout. [Live site](https://lusiki.github.io/HNB_Media_Attention/) · [Repository](https://github.com/lusiki/HNB_Media_Attention) · [Deployment workflow](https://github.com/lusiki/HNB_Media_Attention/actions/workflows/pages.yml).
 
-Pushes to `main` build, verify and deploy through GitHub Actions. Pull requests run checks without deployment. Only the generated `dist` artifact is published. Ordinary builds use committed publication inputs and the Python standard library; verification additionally requires `requirements-checks.txt`. Neither requires the original research workspace.
+Pushes to `main` build, verify and deploy through GitHub Actions. Pull requests run checks without deployment. Only the generated `site-dist` artifact is published. Ordinary builds use committed publication inputs and the Python standard library; verification additionally requires `requirements-checks.txt`. Neither requires the original research workspace.
 
 ## Build and preview
 

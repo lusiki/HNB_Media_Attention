@@ -1,0 +1,692 @@
+{
+  "edition": "extended-2026-09-17",
+  "verification": "matched_to_output",
+  "sample": "S1",
+  "frequency": "monthly",
+  "baseline": {
+    "monthly": 0.0402564470163233,
+    "weekly": 0.0386922100690714
+  },
+  "series_metadata": [
+    {
+      "id": "gap",
+      "label": "HNB attention gap",
+      "definition": "Fixed Jan–Jun 2021 mean weighted share (after baseline outlier exclusion) minus current weighted share",
+      "canonical_units": "share units",
+      "display_units": "percentage points",
+      "display_multiplier": 100,
+      "time_basis": "calendar month of record date; publication timestamp not established",
+      "scope": "extended manuscript primary sample; original platform universe",
+      "missing_rule": "null for excluded media months; visible gaps; no interpolation"
+    },
+    {
+      "id": "inflation",
+      "label": "HICP inflation",
+      "definition": "Croatian all-items HICP, year-on-year rate",
+      "canonical_units": "percent",
+      "display_units": "percent",
+      "display_multiplier": 1,
+      "time_basis": "reference month",
+      "scope": "January 2021 to May 2026",
+      "missing_rule": "HICP retains availability independently of media coverage"
+    }
+  ],
+  "centrality_trend": {
+    "estimate": -0.00508653631129087,
+    "se": 0.00370676190665571,
+    "lo": -0.0128741540989097,
+    "hi": 0.002701081476328,
+    "p": 0.186851202931706,
+    "N": 25.0
+  },
+  "observations": [
+    {
+      "period": "2021-01",
+      "gap": -0.00990859177647119,
+      "inflation": 0.0,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2021-02",
+      "gap": 0.0214174421127233,
+      "inflation": 0.7,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2021-03",
+      "gap": -0.00238852887499758,
+      "inflation": 1.6,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2021-04",
+      "gap": 0.000307869340081431,
+      "inflation": 2.1,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2021-05",
+      "gap": 0.0019566081015493,
+      "inflation": 2.4,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2021-06",
+      "gap": -0.0113847989028853,
+      "inflation": 2.2,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2021-07",
+      "gap": -0.0198819425103799,
+      "inflation": 2.7,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2021-08",
+      "gap": -0.0061604420361883,
+      "inflation": 3.1,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2021-09",
+      "gap": -0.0111352723144424,
+      "inflation": 3.5,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2021-10",
+      "gap": -0.00249084450607366,
+      "inflation": 3.9,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2021-11",
+      "gap": 0.00122145405781921,
+      "inflation": 4.7,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2021-12",
+      "gap": -0.00567113147004641,
+      "inflation": 5.2,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-01",
+      "gap": -0.0059511952855051,
+      "inflation": 5.5,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-02",
+      "gap": 0.017610429824085,
+      "inflation": 6.3,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-03",
+      "gap": 0.0103794553003707,
+      "inflation": 7.3,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-04",
+      "gap": 0.00753843060269405,
+      "inflation": 9.6,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-05",
+      "gap": 0.00429702068351516,
+      "inflation": 10.7,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-06",
+      "gap": 0.0138399641442558,
+      "inflation": 12.1,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-07",
+      "gap": 0.00846181359426814,
+      "inflation": 12.7,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-08",
+      "gap": 0.0239859261120745,
+      "inflation": 12.6,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-09",
+      "gap": 0.0213240383263036,
+      "inflation": 12.6,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-10",
+      "gap": 0.0112716286541851,
+      "inflation": 12.7,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-11",
+      "gap": 0.0138823129458179,
+      "inflation": 13.0,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2022-12",
+      "gap": 0.00521974905643111,
+      "inflation": 12.7,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-01",
+      "gap": 0.016216030102955,
+      "inflation": 12.5,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-02",
+      "gap": 0.0176740120738955,
+      "inflation": 11.7,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-03",
+      "gap": 0.00647974005479417,
+      "inflation": 10.5,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-04",
+      "gap": -0.108005050735334,
+      "inflation": 8.9,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-05",
+      "gap": 0.011922585879284,
+      "inflation": 8.3,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-06",
+      "gap": 0.00252868241410754,
+      "inflation": 8.3,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-07",
+      "gap": 0.00882971979403006,
+      "inflation": 8.0,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-08",
+      "gap": 0.00430143928882259,
+      "inflation": 8.4,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-09",
+      "gap": 0.0147159314964444,
+      "inflation": 7.4,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-10",
+      "gap": 0.0125710273178322,
+      "inflation": 6.7,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-11",
+      "gap": -0.0675414515665312,
+      "inflation": 5.5,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2023-12",
+      "gap": 0.00128727587567549,
+      "inflation": 5.4,
+      "source": "original",
+      "status": "included"
+    },
+    {
+      "period": "2024-01",
+      "gap": null,
+      "inflation": 4.8,
+      "source": "original",
+      "status": "excluded_text_coverage"
+    },
+    {
+      "period": "2024-02",
+      "gap": null,
+      "inflation": 4.8,
+      "source": "original",
+      "status": "excluded_text_coverage"
+    },
+    {
+      "period": "2024-03",
+      "gap": null,
+      "inflation": 4.9,
+      "source": "original",
+      "status": "excluded_text_coverage"
+    },
+    {
+      "period": "2024-04",
+      "gap": 0.012472696309824,
+      "inflation": 4.7,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2024-05",
+      "gap": 0.0106982442052052,
+      "inflation": 4.3,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2024-06",
+      "gap": -0.00721596737001617,
+      "inflation": 3.5,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2024-07",
+      "gap": 0.00760290978138191,
+      "inflation": 3.3,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2024-08",
+      "gap": 0.0179369572295178,
+      "inflation": 3.0,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2024-09",
+      "gap": 0.0130381776099414,
+      "inflation": 3.1,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2024-10",
+      "gap": 0.0263383488177045,
+      "inflation": 3.6,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2024-11",
+      "gap": 0.0120255542164311,
+      "inflation": 4.0,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2024-12",
+      "gap": 0.0170190398497476,
+      "inflation": 4.5,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-01",
+      "gap": 0.0248527198093661,
+      "inflation": 5.0,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-02",
+      "gap": 0.00765183340489981,
+      "inflation": 4.8,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-03",
+      "gap": 0.0164803171886478,
+      "inflation": 4.3,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-04",
+      "gap": 0.0100496786534657,
+      "inflation": 4.0,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-05",
+      "gap": 0.0174123660487746,
+      "inflation": 4.3,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-06",
+      "gap": 0.0103578444432364,
+      "inflation": 4.4,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-07",
+      "gap": 0.0119146521692693,
+      "inflation": 4.5,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-08",
+      "gap": 0.0256247061191742,
+      "inflation": 4.6,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-09",
+      "gap": 0.014540694608145,
+      "inflation": 4.6,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-10",
+      "gap": 0.0174666527955925,
+      "inflation": 4.0,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-11",
+      "gap": 0.0357998135127043,
+      "inflation": 4.3,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2025-12",
+      "gap": 0.0237725201074034,
+      "inflation": 3.8,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2026-01",
+      "gap": -0.00113671888646039,
+      "inflation": 3.6,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2026-02",
+      "gap": 0.0250883403533103,
+      "inflation": 3.9,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2026-03",
+      "gap": 0.0323609829996404,
+      "inflation": 4.6,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2026-04",
+      "gap": 0.03343579255484,
+      "inflation": 5.4,
+      "source": "new",
+      "status": "included"
+    },
+    {
+      "period": "2026-05",
+      "gap": 0.0241756045193128,
+      "inflation": 4.9,
+      "source": "new",
+      "status": "included"
+    }
+  ],
+  "models": [
+    {
+      "frequency": "weekly",
+      "specification": "9b",
+      "estimate": 0.00210000716395124,
+      "se": 0.000494895004765312,
+      "lo": 0.00112549456155479,
+      "hi": 0.00307451976634769,
+      "p": 3.0658619898092e-05,
+      "N": 268.0
+    },
+    {
+      "frequency": "weekly",
+      "specification": "9a",
+      "estimate": 0.00132204857708132,
+      "se": 0.000427201299981122,
+      "lo": 0.000480848751184516,
+      "hi": 0.00216324840297812,
+      "p": 0.00218465851562081,
+      "N": 268.0
+    },
+    {
+      "frequency": "monthly",
+      "specification": "9b",
+      "estimate": 0.00174812327070178,
+      "se": 0.000614443400617568,
+      "lo": 0.000515152383961296,
+      "hi": 0.00298109415744226,
+      "p": 0.00633726861162648,
+      "N": 60.0
+    },
+    {
+      "frequency": "monthly",
+      "specification": "9a",
+      "estimate": 0.00127631203052943,
+      "se": 0.000653678021754737,
+      "lo": -3.48000438324452e-05,
+      "hi": 0.0025874241048913,
+      "p": 0.0561683943487488,
+      "N": 60.0
+    }
+  ],
+  "trend": {
+    "estimate": 0.000761624613050737,
+    "se": 0.000197141213062036,
+    "lo": 0.000347446293488851,
+    "hi": 0.00117580293261262,
+    "p": 0.00113873666771982,
+    "N": 25.0
+  },
+  "common_source_trend": {
+    "estimate": 0.000562213347268167,
+    "se": 0.000260873413488042,
+    "lo": 1.41386431582267e-05,
+    "hi": 0.00111028805137811,
+    "p": 0.0449397630797104,
+    "N": 25.0
+  },
+  "expectations": [
+    {
+      "label": "Weekly · linear",
+      "frequency": "weekly",
+      "significant_horizons": [],
+      "tested_future_horizons": 12,
+      "correction_family_size": 13,
+      "minimum_adjusted_p": 0.0923620321503575
+    },
+    {
+      "label": "Weekly · step",
+      "frequency": "weekly",
+      "significant_horizons": [
+        1,
+        2
+      ],
+      "tested_future_horizons": 12,
+      "correction_family_size": 13,
+      "minimum_adjusted_p": 0.0160327755600375
+    },
+    {
+      "label": "Monthly · original survey",
+      "frequency": "monthly",
+      "significant_horizons": [
+        12
+      ],
+      "tested_future_horizons": 12,
+      "correction_family_size": 13,
+      "minimum_adjusted_p": 0.00287588711934732
+    }
+  ],
+  "coverage": [
+    {
+      "frequency": "monthly",
+      "sample": "S1",
+      "eligible": 62,
+      "complete_baseline": 60,
+      "start": "2021-01-01",
+      "end": "2026-05-01",
+      "segments": 2
+    },
+    {
+      "frequency": "monthly",
+      "sample": "S3",
+      "eligible": 26,
+      "complete_baseline": 25,
+      "start": "2024-04-01",
+      "end": "2026-05-01",
+      "segments": 1
+    },
+    {
+      "frequency": "weekly",
+      "sample": "S1",
+      "eligible": 270,
+      "complete_baseline": 268,
+      "start": "2021-01-04",
+      "end": "2026-05-25",
+      "segments": 2
+    },
+    {
+      "frequency": "weekly",
+      "sample": "S3",
+      "eligible": 113,
+      "complete_baseline": 112,
+      "start": "2024-04-01",
+      "end": "2026-05-25",
+      "segments": 1
+    }
+  ],
+  "time_sensitivity": [
+    {
+      "frequency": "monthly",
+      "adjustment": "none",
+      "estimate": 0.00174812327070178,
+      "se": 0.000614443400617568,
+      "lo": 0.000515152383961296,
+      "hi": 0.00298109415744226,
+      "p": 0.00633726861162648,
+      "N": 60.0
+    },
+    {
+      "frequency": "monthly",
+      "adjustment": "trend",
+      "estimate": 0.00178823597844058,
+      "se": 0.0010311641308016,
+      "lo": -0.00028291813255244,
+      "hi": 0.00385939008943361,
+      "p": 0.0890463304632634,
+      "N": 60.0
+    },
+    {
+      "frequency": "monthly",
+      "adjustment": "year",
+      "estimate": 0.00196599641629948,
+      "se": 0.000937202386957834,
+      "lo": 8.26177072906053e-05,
+      "hi": 0.00384937512530836,
+      "p": 0.0411096408605726,
+      "N": 60.0
+    },
+    {
+      "frequency": "weekly",
+      "adjustment": "none",
+      "estimate": 0.00210000716395124,
+      "se": 0.000494895004765312,
+      "lo": 0.00112549456155479,
+      "hi": 0.00307451976634769,
+      "p": 3.0658619898092e-05,
+      "N": 268.0
+    },
+    {
+      "frequency": "weekly",
+      "adjustment": "trend",
+      "estimate": 0.00250422241210508,
+      "se": 0.000815618316942921,
+      "lo": 0.000898105691743312,
+      "hi": 0.00411033913246684,
+      "p": 0.00236661992489963,
+      "N": 268.0
+    },
+    {
+      "frequency": "weekly",
+      "adjustment": "year",
+      "estimate": 0.00134673385142307,
+      "se": 0.000984266866741354,
+      "lo": -0.000591557189703891,
+      "hi": 0.00328502489255003,
+      "p": 0.172430096953927,
+      "N": 268.0
+    }
+  ],
+  "source_note": "Saved results underlying the 17 September 2026 extended manuscript. Selected values were matched, not re-estimated for this publication.",
+  "schema_version": "1.1",
+  "presentation_version": "2026-09-21.1",
+  "collection_boundary": "2024-04"
+}
