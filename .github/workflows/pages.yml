@@ -43,6 +43,7 @@ jobs:
           SITE_URL: https://lusiki.github.io/HNB_Media_Attention
         run: |
           python scripts/build_site.py
+          python scripts/verify_reports.py
           node --check media-hub/src/media.js
           node --check media-hub/src/legacy-links.js
       - name: Upload only the public site

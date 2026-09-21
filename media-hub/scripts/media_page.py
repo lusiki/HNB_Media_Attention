@@ -3,6 +3,7 @@ from html import escape as e
 import json,shutil,os,csv
 from media_chart import chart,number
 from media_content import content
+from report_cards import report_cards
 
 def table(headers,rows,body_id=None):
     return '<div class="table-wrap"><table><thead><tr>'+''.join('<th scope="col">'+e(x)+'</th>' for x in headers)+'</tr></thead><tbody'+(' id="'+body_id+'"' if body_id else '')+'>'+''.join('<tr>'+''.join(('<th scope="row">' if i==0 else '<td>')+str(v)+('</th>' if i==0 else '</td>') for i,v in enumerate(r))+'</tr>' for r in rows)+'</tbody></table></div>'
@@ -11,10 +12,12 @@ def build_media(site,dist):
     data=json.loads((site/'public/data/media/media.json').read_text(encoding='utf-8'));s=data['summary'];release=data['release'];allow=[]
     for name in ['media.css','media.js','legacy-links.js']:
         shutil.copyfile(site/'src'/name,dist/name);allow.append(name)
-    media_files=['media.json','media-monthly.csv','media-source-monthly.csv','media-sources.csv','media-subjects.csv','source-registry.csv','retrieval-audit.csv','retrieval-bridge.csv','platform-audit.csv','subject-definitions.json','releases.json','findings.json','analysis-manifest.json','related-studies.json']
+    media_files=['media.json','media-monthly.csv','media-source-monthly.csv','media-sources.csv','media-subjects.csv','source-registry.csv','retrieval-audit.csv','retrieval-bridge.csv','platform-audit.csv','subject-definitions.json','releases.json','findings.json','analysis-manifest.json','related-studies.json','report-language.json','report-language.csv']
     for p in [site/'public/data/media'/name for name in media_files]:
         name='data/media/'+p.name;(dist/name).parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,dist/name);allow.append(name)
     names=['hnb-media-overview-hr.html','hnb-media-overview-hr.pdf','hnb-media-brief-en.html','hnb-media-brief-en.pdf','hnb-media-brief-hr.html','hnb-media-brief-hr.pdf','hnb-media-slides-hr.html','hnb-media-slides-hr.pdf','media-publications.css','media-slides.js','media-citation.txt','media-reuse.txt','media-dictionary.html','media-methods-hr.html','media-methods-en.html','artifacts.json']
+    names+=['hnb-reports.css']+[stem+ext for stem in ['hnb-u-medijskom-prostoru','hnb-od-rijeci-do-javnih-pitanja'] for ext in ['.pdf','.html','.webp']]
+    names+=['SourceSans3-Regular.woff2','SourceSans3-Semibold.woff2','SourceSerif4Display-Regular.woff2','source-sans-LICENSE.txt','source-serif-LICENSE.txt']
     for name in names:
         p=site/'public/downloads'/name
         if not p.is_file():raise FileNotFoundError(p)
@@ -59,7 +62,9 @@ def build_media(site,dist):
 <section class="section" id="analiza"><p class="eyebrow">06 · {t('Methods and release','Metode i izdanje')}</p><h2>{t('Read the limits alongside the numbers','Čitajte ograničenja uz brojke')}</h2><div class="methods-grid">{methods}</div><p class="source-note">{t('Eligibility reference','Izvor za prihvatljivost')}: <a href="https://aem.hr/elektronicke-publikacije/">{t('Agency for Electronic Media register','Upisnik Agencije za elektroničke medije')}</a> · 21. 9. 2026. · <a href="data/media/analysis-manifest.json">{t('Analysis lineage','Analitičko podrijetlo')}</a></p><h3>{t('Publications and reproducible inputs','Publikacije i ulazni podaci za ponovljivost')}</h3><ul class="download-list">{''.join(downloads)}</ul><p>{e(c['sections'][7][1][1])}</p><p><a href="downloads/media-citation.txt">{t('Citation','Citiranje')}</a> · <a href="downloads/media-reuse.txt">{t('Reuse and data restrictions','Ponovna uporaba i ograničenja podataka')}</a></p></section></main>
 <footer class="footer"><div class="wrap">{t('Independent research resource; no HNB affiliation or endorsement is implied.','Neovisni istraživački izvor; ne podrazumijeva pripadnost HNB-u ni njegovo odobrenje.')}<br>HNB_MEDIA · {t('data','podaci')} {release['data_version']} · {t('method','metoda')} {release['method_version']} · {t('presentation','prikaz')} {data['presentation_version']} · {t('author review pending','autorska provjera u tijeku')}</div></footer>
 <dialog id="media-definition" aria-labelledby="media-definition-title"><h2 id="media-definition-title">{t('Count, rate and coverage','Broj, stopa i obuhvat')}</h2><p>{e(c['methods'][3][1])}</p><p>{e(c['methods'][4][1])}</p><button id="media-definition-close">{t('Close','Zatvori')}</button></dialog><p class="sr-only" id="media-announcement" aria-live="polite"></p><script id="media-data" type="application/json">{json.dumps(data,ensure_ascii=False,separators=(',',':'),allow_nan=False).replace('<',chr(92)+'u003c')}</script><script src="media.js" defer></script>'''
-        body=body.replace('<section class="section" id="analiza">',related_html+'<section class="section" id="analiza">')
+        body=body.replace('<section class="section" id="analiza">',report_cards(artifacts,lang)+related_html+'<section class="section" id="analiza">')
+        body=body.replace('<a href="#analiza">', '<a href="#izvjestaj">'+t('Reports','Izvještaji')+'</a><a href="#analiza">',1)
+        body=body.replace('href="downloads/hnb-media-overview-hr.html">'+t('Read the overview (Croatian)','Pročitajte cjeloviti pregled'), 'href="#izvjestaj">'+t('Read the two reports (Croatian)','Pročitajte dva izvještaja'),1)
         template=(site/'src'/name).read_text(encoding='utf-8')
         for k,v in {'LANG':lang,'TITLE':e(c['title']),'DESCRIPTION':e(c['lead']),'BODY':body}.items():template=template.replace('@@'+k+'@@',v)
         base=(os.environ.get('SITE_URL') or json.loads((site/'content/releases.json').read_text(encoding='utf-8'))['canonical_url'] or '').rstrip('/')

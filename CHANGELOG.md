@@ -1,5 +1,17 @@
 # Publication revisions
 
+## 2026-09-21.2 — Two Croatian reports for the broad media hub
+
+- Added a 14-page descriptive media overview and a 12-page language companion,
+  following the complementary report format used by DigiKat.
+- Added eight thematic vocabularies, selected phrase frequencies and three
+  documented public examples from 33,100 distinct texts; published aggregate
+  CSV/JSON and the exact lexical rules separately from full-publication counts.
+- Added matching HTML reading editions, numeric alternatives for every figure,
+  and a reports section on both hub languages. Retained author-review-pending status.
+- Preserved the original inflation publication, its inputs and estimates. Added
+  report validation to the deployment checks and kept restricted text outside the repository.
+
 ## 2026-09-19.3 — Full-sample briefs and publication design
 
 - Redesigned both two-page briefs with Source Serif 4 and Source Sans 3, a warm paper palette, cobalt emphasis, vector figures and an aligned evidence grid.

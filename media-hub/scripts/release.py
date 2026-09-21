@@ -11,7 +11,7 @@ def writezip(path,files):
 def finalize(site,dist,allowlist):
     allow=set(allowlist);assert len(allow)==len(allowlist),'Duplicate allowlist entries'
     registry=json.loads((site/'content/releases.json').read_text(encoding='utf-8'))
-    scripts=['build.py','charts.py','inspection_components.py','media_page.py','media_chart.py','media_content.py','legacy_context.py','release.py']
+    scripts=['build.py','charts.py','inspection_components.py','media_page.py','media_chart.py','media_content.py','legacy_context.py','release.py','report_cards.py']
     src=['index.html','hr.html','styles.css','charts.js','app.js','media.css','media.js','legacy-links.js','studies/inflation/index.html','studies/inflation/hr.html']
     inputs={}
     for name in scripts:inputs['scripts/'+name]=(site/'scripts'/name).read_bytes()

@@ -7,6 +7,8 @@ This repository publishes two complementary bilingual research pages:
 
 The broad hub's reproducible publication source is in `media-hub/`. Its data and method editions are separate from the inflation study. Only aggregate publication inputs are included; the underlying article archive and private analysis are excluded.
 
+The hub's [reports section](https://lusiki.github.io/HNB_Media_Attention/media/hr.html#izvjestaj) now includes two complementary Croatian publications: **HNB u medijskom prostoru** (14 pages) and **HNB: od riječi do javnih pitanja** (12 pages). Both have PDF downloads and HTML reading editions. The first describes 33,235 publications; the second examines selected vocabulary around explicit HNB mentions in 33,100 distinct body texts, with three documented public examples. Both remain public research drafts awaiting author review. Methods and optional regeneration are documented in `media-hub/content/long-reports-method.md`.
+
 To preview both pages, run `python scripts/build.py`, then `python scripts/build_site.py`, and serve `site-dist/`. The deployment workflow checks the original study, builds the hub, verifies both file manifests, and publishes the combined `site-dist/` artifact. The original study remains at the site root; the new hub is under `media/`.
 
 Bilingual static research publication based on the extended manuscript by Petra Palić and Luka Sikić, dated **17 September 2026**. Presentation version: **2026-09-19.3**. Author review is pending.
