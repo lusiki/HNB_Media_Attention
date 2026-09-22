@@ -1,5 +1,27 @@
 # Croatian report pair, 21 September 2026
 
+## Executive presentation, 22 September 2026
+
+Presentation 2026-09-22.2 rewrites all 16 overview pages and 14 language pages
+around findings and plain-language indicator explanations. It removes methods,
+collection commentary, draft banners, validation checklists and future-work
+discussion from the report narrative. Data definitions and review status in the
+release registry remain unchanged; this is an editorial edition, not new
+independent validation or institutional approval.
+
+The overview now has a page guide, an August 2026 snapshot, outlet attention
+rankings, annual breadth and headline tables, and the three attention series.
+Monthly line charts cover January 2024-August 2026; full-period totals and annual
+tables retain January 2021-August 2026. The language report integrates the
+same-body topic linkage and quarterly vocabulary results. Quarterly charts end
+at the last complete quarter, 2026 Q2. Historical anecdote pages, including the
+unverified cash-exchange candidate, are replaced by measured word/phrase tables.
+No message uptake, sentiment, actor-role or causal result is asserted.
+
+Both reports retain the site's visual identity and have matching HTML editions,
+14 figures with numerical alternatives, and refreshed cover thumbnails. The
+following sections document earlier editions and the unchanged data production.
+
 ## Extension of 22 September 2026
 
 Presentation 2026-09-22.1 expands the overview to 16 pages and the language report

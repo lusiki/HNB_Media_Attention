@@ -30,7 +30,7 @@ class Report:
     def __init__(self,path,title,short,total,subtitle):
         self.path=path;self.title=title;self.short=short;self.total=total;self.page=0;self.html=[];self.lowest=[];self.figure_serial=0
         self.c=canvas.Canvas(str(path),pagesize=(W,H),pageCompression=1,invariant=1)
-        self.c.setTitle(title);self.c.setAuthor('HNB media research project');self.c.setSubject('Javni istraživački nacrt; autorska provjera u tijeku. HNB_MEDIA, 2021-01/2026-08.');self.subtitle=subtitle
+        self.c.setTitle(title);self.c.setAuthor('HNB media research project');self.c.setSubject('Pregled medijske prisutnosti i jezika. HNB_MEDIA, 2021-01/2026-08.');self.subtitle=subtitle
     def finish_page(self):
         if not self.page:return
         if self.y<67:raise ValueError(f'{self.short} page {self.page} overflows: y={self.y:.1f}')
@@ -41,7 +41,7 @@ class Report:
         c.setFillColor(HexColor(MUTED));c.drawString(M+20,H-38,'· '+kicker.upper())
         c.setStrokeColor(HexColor(RULE));c.setLineWidth(.5);c.line(M,H-49,W-M,H-49)
         c.setStrokeColor(HexColor(RULE));c.line(M,45,W-M,45)
-        c.setFont('Sans',7);c.setFillColor(HexColor(MUTED));c.drawString(M,31,'HNB U MEDIJIMA / '+self.short.upper()+' / NACRT · 22. 9. 2026.');c.drawRightString(W-M,31,f'{self.page} / {self.total}')
+        c.setFont('Sans',7);c.setFillColor(HexColor(MUTED));c.drawString(M,31,'HNB U MEDIJIMA / '+self.short.upper()+' · 22. 9. 2026.');c.drawRightString(W-M,31,f'{self.page} / {self.total}')
         self.y=H-70;self.html.append(f'<section id="stranica-{self.page}"><p class="eyebrow">{self.page:02d} / {escape(kicker)}</p>')
         self.text(title,25,'Display',after=15,tag='h2',leading=30)
         if lead:self.text(lead,11.8,after=16)
@@ -85,7 +85,7 @@ class Report:
         self.page=1;c=self.c;c.setFillColor(HexColor(PAPER));c.rect(0,0,W,H,fill=1,stroke=0)
         c.setFillColor(HexColor(INK));c.setFont('Bold',9);c.drawString(M,H-39,'HNB · MEDIJSKA ISTRAŽIVANJA')
         c.setStrokeColor(HexColor(RULE));c.setLineWidth(.6);c.line(M,H-55,W-M,H-55)
-        c.setFillColor(HexColor(MUTED));c.setFont('Bold',8.5);c.drawString(M,H-109,'NEOVISNO ISTRAŽIVANJE · OPISNO IZDANJE')
+        c.setFillColor(HexColor(MUTED));c.setFont('Bold',8.5);c.drawString(M,H-109,'ANALITIČKI IZVJEŠTAJ · PREGLED ZA RUKOVODSTVO')
         yy=H-169
         for line in lines:
             size=40 if line=='HNB' else min(35,35*CW/pdfmetrics.stringWidth(line,'Display',35))
@@ -94,20 +94,20 @@ class Report:
         c.setFillColor(HexColor(PALE));c.rect(0,438,W,72,fill=1,stroke=0)
         c.setStrokeColor(HexColor(RULE));c.setLineWidth(.6);c.line(0,438,W,438);c.line(0,510,W,510)
         c.setFillColor(HexColor(INK));c.setFont('Sans',10);c.drawString(M,486,'Siječanj 2021. - kolovoz 2026. · 22. rujna 2026.')
-        c.setFont('Bold',9.5);c.drawString(M,463,'Javni istraživački nacrt');c.setFont('Sans',9.5);c.drawString(M+133,463,'· Autorska provjera u tijeku')
+        c.setFont('Bold',9.5);c.drawString(M,463,'Ključni nalazi · Pokazatelji · Objašnjenja')
         for i,(value,label) in enumerate(stats):
             x=M+i*(CW/3);c.setStrokeColor(HexColor(BLUE));c.setLineWidth(1.5);c.line(x,385,x+CW/3-18,385)
             c.setFont('Serif',30);c.setFillColor(HexColor(BLUE));c.drawString(x,342,value)
             pp=Paragraph(label,style(9.5,'Sans',INK,13));_,hh=pp.wrap(CW/3-20,100);pp.drawOn(c,x,324-hh)
-        self.y=H;self.html.append('<section id="stranica-1" class="cover"><p class="eyebrow">HNB u hrvatskim medijima / Istraživački izvještaj</p><h1>'+escape(self.title)+'</h1><p class="lead">'+deck+'</p><p>Siječanj 2021. - kolovoz 2026. · 22. rujna 2026.</p><p>Javni istraživački nacrt. Autorska provjera u tijeku.</p><div class="stats">'+''.join('<p><b>'+v+'</b><br>'+l+'</p>' for v,l in stats)+'</div>')
+        self.y=H;self.html.append('<section id="stranica-1" class="cover"><p class="eyebrow">HNB u hrvatskim medijima / Pregled za rukovodstvo</p><h1>'+escape(self.title)+'</h1><p class="lead">'+deck+'</p><p>Siječanj 2021. - kolovoz 2026. · 22. rujna 2026.</p><p>Ključni nalazi · Pokazatelji · Objašnjenja</p><div class="stats">'+''.join('<p><b>'+v+'</b><br>'+l+'</p>' for v,l in stats)+'</div>')
         self.y=248;self.text(closing,21,'Display',leading=28,after=20)
-        self.note('Neovisno istraživanje. Publikacija ne podrazumijeva pripadnost HNB-u ni njegovo odobrenje.')
+        self.note('Neovisno istraživanje medijske prisutnosti HNB-a.')
         c.setStrokeColor(HexColor(RULE));c.setLineWidth(.5);c.line(M,49,W-M,49)
-        c.setFont('Sans',8);c.setFillColor(HexColor(MUTED));c.drawString(M,32,'HNB_MEDIA · podaci 2026-09-21.1 · '+self.subtitle)
+        c.setFont('Sans',8);c.setFillColor(HexColor(MUTED));c.drawString(M,32,'HNB U HRVATSKIM MEDIJIMA · '+self.subtitle)
     def save(self):
         self.finish_page();assert self.page==self.total,(self.page,self.total);self.c.save()
         nav='<nav><a href="../hr.html#izvjestaj">HNB u hrvatskim medijima</a><a href="'+self.path.name+'">Preuzmi PDF · '+str(self.total)+' stranica</a></nav>'
-        html='<!doctype html><html lang="hr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+escape(self.title)+'</title><link rel="stylesheet" href="hnb-reports.css"></head><body>'+nav+'<main>'+''.join(self.html)+'</main><footer>HNB_MEDIA · 22. 9. 2026. · Autorska provjera u tijeku</footer></body></html>'
+        html='<!doctype html><html lang="hr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+escape(self.title)+'</title><link rel="stylesheet" href="hnb-reports.css"></head><body>'+nav+'<main>'+''.join(self.html)+'</main><footer>HNB u hrvatskim medijima · Neovisno istraživanje · 22. 9. 2026.</footer></body></html>'
         self.path.with_suffix('.html').write_text(html,encoding='utf-8',newline='\n')
         return self.lowest
 
@@ -120,19 +120,18 @@ def bars(items,width=CW,height=None,label_width=203,color=BLUE,denominator=None)
         d.add(String(width,y-1,text,textAnchor='end',fontName='Bold',fontSize=10,fillColor=HexColor(INK)))
     return d
 
-def timeline(monthly,metric='hnb_count',height=180,stable=None):
-    width=CW;d=Drawing(width,height);l=40;right=10;b=27;t=23;vals=[x[metric] for x in monthly];maximum=max(vals)*1.05
+def timeline(monthly,metric='hnb_count',height=180,series=None):
+    series=[(metric,BLUE)]+(series or [])
+    width=CW;d=Drawing(width,height);l=40;right=10;b=27;t=23;vals=[x[metric] for x in monthly];maximum=max(r[key] for r in monthly for key,_ in series)*1.05
     x=lambda i:l+i*(width-l-right)/(len(vals)-1);y=lambda v:b+(height-t-b)*v/maximum
     for j in range(5):
         v=maximum*j/4;d.add(Line(l,y(v),width-right,y(v),strokeColor=HexColor(RULE),strokeWidth=.5));d.add(String(l-6,y(v)-3,number(v),textAnchor='end',fontName='Sans',fontSize=8,fillColor=HexColor(MUTED)))
-    boundary=next(i for i,r in enumerate(monthly) if r['period']=='2024-01')
-    d.add(Line(x(boundary),b,x(boundary),height-17,strokeColor=HexColor(MUTED),strokeWidth=.8,strokeDashArray=[3,3]));d.add(String(x(boundary)+5,height-12,'01/2024: promjena prikupljanja',fontName='Sans',fontSize=8,fillColor=HexColor(MUTED)))
-    for key,col in [(metric,BLUE)]+([(stable,COPPER)] if stable else []):
+    for key,col in series:
         points=[]
         for i,r in enumerate(monthly):points.extend([x(i),y(r[key])])
         d.add(PolyLine(points,strokeColor=HexColor(col),strokeWidth=1.7,fillColor=None))
     for i,r in enumerate(monthly):
-        if r['period'].endswith('-01'):d.add(String(x(i),8,r['period'][:4],textAnchor='middle',fontName='Sans',fontSize=9,fillColor=HexColor(MUTED)))
+        if r['period'].endswith('-01') or r['period'].endswith('-Q1'):d.add(String(x(i),8,r['period'][:4],textAnchor='middle',fontName='Sans',fontSize=9,fillColor=HexColor(MUTED)))
     return d
 
 def heatmap(labels,columns,values,width=CW,height=310):

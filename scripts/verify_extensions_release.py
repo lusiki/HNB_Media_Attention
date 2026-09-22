@@ -35,7 +35,8 @@ for k,v in m['files'].items():assert sha(DATA/k)==v,k
 for k,v in m['inputs'].items():assert sha(DATA/k)==v,k
 assert sha(HUB/'scripts/prepare_lexical_extensions.py')==m['script_sha256']
 manifest=json.loads((HUB/'dist/release-manifest.json').read_text(encoding='utf-8'))
-assert manifest['presentation_version']=='2026-09-22.1'
+registry=json.loads((HUB/'content/releases.json').read_text(encoding='utf-8'))
+assert manifest['presentation_version']==registry['presentation_version']
 for name,h in manifest['files'].items():assert sha(HUB/'dist'/name)==h,name
 with zipfile.ZipFile(HUB/'dist/downloads/hnb-media-rendering-source.zip') as z:
     assert all(not any(part in name.lower() for part in ['private/','qa/','.duckdb','.rds','.env','prepare_lexical']) for name in z.namelist())

@@ -29,13 +29,13 @@ class Reader(HTMLParser):
         if tag=='figure':self.figures+=1
         if tag=='details':self.alternatives+=1
 artifacts=json.loads((OUT/'artifacts.json').read_text(encoding='utf-8'))
-for stem,pages,figures in [('hnb-u-medijskom-prostoru',16,5),('hnb-od-rijeci-do-javnih-pitanja',14,6)]:
+for stem,pages,figures in [('hnb-u-medijskom-prostoru',16,7),('hnb-od-rijeci-do-javnih-pitanja',14,7)]:
     pdf=PdfReader(OUT/(stem+'.pdf'));assert len(pdf.pages)==pages
     for i,page in enumerate(pdf.pages):
         text=page.extract_text();assert len(text)>300 and '\ufffd' not in text
         assert abs(float(page.mediabox.width)-595.276)<.1
         if i:assert f'{i+1} / {pages}' in text
-    assert 'Autorska provjera u tijeku' in pdf.pages[0].extract_text()
+    assert 'PREGLED ZA RUKOVODSTVO' in pdf.pages[0].extract_text()
     html=(OUT/(stem+'.html')).read_text(encoding='utf-8');p=Reader();p.feed(html)
     assert all('stranica-'+str(i) in p.ids for i in range(1,pages+1))
     assert len(p.ids)==len(set(p.ids)), 'Duplicate SVG ids would clip later figures'
@@ -49,4 +49,4 @@ for stem,pages,figures in [('hnb-u-medijskom-prostoru',16,5),('hnb-od-rijeci-do-
         home=(HUB/'dist'/lang).read_text(encoding='utf-8')
         assert 'id="izvjestaj"' in home and 'href="#izvjestaj"' in home
         assert f'href="downloads/{stem}.pdf"' in home and f'href="downloads/{stem}.html"' in home
-print('Report checks passed: 30 PDF pages, 11 figures with numeric HTML alternatives, lexical denominators, CSV, status, hashes and bilingual links.')
+print('Report checks passed: 30 PDF pages, 14 figures with numeric HTML alternatives, lexical denominators, CSV, review metadata, hashes and bilingual links.')

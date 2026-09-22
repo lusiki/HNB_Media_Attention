@@ -14,6 +14,7 @@ SITE=Path(__file__).resolve().parents[1]
 OUT=SITE/'public/downloads';OUT.mkdir(parents=True,exist_ok=True)
 D=json.loads((SITE/'public/data/media/media.json').read_text(encoding='utf-8'))
 L=json.loads((SITE/'public/data/media/report-language.json').read_text(encoding='utf-8'))
+PRESENTATION=json.loads((SITE/'content/releases.json').read_text(encoding='utf-8'))['presentation_version']
 assert L['distinct_normalized_bodies']==33100 and len(L['term_patterns'])==52
 assert all(0<=v<=33100 for v in L['terms'].values())
 assert all(0<=v<=g['n'] for g in L['groups'].values() for v in g['terms'].values())
@@ -33,14 +34,14 @@ for stem,pages in zip(stems,[16,14]):
         path=OUT/(stem+'.'+ext)
         artifacts.append({'file':path.name,'language':'hr','format':ext,'date':'2026-09-22',
           'period':'2021-01/2026-08','data_version':'2026-09-21.1','method_version':'1.0',
-          'presentation_version':'2026-09-22.1','source_identity':'HNB_MEDIA / maintained merged snapshot 2026-09-19',
+          'presentation_version':PRESENTATION,'source_identity':'HNB_MEDIA / maintained merged snapshot 2026-09-19',
           'analysis_id':'HNB_MEDIA_LEXICAL_1.1' if stem==stems[1] else 'HNB_MEDIA',
           'pages':pages if ext=='pdf' else None,'slides':None,'page_size':'A4' if ext=='pdf' else None,
           'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
           'citation':stem+'.html#stranica-'+str(pages),
           'canonical_url':'https://lusiki.github.io/HNB_Media_Attention/media/downloads/'+path.name,
           'review':'author_review_pending'})
-(OUT/'artifacts.json').write_text(json.dumps(artifacts,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+(OUT/'artifacts.json').write_text(json.dumps(artifacts,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
 (SITE/'qa').mkdir(exist_ok=True)
 (SITE/'qa/long-reports-layout.json').write_text(json.dumps(layout,indent=2)+'\n',encoding='utf-8')
 print('Generated 16-page overview and 14-page language report with matching HTML; layout:',layout)
