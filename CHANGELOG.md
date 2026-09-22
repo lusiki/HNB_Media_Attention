@@ -12,6 +12,8 @@
 - Prepared a weighted private 200-item unmatched audit and bounded concordance.
   The full plan's remaining research and human-validation work is documented in
   `media-hub/content/extensions-release-2026-09-22.md`; it is not marked complete.
+- Pinned the frozen inflation page's displayed build date to its prior deployed
+  value. Rebuilding the media hub no longer changes that protected publication.
 
 ## 2026-09-21.3 — Reports aligned with the media hub
 
