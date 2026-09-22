@@ -11,8 +11,8 @@ def writezip(path,files):
 def finalize(site,dist,allowlist):
     allow=set(allowlist);assert len(allow)==len(allowlist),'Duplicate allowlist entries'
     registry=json.loads((site/'content/releases.json').read_text(encoding='utf-8'))
-    scripts=['build.py','charts.py','inspection_components.py','media_page.py','media_chart.py','media_content.py','legacy_context.py','release.py','report_cards.py']
-    src=['index.html','hr.html','styles.css','charts.js','app.js','media.css','media.js','legacy-links.js','studies/inflation/index.html','studies/inflation/hr.html']
+    scripts=['build.py','charts.py','inspection_components.py','media_page.py','media_chart.py','media_content.py','media_extensions_view.py','legacy_context.py','release.py','report_cards.py','lexical_view.py','event_view.py']
+    src=['index.html','hr.html','styles.css','charts.js','app.js','media.css','media.js','legacy-links.js','lexical.js','studies/inflation/index.html','studies/inflation/hr.html']
     inputs={}
     for name in scripts:inputs['scripts/'+name]=(site/'scripts'/name).read_bytes()
     for name in src:inputs['src/'+name]=(site/'src'/name).read_bytes()
@@ -36,7 +36,7 @@ The public URL is recorded in content/releases.json. No DOI, author sign-off or 
     package='downloads/hnb-media-rendering-source.zip';writezip(dist/package,inputs);allow.add(package)
     fingerprint=sha(json.dumps({k:sha(v) for k,v in sorted(inputs.items())},sort_keys=True).encode())
     payload={name:sha((dist/name).read_bytes()) for name in sorted(allow)}
-    manifest={'schema_version':'1.0','presentation_version':registry['presentation_version'],'status':registry['status'],'date':'2026-09-21','canonical_url':registry['canonical_url'],'doi':registry['doi'],'contact':registry['contact'],'studies':registry['studies'],'source_identity':{'kind':'sha256 of exact rendering-input map','sha256':fingerprint,'base_commit':'621d509e62aabfffb3eb7c63ec8b9639422f3764','working_tree_was_dirty':True,'base_commit_alone_reproduces_release':False},'rebuild_boundary':'offline static rendering from aggregates and pre-rendered publications; restricted analysis and PDF authoring not reproduced','hash_scope':'payload files; manifest and checksums omitted to prevent circular hashes','files':payload}
+    manifest={'schema_version':'1.0','presentation_version':registry['presentation_version'],'status':registry['status'],'date':registry['presentation_version'][:10],'canonical_url':registry['canonical_url'],'doi':registry['doi'],'contact':registry['contact'],'studies':registry['studies'],'source_identity':{'kind':'sha256 of exact rendering-input map','sha256':fingerprint,'base_commit':'621d509e62aabfffb3eb7c63ec8b9639422f3764','working_tree_was_dirty':True,'base_commit_alone_reproduces_release':False},'rebuild_boundary':'offline static rendering from aggregates and pre-rendered publications; restricted analysis and PDF authoring not reproduced','hash_scope':'payload files; manifest and checksums omitted to prevent circular hashes','files':payload}
     manifest['canonical_url']=(os.environ.get('SITE_URL') or registry['canonical_url'] or '').rstrip('/') or None
     manifest['build_parameters']={'SITE_URL':manifest['canonical_url']}
     manifest['source_package']={'file':package,'format':'zip','bytes':(dist/package).stat().st_size,'sha256':payload[package]}

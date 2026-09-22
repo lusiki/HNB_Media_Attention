@@ -1,0 +1,28 @@
+{
+  "study_id": "hnb-media",
+  "corpus_id": "HNB_MEDIA",
+  "data_version": "2026-09-21.1",
+  "method_version": "1.0",
+  "indicator_version": "HNB_MEDIA_INDICATORS_1.0",
+  "validation_status": "descriptive_archive_counts_not_independently_validated",
+  "period_start": "2021-01",
+  "period_end": "2026-08",
+  "panel_sha256": "72454d6bf21594e6732494017bcf6028a6ad61e650e86f3327cccd08a3571a5c",
+  "inputs": {
+    "summary.json": "7caae0d9dc11ff7316fd028472d09d92a2a3e59873f4fe42a8272364527848bc",
+    "media-monthly.csv": "d3421e92d189bfd8d8af221cfc89310107710c1cc3c8f0a83ca05d007e3681c8",
+    "media-source-monthly.csv": "c3a63e16d4e8ed25ade698b67ce6d981a647a1f1d96356d18162d9da82594b59",
+    "media-sources.csv": "1af716754bfbb6d24fd8df4275557046af86f44f4971ca08c167a336ad00d0d7"
+  },
+  "outputs": {
+    "extensions.json": "84ec5136c55fbb0e686321df2e8cad78350dcb0cfc99df8fdd1fe1680062b52a",
+    "media-event-screen.csv": "61ac188f9398f3dee32abe24499b36d2d186e94922a8490ee8fa35f1ffec7889",
+    "media-events.json": "08d23a1ad9240ea1ffda7e59db9b98c4e901ab6098e78658d2fe301b89df7f1b",
+    "media-fixed-weight-components.csv": "51116a92b61c6d825a8e4b96670478f258ffa845a80c902b4a3181e050c4851c",
+    "media-indicators-monthly.csv": "ff8bd33068be201a62136876970d0bc48c07ee7b318e0ac4f0617fce204c95d3",
+    "media-latest-edition.json": "a69ad0d808d55767b61a1efd85b13631c40c80bfcc2dc47d266377bddefb6b4d",
+    "media-source-concentration.csv": "4dccdb135448be029953264d8d8f8bfdf4417e00eaa2d74d125b3a9422858c62",
+    "media-source-rates.csv": "622fb40177e5542f41000d41ab713f77bdc89f9e04f4fbe5211cae7c63e65447",
+    "media-stable-panel.csv": "72454d6bf21594e6732494017bcf6028a6ad61e650e86f3327cccd08a3571a5c"
+  }
+}

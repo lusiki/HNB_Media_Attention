@@ -5,3 +5,7 @@
 *.ttf binary
 *.woff2 binary
 *.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Preserve exact analytical input/output fingerprints across platforms.
+media-hub/public/data/media/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+media-hub/public/downloads/* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+media-hub/scripts/prepare_lexical_extensions.py -text

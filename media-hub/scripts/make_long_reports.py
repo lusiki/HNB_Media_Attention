@@ -27,14 +27,14 @@ with (SITE/'public/data/media/report-language.csv').open('w',encoding='utf-8',ne
 artifacts=json.loads((OUT/'artifacts.json').read_text(encoding='utf-8'))
 stems=['hnb-u-medijskom-prostoru','hnb-od-rijeci-do-javnih-pitanja']
 artifacts=[a for a in artifacts if not any(a['file'].startswith(stem+'.') for stem in stems)]
-for stem,pages in zip(stems,[14,12]):
+for stem,pages in zip(stems,[16,14]):
     assert len(PdfReader(OUT/(stem+'.pdf')).pages)==pages
     for ext in ['pdf','html']:
         path=OUT/(stem+'.'+ext)
-        artifacts.append({'file':path.name,'language':'hr','format':ext,'date':'2026-09-21',
+        artifacts.append({'file':path.name,'language':'hr','format':ext,'date':'2026-09-22',
           'period':'2021-01/2026-08','data_version':'2026-09-21.1','method_version':'1.0',
-          'presentation_version':'2026-09-21.3','source_identity':'HNB_MEDIA / maintained merged snapshot 2026-09-19',
-          'analysis_id':'HNB_MEDIA_LEXICAL_1.0' if stem==stems[1] else 'HNB_MEDIA',
+          'presentation_version':'2026-09-22.1','source_identity':'HNB_MEDIA / maintained merged snapshot 2026-09-19',
+          'analysis_id':'HNB_MEDIA_LEXICAL_1.1' if stem==stems[1] else 'HNB_MEDIA',
           'pages':pages if ext=='pdf' else None,'slides':None,'page_size':'A4' if ext=='pdf' else None,
           'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
           'citation':stem+'.html#stranica-'+str(pages),
@@ -43,4 +43,4 @@ for stem,pages in zip(stems,[14,12]):
 (OUT/'artifacts.json').write_text(json.dumps(artifacts,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 (SITE/'qa').mkdir(exist_ok=True)
 (SITE/'qa/long-reports-layout.json').write_text(json.dumps(layout,indent=2)+'\n',encoding='utf-8')
-print('Generated 14-page overview and 12-page language report with matching HTML; layout:',layout)
+print('Generated 16-page overview and 14-page language report with matching HTML; layout:',layout)

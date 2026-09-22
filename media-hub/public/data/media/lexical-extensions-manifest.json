@@ -1,0 +1,16 @@
+{
+  "analysis_id": "HNB_MEDIA_LEXICAL_1.1",
+  "baseline_script_sha256": "dab11d6f24d1ca6770aa225426d2c523bb606651080342f1df6bc3c8ca667670",
+  "script_sha256": "51a6f6618555d839a780acf7b0cf58e86dfd2bfef43e58c05e639fd05689a4a1",
+  "inputs": {
+    "report-language.json": "2cdbfe17483832d68d938de62af1e8493328df091f030e5b837152b0763f29d5",
+    "subject-definitions.json": "e94a409b3feb158ff1ac80f1f84219ebdec699ff9b0e09a4f994c4db73ceb5eb"
+  },
+  "files": {
+    "lexical-extensions.json": "7b7f7bd11e485d83f00f797768ab30a64bde9327b0c8ed01ad3caef8cd59da0d",
+    "media-lexical-quarterly.csv": "09151497b091777bc3af7eb88371c5f319724352e081b0f03d35fe805157146d",
+    "media-subject-linkage.csv": "6288c5ab042ee3885c68fcd78442a5cb0254b41e983c6159383635b672e81c14"
+  },
+  "cache_opened_read_only": true,
+  "cache_size_mtime_unchanged": true
+}

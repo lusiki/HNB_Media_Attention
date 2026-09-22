@@ -1,20 +1,21 @@
 """Twelve-page companion on vocabulary and three documented public examples."""
 from report_layout import *
+from report_extensions import language_pages
 from reportlab.graphics.shapes import Group
 
 def language(out,D,L):
     N=L['distinct_normalized_bodies'];T=L['terms'];G=L['groups'];P=L['phrases'];defs=D['subject_definitions'];labels={d['id']:d['label_hr'] for d in defs}
     data_url='https://lusiki.github.io/HNB_Media_Attention/media/data/media/report-language.json'
     provenance='<a href="'+data_url+'">report-language.json</a> · HNB_MEDIA_LEXICAL_1.0'
-    R=Report(out/'hnb-od-rijeci-do-javnih-pitanja.pdf','HNB: od riječi do javnih pitanja','Jezik i javna pitanja',12,'jezični dodatak 1.0')
-    R.cover(['HNB','Od riječi do javnih pitanja'],'Jezik novca, institucionalne odluke i javni argumenti',[(number(N),'različitih tekstova s dostupnim tijelom'),('8','preklapajućih rječničkih skupova'),('3','detaljnije obrađena primjera')],'Kako se riječi o novcu i institucijama povezuju s konkretnim postupcima, odlukama i očekivanjima javnosti.')
+    R=Report(out/'hnb-od-rijeci-do-javnih-pitanja.pdf','HNB: od riječi do javnih pitanja','Jezik i javna pitanja',14,'jezični dodatak 1.1')
+    R.cover(['HNB','Od riječi do javnih pitanja'],'Jezik novca, institucionalne odluke i javni argumenti',[(number(N),'različitih tekstova s dostupnim tijelom'),('8','preklapajućih rječničkih skupova'),('3','javna povoda; jedan čeka provjeru')],'Kako se riječi o novcu i institucijama povezuju s konkretnim postupcima, odlukama i očekivanjima javnosti.')
 
-    R.new('Ključni nalazi','Od naziva institucije prema sadržaju poruke','Ovaj izvještaj analizira rječnik oko izričitih spominjanja HNB-a. Zatim čita tri odabrana javna primjera kako bi pokazao što pojedini institucionalni izraz znači u konkretnom razgovoru.')
+    R.new('Ključni nalazi','Od naziva institucije prema sadržaju poruke','Ovaj izvještaj analizira rječnik oko izričitih spominjanja HNB-a. Zatim razmatra tri odabrana javna povoda, od kojih primjer zamjene gotovine čeka provjeru izvornika, kako bi pokazao što pojedini institucionalni izraz znači u konkretnom razgovoru.')
     R.sub('Rječnik spaja banke, valutu i institucionalni glas',f'Od odabranih pojmova banka je pronađena u {number(T["banka"])} različitih tekstova, euro u {number(T["euro"])} i guverner u {number(T["guverner"])}. Puni naziv HNB-a uklonjen je prije prebrojavanja, pa banka nije zabilježena samo zato što je dio imena institucije.')
     R.sub('Svakodnevna pitanja imaju prepoznatljive riječi',f'Građanin se pojavljuje u {number(T["građanin"])} tekstova, kredit u {number(T["kredit"])} i cijena u {number(T["cijena"])}. Ti pojmovi približavaju instituciju korisnicima i ekonomskim odlukama. Njihova prisutnost ipak ne govori u čije je ime izjava dana ni slaže li se autor s njom.')
     R.sub('Izrazi su određeniji od pojedinačnih riječi',f'Uvođenje eura pronađeno je u {number(P["uvođenje eura"])} tekstova, a kamatna stopa u {number(P["kamatna stopa"])}. Takvi izrazi preciznije usmjeravaju čitanje od opće riječi euro ili kamata. I dalje mogu biti dio upute, opisa, prijedloga ili kritike.')
     R.callout('Uputa govori kako postupiti. Odluka objašnjava što se mijenja. Rasprava o odgovornosti pita kako institucija postupa.')
-    R.note('Brojevi označuju tekstove s barem jednim podudaranjem u izdvojenom kontekstu. Analiza je opisna i istraživačka, bez neovisne ljudske validacije. Metoda i oblak riječi: str. 3; skupovi: str. 4-7; izrazi: str. 8; primjeri: str. 9-11; sinteza i izvori: str. 12.')
+    R.note('Brojevi označuju tekstove s barem jednim podudaranjem u izdvojenom kontekstu. Analiza je opisna i istraživačka, bez neovisne ljudske validacije. Metoda i oblak riječi: str. 3; skupovi: str. 4-7; izrazi: str. 8; primjeri: str. 9-11; sinteza i izvori: str. 12; dodatak 1.1: str. 13-14.')
 
     R.new('Rječnik rasprave','Koje riječi prate HNB?','Polazište su 33.235 objava iz istog razdoblja kao u medijskom pregledu. Njih 99 nema pohranjen tekst. Među preostalih 33.136 objava ima 33.100 različitih normaliziranih tekstova; svaki se u ovom izvještaju broji jednom.')
     R.text('Izdvojeni su naslov, ako izričito spominje HNB, te rečenični odsječci teksta s takvim spominjanjem. Broje se odabrani pojmovi uz obrasce za njihove gramatičke oblike, najviše jednom po tekstu. To je transparentan rječnik od 52 pojma, a ne automatski popis svih riječi ili potpuna lematizacija.',size=11)
@@ -68,16 +69,12 @@ def language(out,D,L):
     R.text('Tri primjera na sljedećim stranicama prate prijelaz od riječi do sadržaja: od informacije o zamjeni gotovine, preko pravila kreditiranja, do pitanja institucionalne odgovornosti. Odabrani su da ilustriraju različite oblike poruke, bez tvrdnje da predstavljaju sve tekstove.')
     R.note('Izvor: '+provenance+'. To su frekvencije unaprijed odabranih izraza, a ne rang svih mogućih izraza u korpusu.')
 
-    R.new('Primjer / valuta kao praktična informacija','Gdje se zamjena valute pretvara u uputu?','ZAGREB · 4. SIJEČNJA 2023. · HNB-OVA OBAVIJEST PRENESENA U HININOJ VIJESTI')
-    R.text('Nakon uvođenja eura praktično pitanje glasi gdje i pod kojim uvjetima zamijeniti gotovinu. Hina 4. siječnja prenosi HNB-ovo pojašnjenje da banke zamjenu kunskih novčanica i kovanica obavljaju bez naknade i kada je broj komada veći od stotinu. Obavijest razlikuje banke od drugih mjesta zamjene i navodi prijelaz na HNB od početka 2024.')
-    R.sub('Tri informacije koje čitatelju trebaju zajedno')
-    R.table(['Pitanje čitatelja','Uloga informacije u tekstu'],[
-      ['Gdje se obavlja postupak?','Imenuje se ustanova koja u promatranom razdoblju pruža uslugu.'],
-      ['Postoji li trošak?','Pojašnjava se naknada i opseg na koji se obavijest odnosi.'],
-      ['Kada vrijedi ta mogućnost?','Datum razlikuje sadašnju uputu od sljedeće faze procesa.']],[190,CW-190])
-    R.sub('Ime institucije podupire uputu','HNB je u ovom primjeru izvor objašnjenja. Medij informaciju organizira oko postupka građanina. Riječi banka, novčanica, kovanica i naknada zajedno čine praktičan rječnik: čitatelju nije dovoljno znati da je uvedena nova valuta, nego kako u određenom trenutku postupiti sa starom gotovinom.')
-    R.callout('Praktična poruka postaje jasna kada navede ustanovu, uvjet i vrijeme na koje se odnosi.')
-    R.note('Povijesni primjer, ne aktualna uputa za zamjenu. Izvor: <a href="https://www.hina.hr/OTS/11202381">Hina, 4. 1. 2023., izvještaj o zamjeni kuna u bankama</a>. Kontekst promjene valute: <a href="https://www.ecb.europa.eu/euro/changeover/croatia/html/index.hr.html">ESB, Hrvatska od 1. siječnja 2023.</a> Tumačenje strukture poruke u ovom izvještaju je analitičko čitanje tog primjera.')
+    R.new('Provjera izvora / valuta','Kandidat za povijesni primjer zamjene gotovine','Zapis od 4. siječnja 2023. u ranijem izdanju korišten je kao primjer praktične upute. Njegovu izvornu objavu i izdavatelja još treba potvrditi.')
+    R.text('Poveznica vodi na Hinin OTS kanal. U ovoj provjeri izvorna stranica vraća zabranu pristupa. Zbog toga nije potvrđeno tko je izvorni izdavatelj, točan naslov, vrijeme objave ni povijest izmjena. Taj zapis nije potvrđena neovisna novinarska obrada niti izmjeren prijenos HNB-ove poruke.')
+    R.sub('Što treba zabilježiti prije analize','Izvorni izdavatelj, žanr objave, datum i vrijeme te sačuvana verzija prethode provjeri medijskih podudaranja. Razlikuju se datum objave, datum odluke i datum početka primjene. Dok se to ne utvrdi, ovaj slučaj ostaje kandidat.')
+    R.table(['Pitanje za provjeru','Status'],[['Izvorni izdavatelj i puni naslov','Nije potvrđeno'],['Datum i verzija izvornika','Datum iz prethodnog zapisa; verzija nepotvrđena'],['Pripadnost medijskom korpusu','Nije provjerena za ovu poveznicu'],['Prijenos pojedinih tvrdnji u medijima','Nije kodirano']],[205,CW-205])
+    R.callout('Praktičnu uputu treba vezati uz provjeren izvor, uvjete i vrijeme važenja.')
+    R.note('Kandidat: <a href="https://www.hina.hr/OTS/11202381">Hina OTS / 11202381</a>. Status provjeren 22. 9. 2026.: izravni pristup vraća 403. Ova stranica ispravlja ranije pripisivanje izvora; ne daje aktualnu uputu za zamjenu novca.')
 
     R.new('Primjer / pravilo i javni cilj','Kako stabilnost postaje kriterij za kredit?','OŽUJAK - SRPANJ 2025. · ODLUKA O KRITERIJIMA KREDITIRANJA POTROŠAČA')
     R.text('HNB je u odluci objavljenoj 19. ožujka 2025. ograničenja obrazložio otpornošću kućanstava i financijskog sustava. Početak primjene određen je za 1. srpnja, o čemu izvještava HRT/Hina. Poruka tako povezuje preventivni cilj i trenutak kada se mijenjaju kriteriji odobravanja novih kredita.')
@@ -101,7 +98,7 @@ def language(out,D,L):
     R.callout('Spominjanje odgovornosti označuje javno pitanje. Odgovor traži provjeru iskaza, postupka i njegova ishoda.')
     R.note('Izvor povijesne rasprave: <a href="https://sabor.hr/hr/press/priopcenja/odbor-za-financije-i-drzavni-proracun-odrzao-tematsku-sjednicu-o-trgovanju">Hrvatski sabor, izvještaj sa sjednice Odbora, 27. 1. 2022.</a> Institucionalni zapis služi provjeri aktera i izjava; nije dio uredničkog uzorka. Ovdje nije provedena zasebna analiza kasnijih pravnih ishoda.')
 
-    R.new('Završni pogled i metoda','Od riječi do pitanja koje javnost može razumjeti','Zajednički rječnik ne znači zajednički tip poruke. U trima primjerima institucija objašnjava postupak, obrazlaže odluku i odgovara na pitanja. Te uloge postaju vidljive tek kada se pročita odnos između aktera, problema i očekivanog djelovanja.')
+    R.new('Završni pogled i metoda','Od riječi do pitanja koje javnost može razumjeti','Zajednički rječnik ne znači zajednički tip poruke. Predloženi primjeri razlikuju objašnjenje postupka, obrazloženje odluke i odgovor na pitanja; izvor primjera zamjene gotovine još nije potvrđen. Te uloge postaju vidljive tek kada se pročita odnos između aktera, problema i očekivanog djelovanja.')
     R.table(['Primjer','Pitanje koje daje smisao poruci'],[
       ['Zamjena gotovine','Gdje, kada i pod kojim uvjetima građanin može obaviti postupak?'],
       ['Kreditni kriteriji','Koji se javni cilj prevodi u pravilo i što se njime uspoređuje?'],
@@ -109,5 +106,6 @@ def language(out,D,L):
     R.sub('Kako su dobivene frekvencije','Ulaz je korpus HNB_MEDIA iz siječnja 2021. - kolovoza 2026. Tijela tekstova normalizirana su malim slovima i sažimanjem razmaka; ponovljeni tekst broji se jednom, uz naslov najranije objave. Izdvajaju se odsječci s izričitim nazivom ili kraticom HNB-a. Nakon uklanjanja tih naziva broje se 52 odabrana pojma i 12 izraza. Osam skupova primjenjuje se na isti izdvojeni kontekst, uz dopušteno preklapanje.')
     R.sub('Što treba dodatno provjeriti','Razdvajanje rečenica, višeznačni oblici riječi i zaostali dodaci u tekstu mogu utjecati na frekvencije. Jednake tekstove razlikujemo od bliskih prerada, a tematsko podudaranje od glavne teme. Odabrani primjeri nisu reprezentativan uzorak iskaza ni kodiranje sentimenta, citiranosti ili povjerenja.')
     R.note('Podaci i točni izrazi za ponavljanje brojanja: '+provenance+'. Skripta prepare_report_language.py čita prethodno pripremljeni korpus bez izmjene izvornog arhiva; javno se objavljuju samo agregati. Tekstovi i identifikatori članaka nisu uključeni. Izvorni medijski pregled i ovaj jezični dodatak imaju različite jedinice brojanja.')
-    R.note('Predloženo citiranje: HNB: od riječi do javnih pitanja. (2026). HNB_MEDIA_LEXICAL_1.0, podaci HNB_MEDIA 2026-09-21.1, 21. 9. 2026. Javni istraživački nacrt; autorska provjera u tijeku. Izvori triju povoda navedeni su uz svaki primjer.')
+    R.note('Predloženo citiranje: HNB: od riječi do javnih pitanja. (2026). HNB_MEDIA_LEXICAL_1.0 i dodatak 1.1, podaci HNB_MEDIA 2026-09-21.1, 22. 9. 2026. Javni istraživački nacrt; autorska provjera u tijeku. Izvori triju povoda navedeni su uz svaki primjer.')
+    language_pages(R)
     return R.save()

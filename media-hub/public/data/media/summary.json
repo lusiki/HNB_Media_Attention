@@ -1,0 +1,72 @@
+{
+  "hnb_publications": 33235,
+  "outlets": 281,
+  "with_body": 33136,
+  "exact_body_groups": 33100,
+  "title_mentions": 5222,
+  "formal_mentions": 19848,
+  "hnb_i": 33235,
+  "stable_hnb": 26112,
+  "captures": 33842,
+  "first_period": "2021-01",
+  "last_full_period": "2026-08",
+  "partial_period": "2026-09",
+  "last_day": "2026-09-10",
+  "top_five_share": 0.23893485783060028,
+  "publication_hhi": 0.026013758490359862,
+  "stable_sources": 128,
+  "source_registry_domains": 563,
+  "source_registry_sha256": "60258d39a27f30bdf92bb4b793ec3adc655da6e79d7e3bdf5b19ec28342b42da",
+  "retrieval_validation": "agent_development_audit; independent validation pending",
+  "independent_human_validation": false,
+  "source_snapshot_rows": 42267474,
+  "source_snapshot_bytes": 96774139904,
+  "source_unchanged": true,
+  "dedup_audit": {
+    "captures": 10335757,
+    "publications": 10164604,
+    "missing_url": 0,
+    "missing_item_id": 5444472
+  },
+  "url_title_conflicts": 4994,
+  "duplicate_api_id_groups": 0,
+  "invalid_dates": 0,
+  "narrow_inflation_count": 9819,
+  "subject_counts": {
+    "prices": 11142,
+    "rates": 7960,
+    "currency": 12601,
+    "stability": 2360,
+    "lending": 14762,
+    "forecasts": 6434,
+    "governance": 7308,
+    "payments": 11340
+  },
+  "untagged": 4118,
+  "multiple_tags": 20854,
+  "excluding_two_related_content_sources": 31136,
+  "boilerplate_repair": {
+    "rule": "(?is)Tečajna lista služi isključivo u informativne svrhe.*?Tečajna lista dohvaćena je prema online podacima Hrvatske narodne banke\\.",
+    "counts": [
+      {
+        "source_label": "zagorje.com",
+        "removed": 576
+      },
+      {
+        "source_label": "vecernji.hr",
+        "removed": 12
+      },
+      {
+        "source_label": "jutarnji.hr",
+        "removed": 1
+      },
+      {
+        "source_label": "glas-slavonije.hr",
+        "removed": 1
+      }
+    ],
+    "method": "retained-text recheck plus source-specific widget removal",
+    "independent_validation": false
+  },
+  "related_content_removed": 13
+}

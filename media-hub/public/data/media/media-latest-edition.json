@@ -1,0 +1,82 @@
+{
+  "period": "2026-08",
+  "current": {
+    "period": "2026-08",
+    "period_id": "2026-08",
+    "period_start": "2026-08",
+    "period_end": "2026-08",
+    "scope": "all",
+    "collection_regime": "api",
+    "hnb_count": 200,
+    "hnb_i": 200,
+    "background_i": 146510,
+    "rate_per_10000": 13.650945327963962,
+    "title_mention_count": 41,
+    "title_share": 0.205,
+    "hnb_domains": 59,
+    "background_domains": 281,
+    "breadth_share": 0.2099644128113879,
+    "breadth_denominator": "domains_with_background_count_gt_0_union",
+    "effective_domains": 28.16901408450704,
+    "top_five_share": 0.305,
+    "top_ten_share": 0.5,
+    "study_id": "hnb-media",
+    "corpus_id": "HNB_MEDIA",
+    "data_version": "2026-09-21.1",
+    "method_version": "1.0",
+    "indicator_version": "HNB_MEDIA_INDICATORS_1.0",
+    "validation_status": "descriptive_archive_counts_not_independently_validated",
+    "fixed_weight_rate": null,
+    "fixed_weight_status": "not_applicable",
+    "missing_panel_denominators": null
+  },
+  "comparisons": [
+    {
+      "comparison": "year_ago",
+      "period_start": "2025-08",
+      "period_end": "2025-08",
+      "n_months": 1,
+      "status": "available",
+      "crosses_regime_boundary": false,
+      "hnb_count": 208,
+      "hnb_count_change": -3.8461538461538436,
+      "rate_per_10000": 15.340590612738591,
+      "rate_per_10000_change": -11.014212734231844,
+      "title_share": 0.16826923076923078,
+      "title_share_change": 3.6730769230769207,
+      "breadth_share": 0.19776119402985073,
+      "breadth_share_change": 1.2203218781537157
+    },
+    {
+      "comparison": "preceding_12_month_mean",
+      "period_start": "2025-08",
+      "period_end": "2026-07",
+      "n_months": 12,
+      "status": "available",
+      "crosses_regime_boundary": false,
+      "hnb_count": 451.75,
+      "hnb_count_change": -55.72772551189817,
+      "rate_per_10000": 29.179612270239083,
+      "rate_per_10000_change": -53.21752324349129,
+      "title_share": 0.14937352683511865,
+      "title_share_change": 5.562647316488134,
+      "breadth_share": 0.2530712514157217,
+      "breadth_share_change": -4.310683860433379
+    }
+  ],
+  "percent_change_fields": [
+    "hnb_count_change",
+    "rate_per_10000_change"
+  ],
+  "percentage_point_fields": [
+    "title_share_change",
+    "breadth_share_change"
+  ],
+  "prior_mean_definition": "arithmetic mean of previous 12 complete monthly observations, current excluded",
+  "study_id": "hnb-media",
+  "corpus_id": "HNB_MEDIA",
+  "data_version": "2026-09-21.1",
+  "method_version": "1.0",
+  "indicator_version": "HNB_MEDIA_INDICATORS_1.0",
+  "validation_status": "descriptive_archive_counts_not_independently_validated"
+}

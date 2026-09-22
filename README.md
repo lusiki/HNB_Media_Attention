@@ -1,5 +1,13 @@
 # HNB in Croatia's inflation debate
 
+The broad media hub now has presentation **2026-09-22.1**, adding source rates,
+domain concentration, breadth/title histories, fixed-panel sensitivity, a latest
+month comparison, and lexical 1.1 with same-body subject linkage and selectable
+quarterly vocabulary. Its two Croatian long reports are now 16 and 14 pages.
+The original inflation study at the site root is unchanged. See the
+[extension release and full execution ledger](media-hub/content/extensions-release-2026-09-22.md)
+for completed work, remaining research gates, and reproduction commands.
+
 This repository publishes two complementary bilingual research pages:
 
 - **HNB in Croatian media** — the broad media research hub: [Hrvatski](https://lusiki.github.io/HNB_Media_Attention/media/hr.html) · [English](https://lusiki.github.io/HNB_Media_Attention/media/). Explore explicit HNB mentions across registered outlets, January 2021–August 2026, with aggregate downloads, an overview, briefs and slides. Public research draft; author review pending.
@@ -7,7 +15,7 @@ This repository publishes two complementary bilingual research pages:
 
 The broad hub's reproducible publication source is in `media-hub/`. Its data and method editions are separate from the inflation study. Only aggregate publication inputs are included; the underlying article archive and private analysis are excluded.
 
-The hub's [reports section](https://lusiki.github.io/HNB_Media_Attention/media/hr.html#izvjestaj) now includes two complementary Croatian publications: **HNB u medijskom prostoru** (14 pages) and **HNB: od riječi do javnih pitanja** (12 pages). Both have PDF downloads and HTML reading editions. The first describes 33,235 publications; the second examines selected vocabulary around explicit HNB mentions in 33,100 distinct body texts, with three documented public examples. Both remain public research drafts awaiting author review. Methods and optional regeneration are documented in `media-hub/content/long-reports-method.md`.
+The hub's [reports section](https://lusiki.github.io/HNB_Media_Attention/media/hr.html#izvjestaj) now includes two complementary Croatian publications: **HNB u medijskom prostoru** (16 pages) and **HNB: od riječi do javnih pitanja** (14 pages). Both have PDF downloads and HTML reading editions. The first describes 33,235 publications; the second examines selected vocabulary around explicit HNB mentions in 33,100 distinct body texts, with three documented public examples. Both remain public research drafts awaiting author review. Methods and optional regeneration are documented in `media-hub/content/long-reports-method.md`.
 
 To preview both pages, run `python scripts/build.py`, then `python scripts/build_site.py`, and serve `site-dist/`. The deployment workflow checks the original study, builds the hub, verifies both file manifests, and publishes the combined `site-dist/` artifact. The original study remains at the site root; the new hub is under `media/`.
 

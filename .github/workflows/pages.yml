@@ -44,7 +44,10 @@ jobs:
         run: |
           python scripts/build_site.py
           python scripts/verify_reports.py
+          python scripts/verify_extensions_release.py
+          python media-hub/scripts/verify_offline_rebuild.py
           node --check media-hub/src/media.js
+          node --check media-hub/src/lexical.js
           node --check media-hub/src/legacy-links.js
       - name: Upload only the public site
         # Compose only after the original publication checks have passed.

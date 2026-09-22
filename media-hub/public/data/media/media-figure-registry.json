@@ -1,0 +1,50 @@
+[
+  {
+    "figure_id": "media-composition",
+    "finding_id": "A05",
+    "data_file": "media-indicators-monthly.csv",
+    "selection": "2021-01/2026-08; all eligible sources or declared frozen panel",
+    "unit": "monthly archive rates",
+    "denominator": "matching-filter background",
+    "caption_hr": "Usporedite tri mjesečne arhivske stope: sve prihvatljive izvore, objedinjeni stalni skup od 128 izvora i isti skup s ponderom 1/128 za svaku domenu. Nedostupan ili nulti nazivnik bilo kojeg člana znači nedostupnu stopu sa stalnim ponderima. Granica u siječnju 2024. ostaje; stalni ponderi ne uklanjaju promjene prikupljanja.",
+    "caption_en": "Compare three monthly archive rates: all eligible sources, the pooled frozen 128-source panel, and that panel with each domain weighted 1/128. A missing or zero panel denominator makes the fixed-weight rate unavailable. The January 2024 boundary remains; fixed weights do not repair capture changes.",
+    "limitation": "Descriptive archive; January 2024 collection boundary; no independent validation",
+    "version": "HNB_MEDIA_INDICATORS_1.0"
+  },
+  {
+    "figure_id": "media-concentration",
+    "finding_id": "V5",
+    "data_file": "media-source-concentration.csv",
+    "selection": "2021-01/2026-08; all eligible sources or declared frozen panel",
+    "unit": "effective domains",
+    "denominator": "all HNB publications",
+    "caption_hr": "Efektivni broj domena koje doprinose iznosi 38,4; deset najvećih donosi 42,0% objava. Izračun obuhvaća svih 281 domena s objavama o HNB-u. Mjeri koncentraciju domena, a ne vlasništva ili raznolikosti stavova.",
+    "caption_en": "The effective number of contributing domains is 38.4; the ten largest supply 42.0% of publications. All 281 contributing domains enter this calculation. It measures domain concentration, not ownership or viewpoint diversity.",
+    "limitation": "Descriptive archive; January 2024 collection boundary; no independent validation",
+    "version": "HNB_MEDIA_INDICATORS_1.0"
+  },
+  {
+    "figure_id": "media-breadth",
+    "finding_id": "V6",
+    "data_file": "media-indicators-monthly.csv",
+    "selection": "2021-01/2026-08; all eligible sources or declared frozen panel",
+    "unit": "domain share",
+    "denominator": "observed background domains",
+    "caption_hr": "U cijelom razdoblju 281 od 416 opaženih pozadinskih domena objavljuje o HNB-u (67,5%). Godišnje vrijednosti koriste uniju domena; zbrajanje mjesečnih brojeva ne daje godišnji obuhvat.",
+    "caption_en": "281 of 416 observed background domains carry HNB publications in the full window (67.5%). Annual values use unions of domains; monthly counts cannot be added to obtain annual breadth.",
+    "limitation": "Descriptive archive; January 2024 collection boundary; no independent validation",
+    "version": "HNB_MEDIA_INDICATORS_1.0"
+  },
+  {
+    "figure_id": "media-titles",
+    "finding_id": "V7",
+    "data_file": "media-indicators-monthly.csv",
+    "selection": "2021-01/2026-08; all eligible sources or declared frozen panel",
+    "unit": "publication share",
+    "denominator": "HNB publications",
+    "caption_hr": "5.222 od 33.235 objava navodi HNB u naslovu (15,7%). Godišnji udjeli dijele godišnji broj podudarnih naslova godišnjim brojem objava. Podudaranje je mehaničko obilježje, a ne validirana istaknutost ni dokaz trenda.",
+    "caption_en": "5,222 of 33,235 publications name HNB in the title (15.7%). Annual shares divide annual title matches by annual publications. A title match is mechanical evidence, not validated prominence or proof of a trend.",
+    "limitation": "Descriptive archive; January 2024 collection boundary; no independent validation",
+    "version": "HNB_MEDIA_INDICATORS_1.0"
+  }
+]

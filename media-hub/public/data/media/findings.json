@@ -13,7 +13,7 @@
     "corpus_id": "HNB_MEDIA",
     "data_version": "2026-09-21.1",
     "method_version": "1.0",
-    "presentation_version": "2026-09-21.1",
+    "presentation_version": "2026-09-22.1",
     "review": "author_review_pending"
   },
   {
@@ -30,7 +30,7 @@
     "corpus_id": "HNB_MEDIA",
     "data_version": "2026-09-21.1",
     "method_version": "1.0",
-    "presentation_version": "2026-09-21.1",
+    "presentation_version": "2026-09-22.1",
     "review": "author_review_pending"
   },
   {
@@ -47,7 +47,7 @@
     "corpus_id": "HNB_MEDIA",
     "data_version": "2026-09-21.1",
     "method_version": "1.0",
-    "presentation_version": "2026-09-21.1",
+    "presentation_version": "2026-09-22.1",
     "review": "author_review_pending"
   },
   {
@@ -73,7 +73,77 @@
     "corpus_id": "HNB_MEDIA",
     "data_version": "2026-09-21.1",
     "method_version": "1.0",
-    "presentation_version": "2026-09-21.1",
+    "presentation_version": "2026-09-22.1",
+    "review": "author_review_pending"
+  },
+  {
+    "id": "V5",
+    "field": "effective_domains",
+    "value": 38.441196429596225,
+    "measure": "effective number of contributing outlet domains",
+    "source": "media-source-concentration.csv",
+    "selection": "2021-01 through 2026-08; all eligible sources",
+    "operation": "1 / sum((source H / total H)^2)",
+    "unit": "domains",
+    "caveat": "Domain concentration, not ownership or viewpoint diversity; all positive HNB contributors.",
+    "indicator_version": "HNB_MEDIA_INDICATORS_1.0",
+    "study_id": "hnb-media",
+    "corpus_id": "HNB_MEDIA",
+    "data_version": "2026-09-21.1",
+    "method_version": "1.0",
+    "presentation_version": "2026-09-22.1",
+    "review": "author_review_pending"
+  },
+  {
+    "id": "V6",
+    "field": "breadth_share",
+    "value": 0.6754807692307693,
+    "measure": "share of observed background domains carrying HNB publications",
+    "source": "media-source-concentration.csv",
+    "selection": "2021-01 through 2026-08; all eligible sources",
+    "operation": "union domains H>0 / union domains background_count>0",
+    "unit": "proportion",
+    "caveat": "Window values use unions, not a sum of monthly breadth.",
+    "indicator_version": "HNB_MEDIA_INDICATORS_1.0",
+    "study_id": "hnb-media",
+    "corpus_id": "HNB_MEDIA",
+    "data_version": "2026-09-21.1",
+    "method_version": "1.0",
+    "presentation_version": "2026-09-22.1",
+    "review": "author_review_pending"
+  },
+  {
+    "id": "V7",
+    "field": "title_share",
+    "value": 0.15712351436738378,
+    "measure": "mechanical title-match share with monthly and annual history",
+    "source": "media-source-concentration.csv",
+    "selection": "2021-01 through 2026-08; all eligible sources",
+    "operation": "sum(title_mention_count) / sum(hnb_count)",
+    "unit": "proportion",
+    "caveat": "Mechanical title matching does not establish substantive prominence or a trend.",
+    "indicator_version": "HNB_MEDIA_INDICATORS_1.0",
+    "study_id": "hnb-media",
+    "corpus_id": "HNB_MEDIA",
+    "data_version": "2026-09-21.1",
+    "method_version": "1.0",
+    "presentation_version": "2026-09-22.1",
+    "review": "author_review_pending"
+  },
+  {
+    "id": "V9",
+    "study_id": "hnb-media",
+    "corpus_id": "HNB_MEDIA",
+    "analysis_id": "HNB_MEDIA_LEXICAL_1.1",
+    "data_version": "2026-09-21.1",
+    "presentation_version": "2026-09-22.1",
+    "source": "media-subject-linkage.csv",
+    "selection": "same 33,100 distinct bodies; 2021-01/2026-08; body-only explicit-HNB segments",
+    "operation": "both_yes / whole_yes on common assessable bodies",
+    "unit": "proportion",
+    "value_min": 0.36407234858865445,
+    "value_max": 0.5448031844316674,
+    "caveat": "Exploratory overlapping subject screens; local lexical presence does not establish HNB authorship, main topic or policy explanation.",
     "review": "author_review_pending"
   }
 ]

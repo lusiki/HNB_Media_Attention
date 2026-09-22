@@ -51,7 +51,7 @@ values={
  'CENTRALITY_HR':fmt(E['centrality_trend']['estimate'],4).replace('.',','),'CENTRALITY_CI_HR':fmt(E['centrality_trend']['lo'],4).replace('.',',')+' do '+fmt(E['centrality_trend']['hi'],4).replace('.',','),'CENTRALITY_P_HR':fmt(E['centrality_trend']['p'],3).replace('.',','),
  'QUESTION':escape(STUDY['question']),'ANSWER':escape(STUDY['answer']),
  'PAPER_TITLE':escape(STUDY['paper_title']),'PAPER_SUBTITLE':escape(STUDY['paper_subtitle']),
- 'CITATION':escape(STUDY['citation']),'BUILD_DATE':json.loads((SITE/'content/releases.json').read_text(encoding='utf-8'))['presentation_version'][:10],
+ 'CITATION':escape(STUDY['citation']),'BUILD_DATE':json.loads((SITE/'content/releases.json').read_text(encoding='utf-8'))['studies']['inflation'].get('presentation_version','2026-09-21.1')[:10],
  'PRIMARY_HR':hr(primary['estimate']),'PRIMARY_CI_HR':hr(primary['lo'])+'–'+hr(primary['hi']),
  'TREND_HR':hr(E['trend']['estimate'],3),'TREND_CI_HR':hr(E['trend']['lo'],3)+'–'+hr(E['trend']['hi'],3),
  'SHARE_SVG':chart(E['observations'],'share',baseline=E['baseline']['monthly']),'INFLATION_SVG':chart(E['observations'],'inflation'),

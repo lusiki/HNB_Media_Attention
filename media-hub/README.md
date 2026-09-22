@@ -1,6 +1,12 @@
 # Public rendering package
 
-The broad hub includes a 14-page Croatian media overview and a 12-page companion
+Current presentation: **2026-09-22.1**. The report pair is now 16/14 pages and
+includes indicator specification 1.0 and lexical extension 1.1. See
+[the execution ledger](content/extensions-release-2026-09-22.md) for the complete
+delivered scope and unfinished research stages. Scientific author approval and
+independent validation remain pending.
+
+The broad hub includes a 16-page Croatian media overview and a 14-page companion
 on language and public questions, each with PDF and HTML editions. See
 `content/long-reports-method.md` in the publication repository for the lexical
 measurement boundary and optional PDF regeneration. The two reports retain

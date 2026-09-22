@@ -1,5 +1,21 @@
 # Croatian report pair, 21 September 2026
 
+## Extension of 22 September 2026
+
+Presentation 2026-09-22.1 expands the overview to 16 pages and the language report
+to 14 pages. All lexical 1.0 counts below are retained and were independently
+recomputed by the extension producer. Lexical 1.1 adds a same-body subject bridge
+and quarterly dictionary frequencies, with exact definitions in
+`public/data/media/lexical-extensions.json`. The bridge uses body-only local
+segments; quarterly vocabulary retains 1.0 title-plus-body context. The new
+tables distinguish suppressed frequencies, true zeros and the partial 2026 Q3.
+
+The cash-exchange example is now explicitly an unverified OTS candidate. The
+earlier attribution below is historical documentation, not a verified issuer or
+an independent news report. The original page returned 403 during this run.
+The complete new scope and remaining gates are in
+`extensions-release-2026-09-22.md`.
+
 The 14-page `hnb-u-medijskom-prostoru.pdf` and 12-page
 `hnb-od-rijeci-do-javnih-pitanja.pdf` follow the complementary overview/language
 approach of the DigiKat reports. They describe HNB_MEDIA, not the DigiKat corpus

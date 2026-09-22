@@ -1,5 +1,18 @@
 # Publication revisions
 
+## 2026-09-22.1 — Archive indicators and lexical comparison
+
+- Reconciled the existing 2026-09-21.3 site and preserved the root inflation study.
+- Added source archive rates, concentration, breadth/title histories, three
+  composition-sensitivity series, latest-month comparisons and strict peak flags.
+- Reproduced lexical 1.0 and added eight same-body bridges and 1,472 quarterly
+  term/phrase cells, with explicit threshold and partial-quarter handling.
+- Expanded the report pair to 16/14 pages, refreshed briefs/overview/slides,
+  corrected the unverified cash OTS attribution, and added reproducibility gates.
+- Prepared a weighted private 200-item unmatched audit and bounded concordance.
+  The full plan's remaining research and human-validation work is documented in
+  `media-hub/content/extensions-release-2026-09-22.md`; it is not marked complete.
+
 ## 2026-09-21.3 — Reports aligned with the media hub
 
 - Restyled both long PDFs around the hub's white background, Georgia / Segoe UI

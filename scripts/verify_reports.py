@@ -29,7 +29,7 @@ class Reader(HTMLParser):
         if tag=='figure':self.figures+=1
         if tag=='details':self.alternatives+=1
 artifacts=json.loads((OUT/'artifacts.json').read_text(encoding='utf-8'))
-for stem,pages,figures in [('hnb-u-medijskom-prostoru',14,5),('hnb-od-rijeci-do-javnih-pitanja',12,6)]:
+for stem,pages,figures in [('hnb-u-medijskom-prostoru',16,5),('hnb-od-rijeci-do-javnih-pitanja',14,6)]:
     pdf=PdfReader(OUT/(stem+'.pdf'));assert len(pdf.pages)==pages
     for i,page in enumerate(pdf.pages):
         text=page.extract_text();assert len(text)>300 and '\ufffd' not in text
@@ -49,4 +49,4 @@ for stem,pages,figures in [('hnb-u-medijskom-prostoru',14,5),('hnb-od-rijeci-do-
         home=(HUB/'dist'/lang).read_text(encoding='utf-8')
         assert 'id="izvjestaj"' in home and 'href="#izvjestaj"' in home
         assert f'href="downloads/{stem}.pdf"' in home and f'href="downloads/{stem}.html"' in home
-print('Report checks passed: 26 PDF pages, 11 figures with numeric HTML alternatives, lexical denominators, CSV, status, hashes and bilingual links.')
+print('Report checks passed: 30 PDF pages, 11 figures with numeric HTML alternatives, lexical denominators, CSV, status, hashes and bilingual links.')

@@ -1,12 +1,13 @@
 """Fourteen-page Croatian descriptive overview, derived from public aggregates."""
 from report_layout import *
+from report_extensions import overview_pages
 
 def overview(out,D):
     S=D['summary'];N=S['hnb_publications'];full=[r for r in D['monthly'] if r['period']<='2026-08']
     defs=D['subject_definitions'];labels={d['id']:d['label_hr'] for d in defs};sc=S['subject_counts']
     link=lambda file,label:f'<a href="https://lusiki.github.io/HNB_Media_Attention/media/{file}" color="#2454CF">{label}</a>'
     src=lambda file:link('data/media/'+file,file)
-    R=Report(out/'hnb-u-medijskom-prostoru.pdf','HNB u medijskom prostoru','Pregled medijskog prostora',14,'opisni pregled')
+    R=Report(out/'hnb-u-medijskom-prostoru.pdf','HNB u medijskom prostoru','Pregled medijskog prostora',16,'opisni pregled i pokazatelji 1.0')
     R.cover(['HNB','u medijskom prostoru'],'Novac, svakodnevne potrebe i javna odgovornost',[(number(N),'objava s izričitim spominjanjem'),(number(S['outlets']),'registrirani medijski izvori'),('68','punih mjeseci praćenja')],'Gdje se pojavljuje Hrvatska narodna banka, koje je teme prate i kako čitati njezinu medijsku prisutnost.')
 
     R.new('Ključni nalazi','Institucija se pojavljuje kroz više javnih pitanja','Medijska slika HNB-a obuhvaća kreditiranje, valutu, cijene, platne usluge i rasprave o odgovornosti. Pregled povezuje veličinu te prisutnosti s mjestima i temama u kojima je zabilježena.')
@@ -14,7 +15,7 @@ def overview(out,D):
     R.sub('Prisutnost je raspoređena preko mnogo izvora',f'Pet izvora s najvećim brojem objava zajedno čini {pct(sum(r["hnb_count"] for r in D["sources"][:5]),N)} uzorka. Nijedan ne prelazi {pct(D["sources"][0]["hnb_count"],N)}. Taj raspored opisuje objavljivanje u arhivu, bez mjerenja publike, čitanosti ili vlasničkih veza.')
     R.sub('Velik broj objava može imati različite povode','U siječnju 2022. među zabilježenim sadržajima nalazimo raspravu o odgovornosti zaposlenika HNB-a. U siječnju 2023. ističu se praktična pitanja zamjene valute. U veljači 2025. HNB se pojavljuje i u raspravi potrošača o cijenama. Odabrani portreti pokazuju raznolikost sadržaja, a ne dokazuju što je prouzročilo mjesečni broj objava.')
     R.callout('Broj spominjanja otvara pitanje o sadržaju. Sam po sebi ne govori je li institucija objašnjavala, bila kritizirana ili samo navedena.')
-    R.note('Kako čitati izvještaj: podaci i vrijeme na str. 3-5; teme na str. 6-11; izvori i osjetljivost na str. 12-13; izvori podataka i daljnje čitanje na str. 14.')
+    R.note('Kako čitati izvještaj: podaci i vrijeme na str. 3-5; teme na str. 6-11; izvori i osjetljivost na str. 12-13; izvori podataka na str. 14; novi pokazatelji i veza s jezičnim dodatkom na str. 15-16.')
 
     R.new('O podacima','Od arhivskog zapisa do medijske objave','Osnovna jedinica je objava na internetskoj domeni. Ako isti članak sustav zabilježi više puta, ti se zapisi povezuju u jednu objavu. Isti sadržaj objavljen na različitim portalima ostaje više objava.')
     R.table(['Korak','Što je učinjeno'],[
@@ -36,9 +37,9 @@ def overview(out,D):
 
     R.new('Tri mjesečna portreta','Isti naziv institucije, različiti javni razgovori','Mjeseci su odabrani radi različitih vrsta sadržaja i ilustriraju tri medijska konteksta. Brojevi se odnose na sve HNB objave u mjesecu, a opisani povodi samo su dio tih objava.')
     R.sub('Siječanj 2022. | javna odgovornost i pravila ponašanja','U mjesecu je zabilježena 1.351 objava. U naslovima i izvještajima pojavljuju se trgovanje vrijednosnim papirima, postupanje zaposlenika HNB-a i saborska rasprava. Na sjednici Odbora 27. siječnja otvorena su pitanja nadzora i etičkih očekivanja. Taj primjer pokazuje kako središnja banka postaje predmet javnog propitivanja, uz vlastita očitovanja i stavove drugih institucija. Medijski navod o sporu nije sam po sebi utvrđenje povrede pravila.')
-    R.sub('Siječanj 2023. | zamjena valute kao praktično pitanje','U mjesecu je zabilježeno 1.227 objava. Ulazak u europodručje prate informacije o tome gdje se mijenja novac i kada pojedina ustanova pruža uslugu. U Hininom izvještaju od 4. siječnja HNB objašnjava naknade pri zamjeni kunske gotovine u bankama. Institucionalno ime ovdje označuje izvor upute koja građaninu pomaže razumjeti konkretan postupak.')
+    R.sub('Siječanj 2023. | zamjena valute kao praktično pitanje','U mjesecu je zabilježeno 1.227 objava. Ulazak u europodručje otvara praktična pitanja zamjene novca i dostupnosti usluga. Poveznica Hina OTS od 4. siječnja iz ranijeg izdanja ostaje kandidat za ilustraciju: izvorni izdavatelj i verzija nisu potvrđeni, a izravni pristup vraća 403. Taj primjer ne potvrđuje sastav mjesečnog vrha ni udio prenesene HNB-ove poruke.')
     R.sub('Veljača 2025. | cijene, potrošači i očekivanja prema HNB-u','U mjesecu je zabilježeno 808 objava. Među sadržajima su potrošački zahtjevi i sastanak predstavnika platforme Halo, inspektore s HNB-om 21. veljače. Izvještaj Hine prenesen u Glasu Istre navodi razgovor o uzrocima inflacije i monetarnoj politici. HNB se tako pojavljuje i kao sugovornik u raspravi o troškovima života, uz druga pitanja u istom mjesečnom korpusu.')
-    R.note('Izvori povoda: <a href="https://sabor.hr/hr/press/priopcenja/odbor-za-financije-i-drzavni-proracun-odrzao-tematsku-sjednicu-o-trgovanju">Hrvatski sabor, 27. 1. 2022.</a>; <a href="https://www.hina.hr/OTS/11202381">Hina, 4. 1. 2023.</a>; <a href="https://www.glasistre.hr/gospodarstvo/2025/02/21/sastanak-celnika-platforme-halo-inspektore-i-hnb-a-984828">Glas Istre / Hina, 21. 2. 2025.</a> Mjesečni brojevi: '+src('media-monthly.csv')+'.')
+    R.note('Izvori povoda: <a href="https://sabor.hr/hr/press/priopcenja/odbor-za-financije-i-drzavni-proracun-odrzao-tematsku-sjednicu-o-trgovanju">Hrvatski sabor, 27. 1. 2022.</a>; <a href="https://www.hina.hr/OTS/11202381">Hina OTS, kandidat 4. 1. 2023.; izvorni izdavatelj nije potvrđen</a>; <a href="https://www.glasistre.hr/gospodarstvo/2025/02/21/sastanak-celnika-platforme-halo-inspektore-i-hnb-a-984828">Glas Istre / Hina, 21. 2. 2025.</a> Mjesečni brojevi: '+src('media-monthly.csv')+'.')
 
     R.new('Tematska karta','Kreditiranje, valuta i svakodnevno korištenje novca','Osam skupova riječi pokazuje koje sadržaje nalazimo u naslovima i tekstovima koji izričito spominju HNB. Najviše podudaranja ima skup o kreditiranju i potrošačima.')
     items=sorted([(labels[k],v) for k,v in sc.items()],key=lambda r:-r[1])
@@ -68,9 +69,9 @@ def overview(out,D):
     R.new('Euro, plaćanja i gotovina','Valuta je i javni projekt i svakodnevna usluga','Medijska prisutnost HNB-a oko novca nije ograničena na tečaj. U nju ulaze korištenje gotovine, zamjena novčanica i kovanica te pravila platnih usluga.')
     R.table(['Skup riječi','Objave','Udio'],[[labels[k],number(sc[k]),pct(sc[k],N)] for k in ['currency','payments']],[CW-155,75,80])
     R.sub('Dvije razine istog procesa','Uvođenje eura može se opisivati kroz institucionalnu promjenu i kroz pojedini postupak građanina. Prva razina govori o valuti i europskom okviru; druga o tome gdje i kada zamijeniti gotovinu. Medijski tekst često prevodi opći događaj u pitanje koje čitatelj može postaviti u banci ili poslovnici.')
-    R.sub('Praktična informacija može biti razlog spominjanja','Izvještaj o zamjeni gotovine ilustrira HNB kao izvor pojašnjenja. U takvom tekstu ime institucije podupire vjerodostojnost upute. Drugi sadržaji mogu je spominjati u raspravi o troškovima i organizaciji procesa. Zbog toga broj spominjanja sam ne razdvaja obavijest, objašnjenje i ocjenu.')
+    R.sub('Praktična informacija može biti razlog spominjanja','Institucija se može pojaviti u uputi o postupku, troškovima i organizaciji procesa. Sam broj spominjanja ne razdvaja obavijest, objašnjenje i ocjenu. Predloženi primjer zamjene gotovine zahtijeva potvrdu izvornog izdavatelja prije analize prijenosa poruke.')
     R.sub('Podudaranje riječi ne određuje povod','Skup euro i valute uključuje i tečaj, a skup plaćanja i gotovina sadrži različite vrste novca i platnog prometa. Objavu o tečaju prije uvođenja eura i objavu o njegovoj zamjeni ne treba smatrati istom pričom. Za takvo razlikovanje potrebno je čitati tekst ili zasebno kodirati povod.')
-    R.note('Izvori: '+src('subject-definitions.json')+' i '+src('media-subjects.csv')+'. Primjer zamjene gotovine detaljnije je obrađen u popratnom izvještaju '+link('downloads/hnb-od-rijeci-do-javnih-pitanja.html','HNB: od riječi do javnih pitanja')+'.')
+    R.note('Izvori: '+src('subject-definitions.json')+' i '+src('media-subjects.csv')+'. Status provjere primjera zamjene gotovine naveden je u popratnom izvještaju '+link('downloads/hnb-od-rijeci-do-javnih-pitanja.html','HNB: od riječi do javnih pitanja')+'.')
 
     R.new('Cijene i ekonomsko znanje','Između iskustva poskupljenja i tumačenja podataka','Cijene se u javnosti susreću s prognozama, statistikama i objašnjenjima gospodarskih kretanja. HNB se u takvom sadržaju može pojaviti kao izvor informacije ili kao adresat pitanja.')
     R.table(['Skup riječi','Objave','Udio'],[[labels[k],number(sc[k]),pct(sc[k],N)] for k in ['prices','forecasts']],[CW-155,75,80])
@@ -107,11 +108,12 @@ def overview(out,D):
 
     R.new('Završni pogled i izvori','Prisutnost dobiva smisao kada joj se doda sadržaj','HNB se u ovom uzorku pojavljuje na sjecištu novca, institucionalnih odluka i javnih potreba. Krediti, valuta, cijene i plaćanja približavaju je svakodnevici; stabilnost i odgovornost otvaraju pitanje njezine javne uloge.')
     R.sub('Tri pitanja za daljnje čitanje','Kada se HNB spominje, govori li sam ili o njemu govore drugi? Je li razlog spominjanja uputa, tumačenje podataka, odluka ili zahtjev za odgovornošću? Kako se institucionalni pojam povezuje s konkretnim problemom čitatelja? Brojevi u ovom pregledu usmjeravaju takvo čitanje, ali ga ne zamjenjuju.')
-    R.sub('Popratni izvještaj o jeziku',link('downloads/hnb-od-rijeci-do-javnih-pitanja.html','HNB: od riječi do javnih pitanja')+' analizira odabrane riječi i izraze u rečenicama s izričitim spominjanjem HNB-a. Jednaki normalizirani tekstovi broje se jednom. Uz tematske rječnike donosi tri pobliže obrađena primjera: zamjenu gotovine, kreditna pravila i raspravu o odgovornosti.')
+    R.sub('Popratni izvještaj o jeziku',link('downloads/hnb-od-rijeci-do-javnih-pitanja.html','HNB: od riječi do javnih pitanja')+' analizira odabrane riječi i izraze u rečenicama s izričitim spominjanjem HNB-a. Jednaki normalizirani tekstovi broje se jednom. Uz tematske rječnike donosi javne primjere s izričitim statusom izvora, usporedbu cijelog teksta i lokalnog konteksta te tromjesečne frekvencije.')
     R.table(['Izvor / izdanje','Sadržaj'],[
       ['HNB_MEDIA, podaci 2026-09-21.1','Mjesečni agregati, izvori, teme i registar domena. Razdoblje 2021-01/2026-08. Održavani arhiv: presjek 19. 9. 2026.'],
       ['Metoda 1.0','Izričita spominjanja, povezivanje ponovljenih zapisa, provjere teksta i preklapajući skupovi riječi.'],
       ['AEM, upisnik elektroničkih publikacija','Referenca prihvatljivosti domena, provjerena 21. 9. 2026. Aktualni upisnik nije povijesni popis svih medija.'],
       ['Javni hub i objavljeni agregati',link('hr.html','lusiki.github.io/HNB_Media_Attention/media/')+'; poveznice uz grafikone vode na točne podatkovne datoteke.']],[170,CW-170],size=9.7)
-    R.note('Predloženo citiranje: HNB u medijskom prostoru: novac, svakodnevne potrebe i javna odgovornost. (2026). HNB_MEDIA, podaci 2026-09-21.1, izvještaj 21. 9. 2026. Javni istraživački nacrt; autorska provjera u tijeku. Bez pripisivanja autorskog odobrenja ili institucionalne potpore.')
+    R.note('Predloženo citiranje: HNB u medijskom prostoru: novac, svakodnevne potrebe i javna odgovornost. (2026). HNB_MEDIA, podaci 2026-09-21.1, izvještaj 22. 9. 2026. Javni istraživački nacrt; autorska provjera u tijeku. Bez pripisivanja autorskog odobrenja ili institucionalne potpore.')
+    overview_pages(R,D)
     return R.save()
