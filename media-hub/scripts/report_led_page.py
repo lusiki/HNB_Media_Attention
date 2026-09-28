@@ -132,6 +132,7 @@ def page(lang, production=False, site_url='', presentation_version=''):
         title = t('HNB u hrvatskim medijima', 'HNB in Croatian media')
         description = t('Odabrani nalazi iz dva izvještaja o medijskoj prisutnosti HNB-a.', 'Selected findings from two reports on HNB’s media presence.')
         head = metadata(site_url.rstrip('/'), home, title, description, lang, presentation_version)
+        html = html.replace('<title>'+title+' · '+t('Novi prikaz','New page preview')+'</title>', '<title>'+title+'</title>')
         html = html.replace('<meta name="robots" content="noindex,nofollow">', '')
         html = html.replace('<span class="preview-label">'+t('Pregled prijedloga','Page preview')+'</span>', '')
         html = html.replace('href="#publikacije">'+t('Dva izvještaja','The two reports'), 'href="#izvjestaj">'+t('Dva izvještaja','The two reports'))
