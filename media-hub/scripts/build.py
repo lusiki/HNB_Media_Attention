@@ -90,5 +90,9 @@ for name in ['styles.css','charts.js','app.js']:shutil.copyfile(SITE/'src'/name,
 allowlist=['studies/inflation/index.html','studies/inflation/hr.html','styles.css','charts.js','app.js']+assets
 from media_page import build_media
 allowlist+=build_media(SITE,DIST)
+from report_led_page import build as build_report_led
+allowlist+=build_report_led(DIST, production=True,
+                            site_url=os.environ.get('SITE_URL') or json.loads((SITE/'content/releases.json').read_text(encoding='utf-8'))['canonical_url'],
+                            presentation_version=json.loads((SITE/'content/releases.json').read_text(encoding='utf-8'))['presentation_version'])
 from release import finalize
 finalize(SITE,DIST,allowlist)

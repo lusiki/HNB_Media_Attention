@@ -1,18 +1,15 @@
-# HNB in Croatia's inflation debate
+# HNB media and inflation research
 
-The [specialist-study card](https://lusiki.github.io/HNB_Media_Attention/media/#istrazivanja) now offers the **28 September 2026 extended paper** as direct [PDF](https://lusiki.github.io/HNB_Media_Attention/media/downloads/PAPER_EXT.pdf) and [HTML](https://lusiki.github.io/HNB_Media_Attention/media/downloads/PAPER_EXT.html) downloads. It contains a new analysis through August 2026. [Publication update](content/specialist-paper-2026-09-28.md).
+The [media page](https://lusiki.github.io/HNB_Media_Attention/media/) presents selected findings from two reports, with a scrollable five-card summary, short chart interpretations and the separate [specialist inflation study](https://lusiki.github.io/HNB_Media_Attention/media/#istrazivanja). The study offers the **28 September 2026 extended paper** as direct [PDF](https://lusiki.github.io/HNB_Media_Attention/media/downloads/PAPER_EXT.pdf) and [HTML](https://lusiki.github.io/HNB_Media_Attention/media/downloads/PAPER_EXT.html) downloads. [Publication update](content/specialist-paper-2026-09-28.md).
 
-The broad media hub now has presentation **2026-09-22.1**, adding source rates,
-domain concentration, breadth/title histories, fixed-panel sensitivity, a latest
-month comparison, and lexical 1.1 with same-body subject linkage and selectable
-quarterly vocabulary. Its two Croatian long reports are now 16 and 14 pages.
+The broad media hub now has presentation **2026-09-28.3**. Its two Croatian long reports are 16 and 14 pages. The underlying published aggregates, source rates, lexical extension and downloadable data retain their existing editions.
 The original inflation study at the site root is unchanged. See the
 [extension release and full execution ledger](media-hub/content/extensions-release-2026-09-22.md)
 for completed work, remaining research gates, and reproduction commands.
 
 This repository publishes two complementary bilingual research pages:
 
-- **HNB in Croatian media** — the broad media research hub: [Hrvatski](https://lusiki.github.io/HNB_Media_Attention/media/hr.html) · [English](https://lusiki.github.io/HNB_Media_Attention/media/). Explore explicit HNB mentions across registered outlets, January 2021–August 2026, with aggregate downloads, an overview, briefs and slides. Public research draft; author review pending.
+- **HNB in Croatian media** — the broad media research hub: [Hrvatski](https://lusiki.github.io/HNB_Media_Attention/media/hr.html) · [English](https://lusiki.github.io/HNB_Media_Attention/media/). Read selected findings from two reports covering January 2021–August 2026, with the report downloads and specialist paper below. Public research draft; author review pending.
 - **HNB in Croatia's inflation debate** — the existing specialist study: [English](https://lusiki.github.io/HNB_Media_Attention/) · [Hrvatski](https://lusiki.github.io/HNB_Media_Attention/hr.html).
 
 The broad hub's reproducible publication source is in `media-hub/`. Its data and method editions are separate from the inflation study. Only aggregate publication inputs are included; the underlying article archive and private analysis are excluded.

@@ -93,6 +93,6 @@ def metadata(base, name, title, description, lang, version):
     image = base+'/figures/media-social-preview.png'
     tags = {'og:type': 'website', 'og:title': title, 'og:description': description,
             'og:url': url, 'og:image': image, 'og:image:width': '1200', 'og:image:height': '630',
-            'og:image:alt': 'HNB in Croatian media · Independent observatory · 28 September 2026',
+            'og:image:alt': 'HNB in Croatian media · Selected findings from two reports',
             'og:locale': 'hr_HR' if lang == 'hr' else 'en_GB', 'og:site_name': 'HNB · Media observatory'}
     return ''.join(f'<meta property="{key}" content="{e(value,quote=True)}">' for key,value in tags.items())+f'<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{e(image)}"><meta name="author" content="Luka Sikić"><meta name="date" content="{version[:10]}"><link rel="canonical" href="{e(url)}"><link rel="alternate" hreflang="en" href="{e(base)}/"><link rel="alternate" hreflang="hr" href="{e(base)}/hr.html">'

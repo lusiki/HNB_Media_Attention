@@ -1,6 +1,6 @@
 # Public rendering package
 
-Presentation **2026-09-28.2** adds a bilingual briefing, source search and pagination, month inspection, mobile source cards and a consolidated publications library. See [the presentation update](content/editorial-update-2026-09-28.md).
+Presentation **2026-09-28.3** replaces the media landing page with a report-led bilingual reading: five scrollable findings, short chart interpretations, the two current reports, and the separate co-authored inflation manuscript. The English page is at `index.html` and the Croatian page at `hr.html`. It is built by `scripts/report_led_page.py` with CSS and JavaScript from `src/report-led.*`; the previous aggregate data and publication downloads remain in the bundle.
 
 The **2026-09-22.1** analytical edition is unchanged. The report pair is now 16/14 pages and
 includes indicator specification 1.0 and lexical extension 1.1. See
