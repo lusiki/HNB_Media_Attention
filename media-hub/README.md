@@ -1,6 +1,8 @@
 # Public rendering package
 
-Current presentation: **2026-09-22.1**. The report pair is now 16/14 pages and
+Presentation **2026-09-28.2** adds a bilingual briefing, source search and pagination, month inspection, mobile source cards and a consolidated publications library. See [the presentation update](content/editorial-update-2026-09-28.md).
+
+The **2026-09-22.1** analytical edition is unchanged. The report pair is now 16/14 pages and
 includes indicator specification 1.0 and lexical extension 1.1. See
 [the execution ledger](content/extensions-release-2026-09-22.md) for the complete
 delivered scope and unfinished research stages. Scientific author approval and

@@ -7,7 +7,7 @@ def number(v,lang='en',digits=0):
     s=f'{v:,.{digits}f}'
     return s.translate(str.maketrans({',':'.','.':','})) if lang=='hr' else s
 
-def chart(rows,lang='en',metric='hnb_count',width=1000,height=340):
+def chart(rows,lang='en',metric='hnb_count',width=1000,height=340,show_boundary=True):
     hr=lang=='hr';left,right,top,bottom=62,22,38,48
     ordinal=lambda p:int(p[:4])*12+int(p[5:7])
     start,end=ordinal(rows[0]['period']),ordinal(rows[-1]['period'])
@@ -30,7 +30,7 @@ def chart(rows,lang='en',metric='hnb_count',width=1000,height=340):
         previous=o
     if points:segments.append(points)
     for points in segments:s.append(f'<polyline class="media-observed-series" points="{" ".join(points)}" fill="none" stroke="#165ce0" stroke-width="3" stroke-linejoin="round"/>')
-    if start<ordinal('2024-01')<end:
+    if show_boundary and start<ordinal('2024-01')<end:
         xx=x('2024-01');label='Promjena prikupljanja' if hr else 'Collection change'
         s.append(f'<line class="media-boundary" x1="{xx}" x2="{xx}" y1="{top}" y2="{height-bottom}" stroke="#4f6470" stroke-dasharray="5 5"/><text x="{xx+7}" y="22" font-family="Arial" font-size="13" fill="#4f6470">01/2024 · {label}</text>')
     if rows[-1].get('coverage_state')=='partial':
