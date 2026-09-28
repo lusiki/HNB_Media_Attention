@@ -1,5 +1,5 @@
 {
-  "presentation_version": "2026-09-22.2",
+  "presentation_version": "2026-09-28.1",
   "status": "public_research_draft_author_review_pending",
   "contact": null,
   "doi": null,
@@ -30,6 +30,23 @@
       "review": "author_review_pending",
       "prior_presentation": "2026-09-19.2",
       "presentation_version": "2026-09-21.3"
+    },
+    "inflation-paper": {
+      "corpus_id": "extended_inflation",
+      "data_version": "extended-2026-09-28",
+      "method_version": "extended-manuscript-2026-09-28",
+      "period": "2021-01/2026-08",
+      "partial_endpoint": "2026-09-10",
+      "manuscript_date": "2026-09-28",
+      "review": "author_review_pending",
+      "monthly_periods": 68,
+      "weekly_periods": 296,
+      "monthly_fitted_N": 67,
+      "weekly_fitted_N": 295,
+      "downloads": {
+        "pdf": "downloads/PAPER_EXT.pdf",
+        "html": "downloads/PAPER_EXT.html"
+      }
     }
   }
 }

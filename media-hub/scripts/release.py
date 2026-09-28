@@ -24,7 +24,7 @@ def finalize(site,dist,allowlist):
 
 Requires Python 3.10+ standard library only. Run `python scripts/build.py` from this directory. It creates `dist/`, an exact public ZIP, and QA build hashes without network access or a database.
 
-This package rebuilds the static site from fixed aggregate tables and already rendered publication assets. It does not regenerate the PDFs or article-level analysis. Those require authoring dependencies or authorized access to the restricted source respectively. It includes no vendor article text, identifiers, private paths, manuscript PDF, or keys.
+This package rebuilds the static site from fixed aggregate tables and already rendered publication assets. It does not regenerate the PDFs or article-level analysis. Those require authoring dependencies or authorized access to the restricted source respectively. It includes no vendor article text, identifiers, private paths or keys. The updated extended manuscript is included as PDF and standalone HTML.
 
 Data and method editions differ between the broad HNB_MEDIA corpus and the frozen inflation study. See content/releases.json. The source snapshot is identified by the hashes in the release manifest; the originating working tree was dirty and is not reproducible from its base commit alone.
 

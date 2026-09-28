@@ -1,5 +1,7 @@
 # HNB in Croatia's inflation debate
 
+The [specialist-study card](https://lusiki.github.io/HNB_Media_Attention/media/#istrazivanja) now offers the **28 September 2026 extended paper** as direct [PDF](https://lusiki.github.io/HNB_Media_Attention/media/downloads/PAPER_EXT.pdf) and [HTML](https://lusiki.github.io/HNB_Media_Attention/media/downloads/PAPER_EXT.html) downloads. It contains a new analysis through August 2026. [Publication update](content/specialist-paper-2026-09-28.md).
+
 The broad media hub now has presentation **2026-09-22.1**, adding source rates,
 domain concentration, breadth/title histories, fixed-panel sensitivity, a latest
 month comparison, and lexical 1.1 with same-body subject linkage and selectable
