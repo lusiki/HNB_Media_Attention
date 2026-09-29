@@ -27,6 +27,15 @@ for source, prefix in [(ROOT, ''), (HUB, 'media/')]:
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source / 'dist' / name, dest)
 
+# Conference talks are published as they are, from talks/<event>/ (slides only, no README).
+for path in sorted((ROOT / 'talks').rglob('*')):
+    if path.is_file() and path.suffix in {'.pdf', '.html'}:
+        name = 'talks/' + path.relative_to(ROOT / 'talks').as_posix()
+        dest = OUT / name
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(path, dest)
+        expected[name] = hashlib.sha256(path.read_bytes()).hexdigest()
+
 actual = {p.relative_to(OUT).as_posix() for p in OUT.rglob('*') if p.is_file()}
 assert actual == set(expected), 'Unexpected files in composed site'
 for name, digest in expected.items():
